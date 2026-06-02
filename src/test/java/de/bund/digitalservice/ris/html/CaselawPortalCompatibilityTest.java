@@ -5,9 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 
 class CaselawPortalCompatibilityTest {
 
@@ -30,7 +31,7 @@ class CaselawPortalCompatibilityTest {
     String actualHtml = XSLT_TRANSFORMER.transformCaseLaw(ldmlBytes, API_RESOURCE_BASE_PATH);
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
 
-    assertTrue(actualHtml.contains("id=\"title\""));
+    assertThat(actualHtml).contains("id=\"title\"");
   }
 
   @Test
@@ -60,7 +61,9 @@ class CaselawPortalCompatibilityTest {
     };
 
     for (String id : expectedOrder) {
-      assertTrue(actualHtml.contains(id), "Missing expected heading ID: " + id);
+      assertThat(actualHtml)
+              .withFailMessage("Missing expected heading ID: %s", id)
+              .contains(id);
     }
 
     for (int i = 0; i < expectedOrder.length - 1; i++) {
@@ -70,9 +73,10 @@ class CaselawPortalCompatibilityTest {
       int currentIndex = actualHtml.indexOf(currentId);
       int nextIndex = actualHtml.indexOf(nextId);
 
-      assertTrue(nextIndex > currentIndex,
-              String.format("Order violation: '%s' (index %d) should appear before '%s' (index %d)",
-                      currentId, currentIndex, nextId, nextIndex));
+      assertThat(nextIndex)
+              .withFailMessage("Order violation: '%s' (index %d) should appear before '%s' (index %d)",
+                      currentId, currentIndex, nextId, nextIndex)
+              .isGreaterThan(currentIndex);
     }
   }
 
@@ -91,13 +95,15 @@ class CaselawPortalCompatibilityTest {
 
     var actualHtml = XSLT_TRANSFORMER.transformCaseLaw(ldmlBytes, API_RESOURCE_BASE_PATH);
 
-    assertNotNull(actualHtml);
+    assertThat(actualHtml).isNotNull();
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
-    assertAll(
-        () -> assertTrue(actualHtml.contains("id=\"randnummer-1\"")),
-        () -> assertTrue(actualHtml.contains("id=\"randnummer-2\"")),
-        () -> assertTrue(actualHtml.contains("Example Tatbestand/CaseFacts. More background")),
-        () -> assertTrue(actualHtml.contains("even more background")));
+
+    SoftAssertions.assertSoftly(softly -> {
+      softly.assertThat(actualHtml).contains("id=\"randnummer-1\"");
+      softly.assertThat(actualHtml).contains("id=\"randnummer-2\"");
+      softly.assertThat(actualHtml).contains("Example Tatbestand/CaseFacts. More background");
+      softly.assertThat(actualHtml).contains("even more background");
+    });
   }
 
   @Test
@@ -113,7 +119,7 @@ class CaselawPortalCompatibilityTest {
 
     var actualHtml = XSLT_TRANSFORMER.transformCaseLaw(ldmlBytes, API_RESOURCE_BASE_PATH);
 
-    assertNotNull(actualHtml);
+    assertThat(actualHtml).isNotNull();
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
   }
 
@@ -129,15 +135,15 @@ class CaselawPortalCompatibilityTest {
 
     var actualHtml = XSLT_TRANSFORMER.transformCaseLaw(ldmlBytes, API_RESOURCE_BASE_PATH);
 
-    assertNotNull(actualHtml);
+    assertThat(actualHtml).isNotNull();
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
   }
 
-
-
   private byte[] readResourceAsBytes(String classpath) throws IOException {
     try (InputStream inputStream = getClass().getResourceAsStream(classpath)) {
-      assertNotNull(inputStream, RESOURCE_NOT_FOUND_MESSAGE + classpath);
+      assertThat(inputStream)
+              .withFailMessage(RESOURCE_NOT_FOUND_MESSAGE + classpath)
+              .isNotNull();
       return inputStream.readAllBytes();
     }
   }
@@ -147,10 +153,9 @@ class CaselawPortalCompatibilityTest {
   }
 
   private void assertHtmlEqualsIgnoringWhitespace(String expected, String actual) {
-    assertEquals(
-        normalizeWhitespace(expected),
-        normalizeWhitespace(actual),
-        "Transformed HTML should match expected HTML ignoring whitespace differences");
+    assertThat(normalizeWhitespace(actual))
+            .withFailMessage("Transformed HTML should match expected HTML ignoring whitespace differences")
+            .isEqualTo(normalizeWhitespace(expected));
   }
 
   private String normalizeWhitespace(String content) {
