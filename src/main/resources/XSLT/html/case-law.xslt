@@ -47,11 +47,13 @@
         </html>
     </xsl:template>
 
+    <!-- Ignore certain elements and their content in the html  -->
     <xsl:template match="akn:identification | akn:references | akn:proprietary | akn:header | akn:classification" />
 
+    <!-- For other elements, apply templates to their children to include their content in the html -->
     <xsl:template match="akn:judgmentBody | akn:subFlow | akn:docTitle | akn:akomaNtoso |
                          akn:embeddedStructure | akn:foreign | akn:otherAnalysis | ris:dokumentarischeKurztexte | akn:content |
-                         akn:meta | akn:analysis">
+                         akn:meta | akn:analysis | akn:block[ends-with(@name, 'Wrapper')]">
         <xsl:apply-templates />
     </xsl:template>
 
