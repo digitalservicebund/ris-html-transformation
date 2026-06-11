@@ -107,6 +107,20 @@ class CaselawPortalCompatibilityTest {
   }
 
   @Test
+  void testTransformsCaselawListsCorrectly() throws IOException {
+    String sampleLDMLPath = SAMPLE_BASE_PATH + "lists.xml";
+    String sampleHTMLPath = SAMPLE_BASE_PATH + "lists.html";
+
+    byte[] ldmlBytes = readResourceAsBytes(sampleLDMLPath);
+    String expectedHTML = readResourceAsString(sampleHTMLPath);
+
+    var actualHtml = XSLT_TRANSFORMER.transformCaseLaw(ldmlBytes, API_RESOURCE_BASE_PATH);
+
+    assertThat(actualHtml).isNotNull();
+    assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
+  }
+
+  @Test
   void testTablesAreTransferredCorrectly() throws IOException {
     /** The current structure is needed for styling, especially for setting the table
      * width to allow horizontal scrolling when the table is too wide for our layout. **/
@@ -169,7 +183,7 @@ class CaselawPortalCompatibilityTest {
 
   private void assertHtmlEqualsIgnoringWhitespace(String expected, String actual) {
     assertThat(normalizeWhitespace(actual))
-            .withFailMessage("Transformed HTML should match expected HTML ignoring whitespace differences")
+//            .withFailMessage("Transformed HTML should match expected HTML ignoring whitespace differences")
             .isEqualTo(normalizeWhitespace(expected));
   }
 
