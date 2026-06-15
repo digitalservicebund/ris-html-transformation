@@ -150,7 +150,7 @@
         </section>
     </xsl:template>
 
-    <xsl:template match="akn:p|akn:div|akn:span|akn:sub|akn:sup">
+    <xsl:template match="akn:p|akn:div|akn:span|akn:sub|akn:sup|akn:ol|akn:ul|akn:li">
         <xsl:element name="{local-name()}">
             <xsl:apply-templates select="@*|node()"/>
         </xsl:element>
