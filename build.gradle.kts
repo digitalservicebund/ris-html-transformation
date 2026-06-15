@@ -3,23 +3,23 @@ plugins {
     `maven-publish`
 }
 
-group = "de.bund.digitalservice.ris"
-version = "1.0.0"
+group = "de.bund.digitalservice"
+version = System.getenv("RELEASE_VERSION") ?: "0.0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compileOnly("org.jetbrains:annotations:24.1.0")
-    implementation("org.apache.logging.log4j:log4j-api:2.23.1")
-    implementation("org.apache.logging.log4j:log4j-core:2.23.1")
-    implementation("net.sf.saxon:Saxon-HE:12.4")
-    implementation("commons-io:commons-io:2.16.1")
+    compileOnly(libs.jetbrains.annotations)
+    implementation(libs.log4j.api)
+    implementation(libs.log4j.core)
+    implementation(libs.saxon.he)
+    implementation(libs.commons.io)
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.2")
-    testImplementation("org.assertj:assertj-core:3.26.3")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.2")
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.assertj.core)
+    testRuntimeOnly(libs.junit.jupiter.engine)
 }
 
 tasks.test {
@@ -30,6 +30,16 @@ publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             from(components["java"])
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/digitalservicebund/ris-html-transformation")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR") ?: project.findProperty("gpr.user") as String?
+                password = System.getenv("GITHUB_TOKEN") ?: project.findProperty("gpr.key") as String?
+            }
         }
     }
 }
