@@ -1,0 +1,17 @@
+[versions]
+jetbrainsAnnotations = "24.1.0"
+log4j = "2.26.0"
+saxon = "12.9"
+commonsIo = "2.22.0"
+junit = "6.1.0"
+assertj = "3.27.7"
+
+[libraries]
+jetbrains-annotations = { group = "org.jetbrains", name = "annotations", version.ref = "jetbrainsAnnotations" }
+log4j-api = { group = "org.apache.logging.log4j", name = "log4j-api", version.ref = "log4j" }
+log4j-core = { group = "org.apache.logging.log4j", name = "log4j-core", version.ref = "log4j" }
+saxon-he = { group = "net.sf.saxon", name = "Saxon-HE", version.ref = "saxon" }
+commons-io = { group = "commons-io", name = "commons-io", version.ref = "commonsIo" }
+junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit" }
+junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit" }
+assertj-core = { group = "org.assertj", name = "assertj-core", version.ref = "assertj" }
