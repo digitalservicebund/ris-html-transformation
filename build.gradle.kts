@@ -20,6 +20,8 @@ dependencies {
     testImplementation(libs.junit.jupiter.api)
     testImplementation(libs.assertj.core)
     testRuntimeOnly(libs.junit.jupiter.engine)
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.test {
