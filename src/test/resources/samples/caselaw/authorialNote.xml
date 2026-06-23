@@ -127,11 +127,11 @@
         </akn:header>
         <akn:judgmentBody>
             <akn:background ris:domainTerm="Tatbestand" xsi:type="ris:tatbestand">
-                <akn:p>paragraph 1<akn:authorialNote marker="1"><akn:p>Fußnotentext 1</akn:p></akn:authorialNote></akn:p>
-                <akn:p>paragraph 2<akn:authorialNote marker="*"><akn:p>Fußnotentext 2</akn:p></akn:authorialNote></akn:p>
+                <akn:p>paragraph 1<akn:authorialNote marker="1" eId="fussnote-1"><akn:p>Fußnotentext 1</akn:p></akn:authorialNote></akn:p>
+                <akn:p>paragraph 2<akn:authorialNote marker="*" eId="fussnote-2"><akn:p>Fußnotentext 2</akn:p></akn:authorialNote></akn:p>
             </akn:background>
             <akn:motivation ris:domainTerm="Entscheidungsgründe" xsi:type="ris:entscheidungsgruende">
-                <akn:p>paragraph 3<akn:authorialNote marker="3"><akn:p>Fußnotentext 3</akn:p></akn:authorialNote></akn:p>
+                <akn:p>paragraph 3<akn:authorialNote marker="3" eId="fussnote-3"><akn:p>Fußnotentext 3</akn:p></akn:authorialNote></akn:p>
             </akn:motivation>
         </akn:judgmentBody>
     </akn:judgment>
