@@ -127,58 +127,14 @@
         </akn:header>
         <akn:judgmentBody>
             <akn:background ris:domainTerm="Tatbestand" xsi:type="ris:tatbestand">
-                <akn:div>This is a div</akn:div>
-
-                <akn:block name="brWrapper">
-                    <akn:br/>
+                <akn:p>paragraph 1<akn:authorialNote marker="1" eId="fussnote-1"><akn:p>Fußnotentext 1</akn:p></akn:authorialNote></akn:p>
+                <akn:block name="authorialNoteWrapper">
+                    <akn:authorialNote marker="*" eId="fussnote-2"><akn:p>Fußnotentext 2</akn:p></akn:authorialNote>
                 </akn:block>
-
-                <akn:block name="strongWrapper">
-                    <akn:b>Wrapped strong element</akn:b>
-                </akn:block>
-                <akn:block name="bWrapper">
-                    <akn:b>Wrapped b element</akn:b>
-                </akn:block>
-
-                <akn:block name="emWrapper">
-                    <akn:i>Wrapped em element</akn:i>
-                </akn:block>
-                <akn:block name="iWrapper">
-                    <akn:i>Wrapped i element</akn:i>
-                </akn:block>
-
-                <akn:block name="insWrapper">
-                    <akn:u>Wrapped ins element</akn:u>
-                </akn:block>
-                <akn:block name="uWrapper">
-                    <akn:u>Wrapped u element</akn:u>
-                </akn:block>
-
-                <akn:block name="delWrapper">
-                    <span>Wrapped del element</span>
-                </akn:block>
-
-                <akn:block name="spanWrapper">
-                    <akn:span>Wrapped span element</akn:span>
-                </akn:block>
-
-                <akn:block name="supWrapper">
-                    <akn:sup>Wrapped sup element</akn:sup>
-                </akn:block>
-                <akn:block name="subWrapper">
-                    <akn:sub>Wrapped sub element</akn:sub>
-                </akn:block>
-
-                <akn:block name="borderNumberLinkWrapper">
-                    <akn:ref class="border-number-link" href="#rn1">1</akn:ref>
-                </akn:block>
-
-                <akn:p>This is a paragraph.
-                    <akn:span>This is a span.</akn:span>
-                    <akn:sub>This a sub text</akn:sub><akn:br/>
-                    <akn:sup>This is a sup text</akn:sup>
-                </akn:p>
             </akn:background>
+            <akn:motivation ris:domainTerm="Entscheidungsgründe" xsi:type="ris:entscheidungsgruende">
+                <akn:p>paragraph 3<akn:authorialNote marker="3" eId="fussnote-3"><akn:p>Fußnotentext 3</akn:p></akn:authorialNote></akn:p>
+            </akn:motivation>
         </akn:judgmentBody>
     </akn:judgment>
 </akn:akomaNtoso>

@@ -43,6 +43,17 @@
                 <xsl:apply-templates select=".//akn:motivation[@ris:domainTerm = 'Sonstiger Langtext']" />
 
                 <xsl:apply-templates select=".//akn:motivation[@ris:domainTerm = 'Abweichende Meinung']" />
+
+                <!-- After all authorialNotes within the texts have been transformed to markers,
+                in a second run we create the dedicated footnotes section -->
+                <xsl:if test=".//akn:authorialNote">
+                    <section id="fussnoten">
+                        <h2>Fußnoten</h2>
+                        <dl>
+                            <xsl:apply-templates select=".//akn:authorialNote" mode="footnote-list"/>
+                        </dl>
+                    </section>
+                </xsl:if>
             </body>
         </html>
     </xsl:template>
@@ -205,6 +216,29 @@
 
             <xsl:apply-templates/>
         </a>
+    </xsl:template>
+
+
+    <!-- This template is for the footnote marker elements within the texts -->
+    <xsl:template match="akn:authorialNote">
+        <a href="{concat('#fussnoten_', @eId)}">
+            <sup id="{concat('text_', @eId)}">
+                <xsl:value-of select="@marker"/>
+            </sup>
+        </a>
+    </xsl:template>
+
+    <!-- This template is for the footnote section elements at the end of the document -->
+    <xsl:template match="akn:authorialNote" mode="footnote-list">
+        <dt id="{concat('fussnoten_', @eId)}">
+            <a href="{concat('#text_', @eId)}">
+                <xsl:value-of select="@marker"/>
+            </a>
+        </dt>
+        <dd>
+            <!-- We always put a wrapping p around the fussnote text. Can be removed in html. -->
+            <xsl:apply-templates select="akn:p/node()"/>
+        </dd>
     </xsl:template>
 
     <xsl:template match="*">
