@@ -7,7 +7,7 @@
                 xmlns:local="http://rechtsinformationen.bund.de/schema/ris/0.1"
                 exclude-result-prefixes="ris xs math akn local xsi"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0 https://docs.oasis-open.org/legaldocml/akn-core/v1.0/os/part2-specs/schemas/akomantoso30.xsd">
+                xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0 https://docs.oasis-open.org/legaldocml/akn-core/v2.0/cs01/part2-specs/schemas/akomantoso30.xsd">
 
     <xsl:output method="html" encoding="UTF-8" indent="yes" />
 
