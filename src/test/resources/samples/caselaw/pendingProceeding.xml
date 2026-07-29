@@ -97,6 +97,7 @@
                 <ris:dokumentarischeKurztexte domainTerm="Dokumentarische Kurztexte">
                     <ris:titelzeile eId="titelzeile" domainTerm="Titelzeile"><akn:p alternativeTo="textWrapper">Titelzeile</akn:p></ris:titelzeile>
                     <ris:rechtsfrage domainTerm="Rechtsfrage"><akn:p alternativeTo="textWrapper">Lorem ipsum dolor sit amet</akn:p></ris:rechtsfrage>
+                    <ris:erledigungsvermerk domainTerm="Erledigungsvermerk"><akn:p alternativeTo="textWrapper">Erledigungsvermerk</akn:p></ris:erledigungsvermerk>
                 </ris:dokumentarischeKurztexte>
             </akn:otherAnalysis>
         </akn:analysis>
@@ -137,9 +138,6 @@
             </akn:p>
         </akn:header>
         <akn:judgmentBody>
-            <akn:decision ris:domainTerm="Erledigungsvermerk" xsi:type="ris:erledigungsvermerk">
-                <akn:p>Erledigungsvermerk</akn:p>
-            </akn:decision>
             <akn:motivation ris:domainTerm="Rechtsfrage (gesamt)" xsi:type="ris:rechtsfrageGesamt">
                 <akn:p>Lorem ipsum dolor sit amet</akn:p>
                 <akn:p>--Zulassung durch FG--</akn:p>
