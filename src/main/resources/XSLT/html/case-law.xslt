@@ -167,7 +167,7 @@
 
     <xsl:template match="akn:motivation[@ris:domainTerm = 'Rechtsfrage (gesamt)']">
         <section id="rechtsfrage">
-            <h2>Rechtsfrage (gesamt)</h2>
+            <h2>Rechtsfrage</h2>
             <xsl:apply-templates/>
         </section>
     </xsl:template>

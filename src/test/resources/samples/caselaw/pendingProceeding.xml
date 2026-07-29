@@ -96,7 +96,7 @@
             <akn:otherAnalysis source="#ris">
                 <ris:dokumentarischeKurztexte domainTerm="Dokumentarische Kurztexte">
                     <ris:titelzeile eId="titelzeile" domainTerm="Titelzeile"><akn:p alternativeTo="textWrapper">Titelzeile</akn:p></ris:titelzeile>
-                    <ris:rechtsfrage domainTerm="Rechtsfrage"><akn:p alternativeTo="textWrapper">Rechtsfrage</akn:p></ris:rechtsfrage>
+                    <ris:rechtsfrage domainTerm="Rechtsfrage"><akn:p alternativeTo="textWrapper">Lorem ipsum dolor sit amet</akn:p></ris:rechtsfrage>
                 </ris:dokumentarischeKurztexte>
             </akn:otherAnalysis>
         </akn:analysis>
