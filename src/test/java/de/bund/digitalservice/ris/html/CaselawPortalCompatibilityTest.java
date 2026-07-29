@@ -183,6 +183,20 @@ class CaselawPortalCompatibilityTest {
 
   }
 
+  @Test
+  void testPendingProceedingIsTransformedCorrectly() throws IOException {
+    String sampleLDMLPath = SAMPLE_BASE_PATH + "pendingProceeding.xml";
+    String sampleHTMLPath = SAMPLE_BASE_PATH + "pendingProceeding.html";
+
+    byte[] ldmlBytes = readResourceAsBytes(sampleLDMLPath);
+    String expectedHTML = readResourceAsString(sampleHTMLPath);
+
+    var actualHtml = XSLT_TRANSFORMER.transformCaseLaw(ldmlBytes, API_RESOURCE_BASE_PATH);
+
+    assertThat(actualHtml).isNotNull();
+    assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
+  }
+
   private byte[] readResourceAsBytes(String classpath) throws IOException {
     try (InputStream inputStream = getClass().getResourceAsStream(classpath)) {
       assertThat(inputStream)

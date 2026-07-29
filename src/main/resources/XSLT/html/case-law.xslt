@@ -44,6 +44,8 @@
 
                 <xsl:apply-templates select=".//akn:motivation[@ris:domainTerm = 'Abweichende Meinung']" />
 
+                <xsl:apply-templates select=".//akn:motivation[@ris:domainTerm = 'Rechtsfrage (gesamt)']" />
+
                 <!-- After all authorialNotes within the texts have been transformed to markers,
                 in a second run we create the dedicated footnotes section -->
                 <xsl:if test=".//akn:authorialNote">
@@ -159,6 +161,13 @@
     <xsl:template match="akn:motivation[@ris:domainTerm = 'Abweichende Meinung']">
         <section id="abweichendeMeinung">
             <h2>Abweichende Meinung</h2>
+            <xsl:apply-templates/>
+        </section>
+    </xsl:template>
+
+    <xsl:template match="akn:motivation[@ris:domainTerm = 'Rechtsfrage (gesamt)']">
+        <section id="rechtsfrage">
+            <h2>Rechtsfrage</h2>
             <xsl:apply-templates/>
         </section>
     </xsl:template>
