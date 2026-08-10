@@ -28,7 +28,7 @@ class CaselawPortalCompatibilityTest {
     byte[] ldmlBytes = readResourceAsBytes(sampleLDMLPath);
     String expectedHTML = readResourceAsString(sampleHTMLPath);
 
-    String actualHtml = XSLT_TRANSFORMER.transformCaseLaw(ldmlBytes, API_RESOURCE_BASE_PATH);
+    String actualHtml = XSLT_TRANSFORMER.transform(ldmlBytes, API_RESOURCE_BASE_PATH);
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
 
     assertThat(actualHtml).contains("id=\"title\"");
@@ -45,7 +45,7 @@ class CaselawPortalCompatibilityTest {
     byte[] ldmlBytes = readResourceAsBytes(sampleLDMLPath);
     String expectedHTML = readResourceAsString(sampleHTMLPath);
 
-    String actualHtml = XSLT_TRANSFORMER.transformCaseLaw(ldmlBytes, API_RESOURCE_BASE_PATH);
+    String actualHtml = XSLT_TRANSFORMER.transform(ldmlBytes, API_RESOURCE_BASE_PATH);
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
 
     String[] expectedOrder = {
@@ -93,7 +93,7 @@ class CaselawPortalCompatibilityTest {
     byte[] ldmlBytes = readResourceAsBytes(sampleLDMLPath);
     String expectedHTML = readResourceAsString(sampleHTMLPath);
 
-    var actualHtml = XSLT_TRANSFORMER.transformCaseLaw(ldmlBytes, API_RESOURCE_BASE_PATH);
+    var actualHtml = XSLT_TRANSFORMER.transform(ldmlBytes, API_RESOURCE_BASE_PATH);
 
     assertThat(actualHtml).isNotNull();
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
@@ -114,7 +114,7 @@ class CaselawPortalCompatibilityTest {
     byte[] ldmlBytes = readResourceAsBytes(sampleLDMLPath);
     String expectedHTML = readResourceAsString(sampleHTMLPath);
 
-    var actualHtml = XSLT_TRANSFORMER.transformCaseLaw(ldmlBytes, API_RESOURCE_BASE_PATH);
+    var actualHtml = XSLT_TRANSFORMER.transform(ldmlBytes, API_RESOURCE_BASE_PATH);
 
     assertThat(actualHtml).isNotNull();
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
@@ -131,7 +131,7 @@ class CaselawPortalCompatibilityTest {
     byte[] ldmlBytes = readResourceAsBytes(sampleLDMLPath);
     String expectedHTML = readResourceAsString(sampleHTMLPath);
 
-    var actualHtml = XSLT_TRANSFORMER.transformCaseLaw(ldmlBytes, API_RESOURCE_BASE_PATH);
+    var actualHtml = XSLT_TRANSFORMER.transform(ldmlBytes, API_RESOURCE_BASE_PATH);
 
     assertThat(actualHtml).isNotNull();
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
@@ -147,7 +147,7 @@ class CaselawPortalCompatibilityTest {
     byte[] ldmlBytes = readResourceAsBytes(sampleLDMLPath);
     String expectedHTML = readResourceAsString(sampleHTMLPath);
 
-    var actualHtml = XSLT_TRANSFORMER.transformCaseLaw(ldmlBytes, API_RESOURCE_BASE_PATH);
+    var actualHtml = XSLT_TRANSFORMER.transform(ldmlBytes, API_RESOURCE_BASE_PATH);
 
     assertThat(actualHtml).isNotNull();
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
@@ -161,7 +161,7 @@ class CaselawPortalCompatibilityTest {
     byte[] ldmlBytes = readResourceAsBytes(sampleLDMLPath);
     String expectedHTML = readResourceAsString(sampleHTMLPath);
 
-    var actualHtml = XSLT_TRANSFORMER.transformCaseLaw(ldmlBytes, API_RESOURCE_BASE_PATH);
+    var actualHtml = XSLT_TRANSFORMER.transform(ldmlBytes, API_RESOURCE_BASE_PATH);
 
     assertThat(actualHtml).isNotNull();
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
@@ -176,7 +176,7 @@ class CaselawPortalCompatibilityTest {
     byte[] ldmlBytes = readResourceAsBytes(sampleLDMLPath);
     String expectedHTML = readResourceAsString(sampleHTMLPath);
 
-    var actualHtml = XSLT_TRANSFORMER.transformCaseLaw(ldmlBytes, API_RESOURCE_BASE_PATH);
+    var actualHtml = XSLT_TRANSFORMER.transform(ldmlBytes, API_RESOURCE_BASE_PATH);
 
     assertThat(actualHtml).isNotNull();
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
@@ -191,7 +191,7 @@ class CaselawPortalCompatibilityTest {
     byte[] ldmlBytes = readResourceAsBytes(sampleLDMLPath);
     String expectedHTML = readResourceAsString(sampleHTMLPath);
 
-    var actualHtml = XSLT_TRANSFORMER.transformCaseLaw(ldmlBytes, API_RESOURCE_BASE_PATH);
+    var actualHtml = XSLT_TRANSFORMER.transform(ldmlBytes, API_RESOURCE_BASE_PATH);
 
     assertThat(actualHtml).isNotNull();
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);

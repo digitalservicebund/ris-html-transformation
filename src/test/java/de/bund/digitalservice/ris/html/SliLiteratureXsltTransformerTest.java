@@ -1,0 +1,55 @@
+package de.bund.digitalservice.ris.html;
+
+import de.bund.digitalservice.ris.html.service.xslt.SliLiteratureXsltTransformer;
+import org.jsoup.Jsoup;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Objects;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class SliLiteratureXsltTransformerTest {
+  private final SliLiteratureXsltTransformer transformer =
+      new SliLiteratureXsltTransformer();
+
+  private final String resourcesBasePath =
+      Objects.requireNonNull(getClass().getResource("/samples/literature")).getPath();
+
+  SliLiteratureXsltTransformerTest() throws IOException {}
+
+  @ParameterizedTest(name = "{1}")
+  @CsvSource(
+      value = {
+        "sli/example1  | transforms mainTitle, alternativeHeadline, outline and mainBody",
+        "sli/example2  | transforms only alternativeHeadline and mainBody",
+        "sli/example3  | transforms only mainTitle and outline",
+        "sli/example4  | transforms mainTitle, alternativeHeadline and mainTitleAdditions",
+        "sli/example5  | transforms alternativeHeadline and mainTitleAdditions",
+        "sli/example6  | transforms mainTitleAdditions",
+        "sli/example7  | transforms mainTitle and mainTitleAdditions",
+        "sli/example8  | transforms active citations",
+        "sli/example9  | transforms passive citations",
+        "sli/example10 | transforms active and passive citations",
+        "sli/example11 | transforms mainTitle and all additionals",
+        "sli/example12 | transforms footnotes",
+        "sli/example13 | transforms footnotes and citations",
+      },
+      delimiter = '|')
+  void testTransformLiteratureXmlDocuments(String testfileDir, String testName) throws IOException {
+    Path inputFilePath = Paths.get(resourcesBasePath, testfileDir, "literature.xml");
+    Path expectedFilePath = Paths.get(resourcesBasePath, testfileDir, "literature.html");
+
+    byte[] bytes = Files.readAllBytes(inputFilePath);
+    var result = transformer.transform(bytes);
+
+    var expectedHtml = Files.readString(expectedFilePath);
+    var expectedDocument = Jsoup.parse(expectedHtml);
+    var actualDocument = Jsoup.parse(result);
+    assertThat(actualDocument.html()).isEqualTo(expectedDocument.html());
+  }
+}

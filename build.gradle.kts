@@ -18,7 +18,10 @@ dependencies {
     implementation(libs.commons.io)
 
     testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.junit.jupiter.params)
     testImplementation(libs.assertj.core)
+    testImplementation(libs.jsoup)
+
     testRuntimeOnly(libs.junit.jupiter.engine)
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

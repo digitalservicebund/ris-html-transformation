@@ -27,21 +27,25 @@ import org.apache.logging.log4j.Logger;
 public abstract class XsltTransformer {
   static final String RESOURCE_PATH_KEY = "ressourcenpfad";
 
-  final Logger logger = LogManager.getLogger(XsltTransformer.class);
-  final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+  private final Logger logger = LogManager.getLogger(XsltTransformer.class);
+  private final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
-  abstract String getXsltBasePath();
+  private final String xsltBasePath;
+  private final String xsltFilename;
 
-  abstract String getXsltFilename();
+  public XsltTransformer(String xsltBasePath, String xsltFilename) {
+    this.xsltBasePath = xsltBasePath;
+    this.xsltFilename = xsltFilename;
+  }
 
   String transformLegalDocMlFromBytes(byte[] source, Map<String, String> parameters) {
 
     AtomicReference<String> terminationMessage = new AtomicReference<>();
     try {
       // PURE JAVA ALTERNATIVE FOR BASE PATH URL:
-      URL basePathUrl = getClass().getClassLoader().getResource(getXsltBasePath());
+      URL basePathUrl = getClass().getClassLoader().getResource(xsltBasePath);
       if (basePathUrl == null) {
-        throw new FileTransformationException("XSLT Base path not found: " + getXsltBasePath());
+        throw new FileTransformationException("XSLT Base path not found: " + xsltBasePath);
       }
       String url = basePathUrl.toString();
 
@@ -86,7 +90,7 @@ public abstract class XsltTransformer {
 
   String getXslt() {
     // PURE JAVA ALTERNATIVE FOR READING STREAM:
-    String fullPath = getXsltBasePath() + getXsltFilename();
+    String fullPath = xsltBasePath + xsltFilename;
     try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fullPath)) {
       if (inputStream == null) {
         throw new FileTransformationException("XSLT file not found: " + fullPath);
