@@ -5,24 +5,19 @@ import java.util.Map;
 /** Class for transforming LegalDocML case law documents to HTML using XSLT. */
 public class CaselawXsltTransformer extends XsltTransformer {
 
-  @Override
-  String getXsltBasePath() {
-    return "XSLT/html/";
-  }
-
-  @Override
-  String getXsltFilename() {
-    return "case-law.xslt";
+  public CaselawXsltTransformer() {
+    super("XSLT/html/", "case-law.xslt");
   }
 
   /**
    * Key for the resource path parameter passed to the XSLT transformer.
    *
-   * @param resourcesBasePath
-   * @param source
+   * @param source the content of the xml file to be transformed
+   * @param resourcesBasePath the base path of the xml file to be transformed
+   *
    * @return the transformed HTML as a String
    */
-  public String transformCaseLaw(byte[] source, String resourcesBasePath) {
+  public String transform(byte[] source, String resourcesBasePath) {
     Map<String, String> parameters = Map.of(RESOURCE_PATH_KEY, resourcesBasePath);
     return transformLegalDocMlFromBytes(source, parameters);
   }
