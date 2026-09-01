@@ -29,99 +29,142 @@
             </head>
             <body class="case-law">
                 <dl class="content-grid gap-y-24">
-                    <div class="col-span-12 grid grid-cols-subgrid items-baseline">
-                        <dt>Stand PDF:</dt>
-                        <dd>
-                            <xsl:value-of select="format-dateTime(current-dateTime(), '[D01].[M01].[Y0001], [H01]:[m01] Uhr')" />
-                        </dd>
-                    </div>
-                    <div>
-                        <dt>Link Portal:</dt>
-                        <dd>https://testphase.rechtsinformationen.bund.de/gerichtsentscheidungen/<xsl:call-template name="documentnumber-value" /></dd>
-                    </div>
+                    <xsl:call-template name="stand-pdf-metadata" />
+                    <xsl:call-template name="link-portal-metadata" />
                 </dl>
 
                 <xsl:call-template name="judgment-title"/>
 
 
                 <dl class="content-grid gap-y-24">
-                    <div class="col-span-12 grid grid-cols-subgrid items-baseline">
-                        <dt>Dokumenttyp:</dt>
-                        <dd>
-                            <xsl:call-template name="dokumenttyp-value" />
-                        </dd>
-                    </div>
-                    <div class="col-span-12 grid grid-cols-subgrid items-baseline">
-                        <dt>ECLI:</dt>
-                        <dd>
-                            <xsl:call-template name="ecli-value" />
-                        </dd>
-                    </div>
-                    <div class="col-span-12 grid grid-cols-subgrid items-baseline">
-                        <dt>Entscheidungsdatum:</dt>
-                        <dd>
-                            <xsl:call-template name="entscheidungsdatum-value" />
-                        </dd>
-                    </div>
-                    <div class="col-span-12 grid grid-cols-subgrid items-baseline">
-                        <dt>Aktenzeichen:</dt>
-                        <dd>
-                            <xsl:call-template name="aktenzeichen-value" />
-                        </dd>
-                    </div>
-                    <div class="col-span-12 grid grid-cols-subgrid items-baseline">
-                        <dt>Gericht:</dt>
-                        <dd>
-                            <xsl:call-template name="gericht-value" />
-                        </dd>
-                    </div>
-                    <div class="col-span-12 grid grid-cols-subgrid items-baseline">
-                        <dt>Spruchkörper:</dt>
-                        <dd>
-                            <xsl:call-template name="spruchkoerper-value" />
-                        </dd>
-                    </div>
-                    <div class="col-span-12 grid grid-cols-subgrid items-baseline">
-                        <dt>Streitjahr:</dt>
-                        <dd>
-                            <xsl:call-template name="streitjahre-value" />
-                        </dd>
-                    </div>
-                    <div class="col-span-12 grid grid-cols-subgrid items-baseline">
-                        <dt>Vorabdokument:</dt>
-                        <dd>
-                            <xsl:call-template name="vorabdokument-value" />
-                        </dd>
-                    </div>
-                    <div class="col-span-12 grid grid-cols-subgrid items-baseline">
-                        <dt>Vorgehende Entscheidungen:</dt>
-                        <dd>
-                            <xsl:call-template name="vorgehende-entscheidungen-value" />
-                        </dd>
-                    </div>
-                    <div class="col-span-12 grid grid-cols-subgrid items-baseline">
-                        <dt>Nachgehende Entscheidungen:</dt>
-                        <dd>
-                            <xsl:call-template name="nachgehende-entscheidungen-value" />
-                        </dd>
-                    </div>
-                    <div class="col-span-12 grid grid-cols-subgrid items-baseline">
-                        <dt>Nachgehende Entscheidungen (anhängig):</dt>
-                        <dd>
-                            <xsl:call-template name="nachgehende-entscheidungen-anhaengig-value" />
-                        </dd>
-                    </div>
-                    <div class="col-span-12 grid grid-cols-subgrid items-baseline">
-                        <dt>Norm:</dt>
-                        <dd>
-                            <xsl:call-template name="normen-value" />
-                        </dd>
-                    </div>
+                    <xsl:call-template name="dokumenttyp-metadata" />
+                    <xsl:call-template name="ecli-metadata" />
+                    <xsl:call-template name="entscheidungsdatum-metadata" />
+                    <xsl:call-template name="aktenzeichen-metadata" />
+                    <xsl:call-template name="gericht-metadata" />
+                    <xsl:call-template name="spruchkoerper-metadata" />
+                    <xsl:call-template name="streitjahre-metadata" />
+                    <xsl:call-template name="vorabdokument-metadata" />
+                    <xsl:call-template name="vorgehende-entscheidungen-metadata" />
+                    <xsl:call-template name="nachgehende-entscheidungen-metadata" />
+                    <xsl:call-template name="nachgehende-entscheidungen-anhaengig-metadata" />
+                    <xsl:call-template name="normen-metadata" />
                 </dl>
 
                 <xsl:call-template name="judgment-content"/>
             </body>
         </html>
+    </xsl:template>
+
+    <xsl:template name="metadata-row">
+        <xsl:param name="label" as="xs:string" />
+        <xsl:param name="value" as="item()*" />
+        <xsl:param name="class" as="xs:string" select="'col-span-12 grid grid-cols-subgrid items-baseline'" />
+        <div>
+            <dt><xsl:value-of select="$label" /></dt>
+            <dd><xsl:copy-of select="$value" /></dd>
+        </div>
+    </xsl:template>
+
+    <xsl:template name="stand-pdf-metadata">
+        <xsl:call-template name="metadata-row">
+            <xsl:with-param name="label" select="'Stand PDF:'" />
+            <xsl:with-param name="value" select="format-dateTime(current-dateTime(), '[D01].[M01].[Y0001], [H01]:[m01] Uhr')" />
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="link-portal-metadata">
+        <xsl:call-template name="metadata-row">
+            <xsl:with-param name="label" select="'Link Portal:'" />
+            <xsl:with-param name="value">
+                <xsl:text>https://testphase.rechtsinformationen.bund.de/gerichtsentscheidungen/</xsl:text>
+                <xsl:call-template name="documentnumber-value" />
+            </xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="dokumenttyp-metadata">
+        <xsl:call-template name="metadata-row">
+            <xsl:with-param name="label" select="'Dokumenttyp:'" />
+            <xsl:with-param name="value"><xsl:call-template name="dokumenttyp-value" /></xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="ecli-metadata">
+        <xsl:call-template name="metadata-row">
+            <xsl:with-param name="label" select="'ECLI:'" />
+            <xsl:with-param name="value"><xsl:call-template name="ecli-value" /></xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="entscheidungsdatum-metadata">
+        <xsl:call-template name="metadata-row">
+            <xsl:with-param name="label" select="'Entscheidungsdatum:'" />
+            <xsl:with-param name="value"><xsl:call-template name="entscheidungsdatum-value" /></xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="aktenzeichen-metadata">
+        <xsl:call-template name="metadata-row">
+            <xsl:with-param name="label" select="'Aktenzeichen:'" />
+            <xsl:with-param name="value"><xsl:call-template name="aktenzeichen-value" /></xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="gericht-metadata">
+        <xsl:call-template name="metadata-row">
+            <xsl:with-param name="label" select="'Gericht:'" />
+            <xsl:with-param name="value"><xsl:call-template name="gericht-value" /></xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="spruchkoerper-metadata">
+        <xsl:call-template name="metadata-row">
+            <xsl:with-param name="label" select="'Spruchkörper:'" />
+            <xsl:with-param name="value"><xsl:call-template name="spruchkoerper-value" /></xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="streitjahre-metadata">
+        <xsl:call-template name="metadata-row">
+            <xsl:with-param name="label" select="'Streitjahr:'" />
+            <xsl:with-param name="value"><xsl:call-template name="streitjahre-value" /></xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="vorabdokument-metadata">
+        <xsl:call-template name="metadata-row">
+            <xsl:with-param name="label" select="'Vorabdokument:'" />
+            <xsl:with-param name="value"><xsl:call-template name="vorabdokument-value" /></xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="vorgehende-entscheidungen-metadata">
+        <xsl:call-template name="metadata-row">
+            <xsl:with-param name="label" select="'Vorgehende Entscheidungen:'" />
+            <xsl:with-param name="value"><xsl:call-template name="vorgehende-entscheidungen-value" /></xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="nachgehende-entscheidungen-metadata">
+        <xsl:call-template name="metadata-row">
+            <xsl:with-param name="label" select="'Nachgehende Entscheidungen:'" />
+            <xsl:with-param name="value"><xsl:call-template name="nachgehende-entscheidungen-value" /></xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="nachgehende-entscheidungen-anhaengig-metadata">
+        <xsl:call-template name="metadata-row">
+            <xsl:with-param name="label" select="'Nachgehende Entscheidungen (anhängig):'" />
+            <xsl:with-param name="value"><xsl:call-template name="nachgehende-entscheidungen-anhaengig-value" /></xsl:with-param>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="normen-metadata">
+        <xsl:call-template name="metadata-row">
+            <xsl:with-param name="label" select="'Norm:'" />
+            <xsl:with-param name="value"><xsl:call-template name="normen-value" /></xsl:with-param>
+        </xsl:call-template>
     </xsl:template>
 
     <xsl:template name="aktenzeichen-value">
