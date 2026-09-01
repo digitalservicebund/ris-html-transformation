@@ -29,8 +29,8 @@
             </head>
             <body class="case-law">
                 <dl class="content-grid gap-y-24">
-                    <xsl:call-template name="stand-pdf-metadata" />
-                    <xsl:call-template name="link-portal-metadata" />
+                    <xsl:call-template name="stand-pdf" />
+                    <xsl:call-template name="link-portal" />
                 </dl>
 
                 <xsl:call-template name="judgment-title"/>
@@ -66,14 +66,14 @@
         </div>
     </xsl:template>
 
-    <xsl:template name="stand-pdf-metadata">
+    <xsl:template name="stand-pdf">
         <xsl:call-template name="metadata-row">
             <xsl:with-param name="label" select="'Stand PDF:'" />
             <xsl:with-param name="value" select="format-dateTime(current-dateTime(), '[D01].[M01].[Y0001], [H01]:[m01] Uhr')" />
         </xsl:call-template>
     </xsl:template>
 
-    <xsl:template name="link-portal-metadata">
+    <xsl:template name="link-portal">
         <xsl:call-template name="metadata-row">
             <xsl:with-param name="label" select="'Link Portal:'" />
             <xsl:with-param name="value">
