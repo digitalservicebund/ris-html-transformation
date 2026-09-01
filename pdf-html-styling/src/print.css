@@ -1,0 +1,25 @@
+@media print {
+  :root {
+    --max-width-prose: 100%;
+  }
+
+  article {
+    @apply break-inside-avoid-page;
+
+    h2 {
+      @apply break-after-avoid-page;
+    }
+  }
+
+  section {
+    h2 {
+      @apply break-after-avoid-page;
+    }
+  }
+}
+
+@page {
+  @bottom-center {
+    content: "Seite " counter(page) " von " counter(pages);
+  }
+}
