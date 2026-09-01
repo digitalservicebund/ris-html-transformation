@@ -258,7 +258,7 @@
                 <ul>
                     <xsl:for-each select="$items">
                         <li>
-                            <xsl:call-template name="rechtszug-entscheidung" />
+                            <xsl:call-template name="rechtszug" />
                         </li>
                     </xsl:for-each>
                 </ul>
@@ -274,7 +274,7 @@
                 <ul>
                     <xsl:for-each select="$items">
                         <li>
-                            <xsl:call-template name="rechtszug-entscheidung" />
+                            <xsl:call-template name="rechtszug" />
                         </li>
                     </xsl:for-each>
                 </ul>
@@ -290,7 +290,7 @@
                 <ul>
                     <xsl:for-each select="$items">
                         <li>
-                            <xsl:call-template name="rechtszug-entscheidung" />
+                            <xsl:call-template name="rechtszug" />
                         </li>
                     </xsl:for-each>
                 </ul>
@@ -299,8 +299,7 @@
         </xsl:choose>
     </xsl:template>
 
-    <!-- Renders a single rechtszug entry (vorgehende/nachgehende Entscheidung) from the current context node -->
-    <xsl:template name="rechtszug-entscheidung">
+    <xsl:template name="rechtszug">
         <xsl:variable name="parts">
             <xsl:if test="ris:gericht/@showAs != ''">
                 <part><xsl:value-of select="ris:gericht/@showAs" /></part>
