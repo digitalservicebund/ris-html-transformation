@@ -188,6 +188,7 @@
     <xsl:template match="akn:i"><em><xsl:apply-templates select="@*|node()"/></em></xsl:template>
     <xsl:template match="akn:b"><strong><xsl:apply-templates select="@*|node()"/></strong></xsl:template>
     <xsl:template match="akn:u"><ins><xsl:apply-templates select="@*|node()"/></ins></xsl:template>
+    <xsl:template match="akn:del"><del><xsl:apply-templates select="@*|node()"/></del></xsl:template>
 
     <xsl:template match="ris:*">
         <xsl:element name="{local-name()}">
