@@ -61,10 +61,10 @@ h1 {
 
 dl.metadata,
 dl.metadata-pdf {
-    @apply table w-full border-spacing-8;
+    @apply table w-full;
 
     > div {
-        @apply m-8 table-row break-inside-auto;
+        @apply table-row break-inside-auto;
     }
 
     > div > dt,
@@ -72,22 +72,21 @@ dl.metadata-pdf {
         @apply table-cell align-top;
     }
 
-    > div:first-child > dt,
-    > div:first-child > dd {
-        padding-block-start: 0;
+    > div > dd {
+        padding-inline-start: 0.5rem;
+    }
+
+    > div + div > dt,
+    > div + div > dd {
+        padding-block-start: 0.5rem;
     }
 
     > div.label-lines-2 > dd {
-        padding-block-start: 1.2em;
+        padding-block-start: calc(0.5rem + 1.2em);
     }
 
     > div.label-lines-3 > dd {
-        padding-block-start: 2.4em;
-    }
-
-    > div:last-child > dt,
-    > div:last-child > dd {
-        padding-block-end: 0;
+        padding-block-start: calc(0.5rem + 2.4em);
     }
 }
 

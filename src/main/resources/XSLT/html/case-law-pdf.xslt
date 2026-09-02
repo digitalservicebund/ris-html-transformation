@@ -164,7 +164,7 @@
     <xsl:template name="nachgehende-entscheidungen-anhaengig-metadata">
         <xsl:call-template name="metadata-row">
             <xsl:with-param name="label" select="'Nachgehende Entscheidungen (anhängig):'" />
-            <xsl:with-param name="label-lines">3</xsl:with-param>
+            <xsl:with-param name="label-lines">2</xsl:with-param>
             <xsl:with-param name="value"><xsl:call-template name="nachgehende-entscheidungen-anhaengig-value" /></xsl:with-param>
         </xsl:call-template>
     </xsl:template>
