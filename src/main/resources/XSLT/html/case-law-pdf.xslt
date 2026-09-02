@@ -173,7 +173,7 @@
             <xsl:when test="$value != ''">
                 <xsl:value-of select="$value" />
             </xsl:when>
-            <xsl:otherwise>—</xsl:otherwise>
+            <xsl:otherwise><xsl:call-template name="placeholder-value" /></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
 
@@ -183,7 +183,7 @@
             <xsl:when test="$value != ''">
                 <xsl:value-of select="$value" />
             </xsl:when>
-            <xsl:otherwise>—</xsl:otherwise>
+            <xsl:otherwise><xsl:call-template name="placeholder-value" /></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
 
@@ -193,7 +193,7 @@
             <xsl:when test="$value != ''">
                 <xsl:value-of select="$value" />
             </xsl:when>
-            <xsl:otherwise>—</xsl:otherwise>
+            <xsl:otherwise><xsl:call-template name="placeholder-value" /></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
 
@@ -205,7 +205,7 @@
                     <xsl:with-param name="date" select="$value" />
                 </xsl:call-template>
             </xsl:when>
-            <xsl:otherwise>—</xsl:otherwise>
+            <xsl:otherwise><xsl:call-template name="placeholder-value" /></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
 
@@ -215,7 +215,7 @@
             <xsl:when test="$value != ''">
                 <xsl:value-of select="$value" />
             </xsl:when>
-            <xsl:otherwise>—</xsl:otherwise>
+            <xsl:otherwise><xsl:call-template name="placeholder-value" /></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
 
@@ -225,7 +225,7 @@
             <xsl:when test="$value != ''">
                 <xsl:value-of select="$value" />
             </xsl:when>
-            <xsl:otherwise>—</xsl:otherwise>
+            <xsl:otherwise><xsl:call-template name="placeholder-value" /></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
 
@@ -237,7 +237,7 @@
                     <xsl:value-of select="." />
                 </xsl:for-each>
             </xsl:when>
-            <xsl:otherwise>—</xsl:otherwise>
+            <xsl:otherwise><xsl:call-template name="placeholder-value" /></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
 
@@ -263,7 +263,7 @@
                     </xsl:for-each>
                 </ul>
             </xsl:when>
-            <xsl:otherwise>—</xsl:otherwise>
+            <xsl:otherwise><xsl:call-template name="placeholder-value" /></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
 
@@ -279,7 +279,7 @@
                     </xsl:for-each>
                 </ul>
             </xsl:when>
-            <xsl:otherwise>—</xsl:otherwise>
+            <xsl:otherwise><xsl:call-template name="placeholder-value" /></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
 
@@ -295,7 +295,7 @@
                     </xsl:for-each>
                 </ul>
             </xsl:when>
-            <xsl:otherwise>—</xsl:otherwise>
+            <xsl:otherwise><xsl:call-template name="placeholder-value" /></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
 
@@ -354,7 +354,7 @@
                     </xsl:for-each>
                 </xsl:for-each>
             </xsl:when>
-            <xsl:otherwise>—</xsl:otherwise>
+            <xsl:otherwise><xsl:call-template name="placeholder-value" /></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
 
@@ -373,4 +373,6 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+
+    <xsl:template name="placeholder-value">—</xsl:template>
 </xsl:stylesheet>
