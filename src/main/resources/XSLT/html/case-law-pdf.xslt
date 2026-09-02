@@ -223,7 +223,7 @@
         <xsl:variable name="value" select="akn:meta/akn:identification/akn:FRBRWork/akn:FRBRdate[@eId='entscheidungsdatum']/@date" />
         <xsl:choose>
             <xsl:when test="$value != ''">
-                <xsl:call-template name="format-date">
+                <xsl:call-template name="format-date-long">
                     <xsl:with-param name="date" select="$value" />
                 </xsl:call-template>
             </xsl:when>
@@ -322,27 +322,21 @@
     </xsl:template>
 
     <xsl:template name="rechtszug">
-        <xsl:variable name="parts">
-            <xsl:if test="ris:gericht/@showAs != ''">
-                <part><xsl:value-of select="ris:gericht/@showAs" /></part>
-            </xsl:if>
-            <xsl:if test="ris:entscheidungsdatum != ''">
-                <part>
-                    <xsl:call-template name="format-date">
-                        <xsl:with-param name="date" select="normalize-space(ris:entscheidungsdatum)" />
-                    </xsl:call-template>
-                </part>
-            </xsl:if>
-            <xsl:if test="ris:aktenzeichen != ''">
-                <part>Az: <xsl:value-of select="normalize-space(ris:aktenzeichen)" /></part>
-            </xsl:if>
-        </xsl:variable>
-        <xsl:for-each select="$parts/part">
-            <xsl:if test="position() > 1">
-                <xsl:text>, </xsl:text>
-            </xsl:if>
-            <xsl:value-of select="." />
-        </xsl:for-each>
+        <xsl:value-of select="ris:gericht/@showAs" />
+        <xsl:if test="ris:dokumenttyp != ''">
+            <xsl:text>, </xsl:text>
+            <xsl:value-of select="normalize-space(ris:dokumenttyp)" />
+        </xsl:if>
+        <xsl:if test="ris:entscheidungsdatum != ''">
+            <xsl:text> vom </xsl:text>
+            <xsl:call-template name="format-date-long">
+                <xsl:with-param name="date" select="normalize-space(ris:entscheidungsdatum)" />
+            </xsl:call-template>
+        </xsl:if>
+        <xsl:if test="ris:aktenzeichen != ''">
+            <xsl:text> - </xsl:text>
+            <xsl:value-of select="normalize-space(ris:aktenzeichen)" />
+        </xsl:if>
         <xsl:if test="ris:vermerk != ''">
             <xsl:text> (</xsl:text>
             <xsl:value-of select="normalize-space(ris:vermerk)" />
@@ -390,6 +384,35 @@
         <xsl:choose>
             <xsl:when test="$date castable as xs:date">
                 <xsl:value-of select="format-date(xs:date($date), '[D01].[M01].[Y0001]')" />
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$date" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:template name="format-date-long">
+        <xsl:param name="date" as="xs:string" />
+        <xsl:choose>
+            <xsl:when test="$date castable as xs:date">
+                <xsl:value-of select="format-date(xs:date($date), '[D1]. ')" />
+                <xsl:choose>
+                    <!-- XSLT 1.0 has no local supported date formatting -->
+                    <xsl:when test="format-date(xs:date($date), '[M01]') = '01'">Januar</xsl:when>
+                    <xsl:when test="format-date(xs:date($date), '[M01]') = '02'">Februar</xsl:when>
+                    <xsl:when test="format-date(xs:date($date), '[M01]') = '03'">März</xsl:when>
+                    <xsl:when test="format-date(xs:date($date), '[M01]') = '04'">April</xsl:when>
+                    <xsl:when test="format-date(xs:date($date), '[M01]') = '05'">Mai</xsl:when>
+                    <xsl:when test="format-date(xs:date($date), '[M01]') = '06'">Juni</xsl:when>
+                    <xsl:when test="format-date(xs:date($date), '[M01]') = '07'">Juli</xsl:when>
+                    <xsl:when test="format-date(xs:date($date), '[M01]') = '08'">August</xsl:when>
+                    <xsl:when test="format-date(xs:date($date), '[M01]') = '09'">September</xsl:when>
+                    <xsl:when test="format-date(xs:date($date), '[M01]') = '10'">Oktober</xsl:when>
+                    <xsl:when test="format-date(xs:date($date), '[M01]') = '11'">November</xsl:when>
+                    <xsl:when test="format-date(xs:date($date), '[M01]') = '12'">Dezember</xsl:when>
+                </xsl:choose>
+                <xsl:text> </xsl:text>
+                <xsl:value-of select="format-date(xs:date($date), '[Y0001]')" />
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="$date" />
