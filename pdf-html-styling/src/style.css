@@ -6,7 +6,6 @@
 @import "../node_modules/@digitalservicebund/ris-ui/dist/fonts.css";
 
 @import "./global.css" layer(base);
-@import "./print.css" layer(base);
 @import "./typography.css";
 @import "./layout.css";
 
