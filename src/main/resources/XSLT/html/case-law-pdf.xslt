@@ -76,8 +76,14 @@
         <xsl:call-template name="metadata-row">
             <xsl:with-param name="label" select="'Link Portal:'" />
             <xsl:with-param name="value">
-                <xsl:text>https://testphase.rechtsinformationen.bund.de/gerichtsentscheidungen/</xsl:text>
-                <xsl:call-template name="documentnumber-value" />
+                <a>
+                    <xsl:attribute name="href">
+                        <xsl:text>https://testphase.rechtsinformationen.bund.de/gerichtsentscheidungen/</xsl:text>
+                        <xsl:call-template name="documentnumber-value" />
+                    </xsl:attribute>
+                    <xsl:text>https://testphase.rechtsinformationen.bund.de/gerichtsentscheidungen/</xsl:text>
+                    <xsl:call-template name="documentnumber-value" />
+                </a>
             </xsl:with-param>
         </xsl:call-template>
     </xsl:template>
