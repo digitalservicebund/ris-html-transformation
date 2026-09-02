@@ -33,6 +33,7 @@
                     <xsl:call-template name="link-portal" />
                 </dl>
 
+                <xsl:call-template name="titelzeile" />
                 <xsl:call-template name="judgment-title"/>
 
                 <dl class="metadata">
@@ -89,6 +90,16 @@
                 </a>
             </xsl:with-param>
         </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="titelzeile">
+        <div class="titelzeile">
+            <xsl:apply-templates select="akn:meta/akn:analysis/akn:otherAnalysis/ris:dokumentarischeKurztexte/ris:titelzeile" />
+        </div>
+    </xsl:template>
+
+    <xsl:template match="ris:titelzeile">
+        <xsl:apply-templates/>
     </xsl:template>
 
     <xsl:template name="dokumenttyp-metadata">
