@@ -56,7 +56,7 @@ body {
 }
 
 h1 {
-    @apply ris-heading2-bold mb-16 mt-16;
+    @apply ris-heading2-bold mb-32 mt-32;
 }
 
 dl.metadata,
@@ -111,7 +111,7 @@ dl.metadata-pdf {
 }
 
 .case-law .titelzeile {
-    @apply ris-subhead-regular mt-16 wrap-break-word hyphens-auto;
+    @apply ris-subhead-regular mt-32 wrap-break-word hyphens-auto;
 }
 
 .case-law .langtexte {
