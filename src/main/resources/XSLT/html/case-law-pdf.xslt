@@ -50,7 +50,9 @@
                     <xsl:call-template name="normen-metadata" />
                 </dl>
 
-                <xsl:call-template name="judgment-content"/>
+                <div class="langtexte">
+                    <xsl:call-template name="judgment-content"/>
+                </div>
             </body>
         </html>
     </xsl:template>
@@ -341,27 +343,28 @@
         <xsl:variable name="items" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzNorm" />
         <xsl:choose>
             <xsl:when test="$items">
-                <xsl:for-each select="$items">
-                    <xsl:if test="position() > 1">
-                        <xsl:text>, </xsl:text>
-                    </xsl:if>
-                    <xsl:if test="ris:abkuerzung != ''">
-                        <xsl:value-of select="normalize-space(ris:abkuerzung)" />
-                    </xsl:if>
-                    <xsl:for-each select="ris:einzelnorm">
-                        <xsl:if test="ris:bezeichnung != ''">
-                            <xsl:text> </xsl:text>
-                            <xsl:value-of select="normalize-space(ris:bezeichnung)" />
-                        </xsl:if>
-                        <xsl:if test="ris:fassungsdatum != ''">
-                            <xsl:text> (</xsl:text>
-                            <xsl:call-template name="format-date">
-                                <xsl:with-param name="date" select="normalize-space(ris:fassungsdatum)" />
-                            </xsl:call-template>
-                            <xsl:text>)</xsl:text>
-                        </xsl:if>
+                <ul>
+                    <xsl:for-each select="$items">
+                        <li>
+                            <xsl:if test="ris:abkuerzung != ''">
+                                <xsl:value-of select="normalize-space(ris:abkuerzung)" />
+                            </xsl:if>
+                            <xsl:for-each select="ris:einzelnorm">
+                                <xsl:if test="ris:bezeichnung != ''">
+                                    <xsl:text> </xsl:text>
+                                    <xsl:value-of select="normalize-space(ris:bezeichnung)" />
+                                </xsl:if>
+                                <xsl:if test="ris:fassungsdatum != ''">
+                                    <xsl:text> (</xsl:text>
+                                    <xsl:call-template name="format-date">
+                                        <xsl:with-param name="date" select="normalize-space(ris:fassungsdatum)" />
+                                    </xsl:call-template>
+                                    <xsl:text>)</xsl:text>
+                                </xsl:if>
+                            </xsl:for-each>
+                        </li>
                     </xsl:for-each>
-                </xsl:for-each>
+                </ul>
             </xsl:when>
             <xsl:otherwise><xsl:call-template name="placeholder-value" /></xsl:otherwise>
         </xsl:choose>

@@ -110,7 +110,7 @@ dl.metadata-pdf {
     }
 }
 
-.case-law {
+.case-law .langtexte {
     h2 {
         @apply ris-heading3-bold my-24 inline-block;
     }
