@@ -30,6 +30,7 @@ html {
 }
 
 .case-law {
+    margin-top: 10mm;
     --border-number-min-width: 3rem;
 }
 
@@ -164,7 +165,8 @@ html {
 }
 
 @page {
-    margin-top: 34mm;
+    size: A4 portrait;
+    margin: 45mm 20mm 25mm 25mm;
 
     @top-right {
         @apply text-xs mt-[10px];
