@@ -37,18 +37,18 @@
                 <xsl:call-template name="judgment-title"/>
 
                 <dl class="metadata">
+                    <xsl:call-template name="gericht-metadata" />
                     <xsl:call-template name="dokumenttyp-metadata" />
-                    <xsl:call-template name="ecli-metadata" />
                     <xsl:call-template name="entscheidungsdatum-metadata" />
                     <xsl:call-template name="aktenzeichen-metadata" />
-                    <xsl:call-template name="gericht-metadata" />
                     <xsl:call-template name="spruchkoerper-metadata" />
+                    <xsl:call-template name="ecli-metadata" />
                     <xsl:call-template name="streitjahre-metadata" />
-                    <xsl:call-template name="vorabdokument-metadata" />
                     <xsl:call-template name="vorgehende-entscheidungen-metadata" />
                     <xsl:call-template name="nachgehende-entscheidungen-metadata" />
                     <xsl:call-template name="nachgehende-entscheidungen-anhaengig-metadata" />
                     <xsl:call-template name="normen-metadata" />
+                    <xsl:call-template name="vorabdokument-metadata" />
                 </dl>
 
                 <div class="langtexte">
