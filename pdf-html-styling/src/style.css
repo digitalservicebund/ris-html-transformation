@@ -25,8 +25,53 @@
     --breakpoint-2xl: 96rem; /* 1536px */
 }
 
+html {
+    font-size: 11pt;
+}
+
 .case-law {
     --border-number-min-width: 3rem;
+}
+
+.case-law > dl {
+    @apply table w-full border-spacing-8;
+}
+
+.case-law > dl > div {
+    @apply m-8 table-row break-inside-auto;
+}
+
+.case-law > dl > div > dt,
+.case-law > dl > div > dd {
+    @apply table-cell align-top;
+}
+
+.case-law > dl > div:first-child > dt,
+.case-law > dl > div:first-child > dd {
+    padding-block-start: 0;
+}
+
+.case-law > dl > div:last-child > dt,
+.case-law > dl > div:last-child > dd {
+    padding-block-end: 0;
+}
+
+.case-law > dl.metadata > div > dt {
+    @apply typo-body-bold w-1/4;
+    line-height: normal;
+}
+
+.case-law > dl.metadata > div > dd {
+    @apply typo-body-regular w-3/4 wrap-anywhere;
+}
+
+
+.case-law > dl.metadata-pdf > div > dt {
+    @apply ris-body3-regular;
+}
+
+.case-law > dl.metadata-pdf > div > dd {
+    @apply ris-body3-regular wrap-anywhere;
 }
 
 .case-law table[border="1"] :is(th, td) {
