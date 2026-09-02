@@ -4,11 +4,6 @@
 
 @import "../node_modules/@digitalservicebund/ris-ui/dist/style.css";
 @import "../node_modules/@digitalservicebund/ris-ui/dist/fonts.css";
-
-@import "./global.css" layer(base);
-@import "./typography.css";
-@import "./layout.css";
-
 @source "../node_modules/@digitalservicebund/ris-ui/dist/**/*.{js,vue,ts}";
 
 @theme {
@@ -57,12 +52,12 @@ html {
 }
 
 .case-law > dl.metadata > div > dt {
-    @apply typo-body-bold w-1/4;
+    @apply ris-body2-bold w-1/4;
     line-height: normal;
 }
 
 .case-law > dl.metadata > div > dd {
-    @apply typo-body-regular w-3/4 wrap-anywhere;
+    @apply ris-body2-regular w-3/4 wrap-anywhere;
 }
 
 
@@ -88,7 +83,7 @@ html {
 }
 
 .case-law h2 {
-    @apply typo-headline2-bold my-24 inline-block;
+    @apply ris-heading3-bold my-24 inline-block;
 }
 
 /*.case-law .border-number {
