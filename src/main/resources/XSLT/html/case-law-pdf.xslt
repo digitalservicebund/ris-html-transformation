@@ -58,8 +58,9 @@
     <xsl:template name="metadata-row">
         <xsl:param name="label" as="xs:string" />
         <xsl:param name="value" as="item()*" />
-        <xsl:param name="class" as="xs:string" select="'col-span-12 grid grid-cols-subgrid items-baseline'" />
+        <xsl:param name="label-lines" as="xs:string" select="'1'"/>
         <div>
+            <xsl:attribute name="class">label-lines-<xsl:value-of select="$label-lines" /></xsl:attribute>
             <dt><xsl:value-of select="$label" /></dt>
             <dd><xsl:copy-of select="$value" /></dd>
         </div>
@@ -147,6 +148,7 @@
     <xsl:template name="vorgehende-entscheidungen-metadata">
         <xsl:call-template name="metadata-row">
             <xsl:with-param name="label" select="'Vorgehende Entscheidungen:'" />
+            <xsl:with-param name="label-lines">2</xsl:with-param>
             <xsl:with-param name="value"><xsl:call-template name="vorgehende-entscheidungen-value" /></xsl:with-param>
         </xsl:call-template>
     </xsl:template>
@@ -154,6 +156,7 @@
     <xsl:template name="nachgehende-entscheidungen-metadata">
         <xsl:call-template name="metadata-row">
             <xsl:with-param name="label" select="'Nachgehende Entscheidungen:'" />
+            <xsl:with-param name="label-lines">2</xsl:with-param>
             <xsl:with-param name="value"><xsl:call-template name="nachgehende-entscheidungen-value" /></xsl:with-param>
         </xsl:call-template>
     </xsl:template>
@@ -161,6 +164,7 @@
     <xsl:template name="nachgehende-entscheidungen-anhaengig-metadata">
         <xsl:call-template name="metadata-row">
             <xsl:with-param name="label" select="'Nachgehende Entscheidungen (anhängig):'" />
+            <xsl:with-param name="label-lines">3</xsl:with-param>
             <xsl:with-param name="value"><xsl:call-template name="nachgehende-entscheidungen-anhaengig-value" /></xsl:with-param>
         </xsl:call-template>
     </xsl:template>

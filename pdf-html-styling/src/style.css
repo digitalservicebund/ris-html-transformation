@@ -71,6 +71,14 @@ dl.metadata-pdf {
         padding-block-start: 0;
     }
 
+    > div.label-lines-2 > dd {
+        padding-block-start: 1.2em;
+    }
+
+    > div.label-lines-3 > dd {
+        padding-block-start: 2.4em;
+    }
+
     > div:last-child > dt,
     > div:last-child > dd {
         padding-block-end: 0;
