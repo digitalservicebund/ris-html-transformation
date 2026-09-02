@@ -10,13 +10,6 @@
     --font-mono:
             ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
             "DejaVu Sans Mono", monospace;
-
-    /* explicitly define breakpoints to align with the design */
-    --breakpoint-sm: 24rem; /* 384 */
-    --breakpoint-md: 48rem; /* 768px */
-    --breakpoint-lg: 64rem; /* 1024px */
-    --breakpoint-xl: 80rem; /* 1280px */
-    --breakpoint-2xl: 96rem; /* 1536px */
 }
 
 html {
@@ -184,7 +177,4 @@ html {
         @apply text-sm;
         content: counter(page) " von " counter(pages);
     }
-}
-
-@page :nth(1) {
 }
