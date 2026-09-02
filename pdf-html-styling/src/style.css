@@ -20,21 +20,27 @@ html {
     size: A4 portrait;
     margin: 45mm 20mm 25mm 25mm;
 
-    @top-right {
-        @apply text-xs mt-[10px];
-        vertical-align: top;
-        content: "rechtsinformationen.bund.de"
-    }
-
     @top-left {
         content: "";
-        width: 62mm;
-        height: 32mm;
+        width: 62mm; /* Header box: 55mm rendered SVG width plus room for the left-side offset. */
+        height: 32mm; /* Header box: rounded up from the 31.86mm rendered SVG height. */
         background-image: url("../assets/bmjv-de-v1-web-farbig.svg");
         background-position: 0 0;
         background-repeat: no-repeat;
-        background-size: 55mm 31.86mm;
+        background-size: 55mm 31.86mm; /* 31.86mm ≈ 55mm × (104.528 ÷ 180.4987) = 31.8509mm, rounded up to preserve the SVG viewBox ratio and its built-in safe space. */
         margin-left: -17.15mm; /* Align the end of the flag with the page margin */
+        vertical-align: top;
+    }
+
+    @top-right {
+        content: "";
+        width: 62mm; /* Header box: 57.5mm rendered SVG width plus room for the right-side offset. */
+        height: 32mm; /* Header box: rounded up from the 24.53mm rendered SVG height. */
+        background-image: url("../assets/logo_Rechtsinformationsportal_outline_stroke.svg");
+        background-position: right 1.85mm;
+        background-repeat: no-repeat;
+        background-size: 38.33mm 16.35mm; /* Two-line trial size: 38.33mm × 16.35mm = (57.5mm × 24.53mm) × 2/3; 16.35mm = 38.33mm × (96 ÷ 225), preserving the SVG ratio. */
+        margin-right: -12.15mm; /* Same distance to the right as the bmjv logo has to the left */
         vertical-align: top;
     }
 
