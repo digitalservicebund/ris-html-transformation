@@ -164,10 +164,24 @@ html {
 }
 
 @page {
+    margin-top: 34mm;
+
     @top-right {
         @apply text-xs mt-[10px];
         vertical-align: top;
         content: "rechtsinformationen.bund.de"
+    }
+
+    @top-left {
+        content: "";
+        width: 55mm;
+        height: 29mm;
+        background-image: url("../assets/bmjv-de-v1-web-farbig.svg");
+        background-position: 0 0;
+        background-repeat: no-repeat;
+        background-size: 48.52mm 28.10mm;
+        margin-left: -14.19mm; /* Magic value to align the page margin with the flag */
+        vertical-align: top;
     }
 }
 
