@@ -16,141 +16,6 @@ html {
     font-size: 10pt;
 }
 
-.case-law {
-    margin-top: 10mm;
-    --border-number-min-width: 3rem;
-}
-
-.case-law > dl {
-    @apply table w-full border-spacing-8;
-}
-
-.case-law > dl > div {
-    @apply m-8 table-row break-inside-auto;
-}
-
-.case-law > dl > div > dt,
-.case-law > dl > div > dd {
-    @apply table-cell align-top;
-}
-
-.case-law > dl > div:first-child > dt,
-.case-law > dl > div:first-child > dd {
-    padding-block-start: 0;
-}
-
-.case-law > dl > div:last-child > dt,
-.case-law > dl > div:last-child > dd {
-    padding-block-end: 0;
-}
-
-.case-law > dl.metadata > div > dt {
-    @apply ris-body2-bold w-1/4;
-    line-height: normal;
-}
-
-.case-law > dl.metadata > div > dd {
-    @apply ris-body2-regular w-3/4 wrap-anywhere;
-}
-
-
-.case-law > dl.metadata-pdf > div > dt {
-    @apply text-sm;
-}
-
-.case-law > dl.metadata-pdf > div > dd {
-    @apply text-sm wrap-anywhere;
-}
-
-.case-law table[border="1"] :is(th, td) {
-    @apply border border-solid border-black px-4;
-}
-
-.case-law table {
-    @apply inline-block max-w-full overflow-x-auto;
-
-    td,
-    th {
-        @apply p-4 align-top;
-    }
-}
-
-.case-law h2 {
-    @apply ris-heading3-bold my-24 inline-block;
-}
-
-/*.case-law .border-number {
-    @apply flex items-start;
-}
-
-.case-law .border-number .number {
-    @apply mr-8 text-gray-900;
-    min-width: calc(var(--border-number-min-width) - 0.5rem);
-}
-
-.case-law .border-number .content {
-    @apply min-w-0 flex-1 wrap-break-word hyphens-auto;
-}
-
-.case-law .border-number-link {
-    @apply typo-link-regular pl-[0.25ch];
-}*/
-
-.case-law section > p {
-    @apply ml-(--border-number-min-width);
-}
-
-.case-law ul {
-    @apply mb-16 list-outside list-disc pl-24;
-}
-
-.case-law ul ul {
-    @apply mb-0 list-[circle];
-}
-
-.case-law ul ul ul {
-    @apply list-[square];
-}
-
-.case-law ul > li > p:last-child {
-    @apply mb-0;
-}
-
-/* nesting is often expressed as a list item that only wraps another list,
-   which should show the nested marker instead of one of its own */
-.case-law li:has(> ul:only-child) {
-    @apply list-none;
-}
-
-.case-law section > ul {
-    @apply ml-(--border-number-min-width);
-}
-
-.case-law #gliederung blockquote {
-    @apply ml-32;
-}
-
-.case-law #gruende blockquote {
-    @apply ml-(--border-number-min-width) border-l-2 border-gray-700 pl-16 sm:ml-[calc(var(--border-number-min-width)+2rem)];
-
-    & + * {
-        @apply mt-16;
-    }
-
-    & + blockquote {
-        @apply mt-0;
-    }
-}
-
-.case-law #title {
-    @apply ris-heading3-bold mb-16 mt-16;
-}
-
-.case-law p {
-    @apply mb-16 wrap-break-word hyphens-auto;
-    unicode-bidi: isolate;
-}
-
 @page {
     size: A4 portrait;
     margin: 45mm 20mm 25mm 25mm;
@@ -178,3 +43,144 @@ html {
         content: counter(page) " von " counter(pages);
     }
 }
+
+body {
+    margin-top: 10mm;
+    --border-number-min-width: 3rem;
+}
+
+h1 {
+    @apply ris-heading3-bold mb-16 mt-16;
+}
+
+dl.metadata,
+dl.metadata-pdf {
+    @apply table w-full border-spacing-8;
+
+    > div {
+        @apply m-8 table-row break-inside-auto;
+    }
+
+    > div > dt,
+    > div > dd {
+        @apply table-cell align-top;
+    }
+
+    > div:first-child > dt,
+    > div:first-child > dd {
+        padding-block-start: 0;
+    }
+
+    > div:last-child > dt,
+    > div:last-child > dd {
+        padding-block-end: 0;
+    }
+}
+
+dl.metadata {
+    > div > dt {
+        @apply ris-body2-bold w-1/4;
+        line-height: normal;
+    }
+    > div > dd {
+        @apply ris-body2-regular w-3/4 wrap-anywhere;
+    }
+}
+
+dl.metadata-pdf {
+    > div > dt {
+        @apply text-sm;
+    }
+
+    > div > dd {
+        @apply text-sm wrap-anywhere;
+    }
+}
+
+.case-law {
+    h2 {
+        @apply ris-heading3-bold my-24 inline-block;
+    }
+
+    p {
+        @apply mb-16 wrap-break-word hyphens-auto;
+        unicode-bidi: isolate;
+    }
+
+    section > p {
+        @apply ml-(--border-number-min-width);
+    }
+
+    ul {
+        @apply mb-16 list-outside list-disc pl-24;
+    }
+
+    ul ul {
+        @apply mb-0 list-[circle];
+    }
+
+    ul ul ul {
+        @apply list-[square];
+    }
+
+    ul > li > p:last-child {
+        @apply mb-0;
+    }
+
+    /* nesting is often expressed as a list item that only wraps another list,
+       which should show the nested marker instead of one of its own */
+    li:has(> ul:only-child) {
+        @apply list-none;
+    }
+
+    section > ul {
+        @apply ml-(--border-number-min-width);
+    }
+
+    table[border="1"] :is(th, td) {
+        @apply border border-solid border-black px-4;
+    }
+
+    table {
+        @apply inline-block max-w-full overflow-x-auto;
+
+        td,
+        th {
+            @apply p-4 align-top;
+        }
+    }
+
+    #gliederung blockquote {
+        @apply ml-32;
+    }
+
+    #gruende blockquote {
+        @apply ml-(--border-number-min-width) border-l-2 border-gray-700 pl-16 sm:ml-[calc(var(--border-number-min-width)+2rem)];
+
+        & + * {
+            @apply mt-16;
+        }
+
+        & + blockquote {
+            @apply mt-0;
+        }
+    }
+}
+
+/*.case-law .border-number {
+    @apply flex items-start;
+}
+
+.case-law .border-number .number {
+    @apply mr-8 text-gray-900;
+    min-width: calc(var(--border-number-min-width) - 0.5rem);
+}
+
+.case-law .border-number .content {
+    @apply min-w-0 flex-1 wrap-break-word hyphens-auto;
+}
+
+.case-law .border-number-link {
+    @apply typo-link-regular pl-[0.25ch];
+}*/
+
