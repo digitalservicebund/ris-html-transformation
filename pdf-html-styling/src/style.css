@@ -174,13 +174,13 @@ html {
 
     @top-left {
         content: "";
-        width: 55mm;
-        height: 29mm;
+        width: 62mm;
+        height: 32mm;
         background-image: url("../assets/bmjv-de-v1-web-farbig.svg");
         background-position: 0 0;
         background-repeat: no-repeat;
-        background-size: 48.52mm 28.10mm;
-        margin-left: -14.19mm; /* Magic value to align the page margin with the flag */
+        background-size: 55mm 31.86mm;
+        margin-left: -16.08mm; /* Align the flag with the page margin */
         vertical-align: top;
     }
 }
