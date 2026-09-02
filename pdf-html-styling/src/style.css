@@ -25,7 +25,7 @@
 }
 
 html {
-    font-size: 11pt;
+    font-size: 10pt;
 }
 
 .case-law {
@@ -67,11 +67,11 @@ html {
 
 
 .case-law > dl.metadata-pdf > div > dt {
-    @apply ris-body3-regular;
+    @apply text-sm;
 }
 
 .case-law > dl.metadata-pdf > div > dd {
-    @apply ris-body3-regular wrap-anywhere;
+    @apply text-sm wrap-anywhere;
 }
 
 .case-law table[border="1"] :is(th, td) {
@@ -79,7 +79,7 @@ html {
 }
 
 .case-law table {
-    @apply inline-block max-w-full overflow-x-auto text-sm;
+    @apply inline-block max-w-full overflow-x-auto;
 
     td,
     th {
@@ -155,7 +155,7 @@ html {
 }
 
 .case-law #title {
-    @apply ris-heading1-bold;
+    @apply ris-heading3-bold mb-16 mt-16;
 }
 
 .case-law p {
