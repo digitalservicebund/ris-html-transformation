@@ -28,15 +28,14 @@
                 </xsl:if>
             </head>
             <body class="case-law">
-                <dl class="content-grid gap-y-24">
+                <dl class="metadata-pdf">
                     <xsl:call-template name="stand-pdf" />
                     <xsl:call-template name="link-portal" />
                 </dl>
 
                 <xsl:call-template name="judgment-title"/>
 
-
-                <dl class="content-grid gap-y-24">
+                <dl class="metadata">
                     <xsl:call-template name="dokumenttyp-metadata" />
                     <xsl:call-template name="ecli-metadata" />
                     <xsl:call-template name="entscheidungsdatum-metadata" />
