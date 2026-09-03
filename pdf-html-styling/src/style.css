@@ -182,6 +182,14 @@ dl.metadata-pdf {
             @apply mt-0;
         }
     }
+
+    h3 {
+        @apply ris-heading3-regular;
+    }
+
+    h4 {
+        @apply ris-body1-bold;
+    }
 }
 
 /*.case-law .border-number {
