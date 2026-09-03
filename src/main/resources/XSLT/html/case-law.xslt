@@ -189,6 +189,12 @@
     <xsl:template match="akn:b"><strong><xsl:apply-templates select="@*|node()"/></strong></xsl:template>
     <xsl:template match="akn:u"><ins><xsl:apply-templates select="@*|node()"/></ins></xsl:template>
     <xsl:template match="akn:del"><del><xsl:apply-templates select="@*|node()"/></del></xsl:template>
+    <xsl:template match="ris:h1"><h3><xsl:apply-templates select="@*|node()"/></h3></xsl:template>
+    <xsl:template match="ris:h2"><h4><xsl:apply-templates select="@*|node()"/></h4></xsl:template>
+    <xsl:template match="ris:h3"><h5><xsl:apply-templates select="@*|node()"/></h5></xsl:template>
+    <xsl:template match="ris:h4"><h6><xsl:apply-templates select="@*|node()"/></h6></xsl:template>
+    <xsl:template match="ris:h5"><span class="h7"><xsl:apply-templates select="@*|node()"/></span></xsl:template>
+    <xsl:template match="ris:h6"><span class="h8"><xsl:apply-templates select="@*|node()"/></span></xsl:template>
 
     <xsl:template match="ris:*">
         <xsl:element name="{local-name()}">
