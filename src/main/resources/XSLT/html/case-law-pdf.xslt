@@ -20,7 +20,7 @@
             <head>
                 <meta charset="utf-8" />
                 <title>
-                    <xsl:value-of select=".//akn:shortTitle"/>
+                    <xsl:value-of select="normalize-space(akn:header/akn:p/akn:shortTitle)"/>
                 </title>
                 <meta name="author">
                     <xsl:attribute name="content">
@@ -128,6 +128,12 @@
 
     <xsl:template match="ris:titelzeile">
         <xsl:apply-templates/>
+    </xsl:template>
+
+    <xsl:template match="akn:shortTitle">
+        <h1 id="title">
+            <xsl:value-of select="normalize-space(.)"/>
+        </h1>
     </xsl:template>
 
     <xsl:template name="dokumenttyp-metadata">
