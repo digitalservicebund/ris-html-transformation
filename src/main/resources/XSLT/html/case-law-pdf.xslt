@@ -15,12 +15,40 @@
     <xsl:param name="css" as="xs:string" select="''"/>
 
     <xsl:template match="akn:judgment">
+        <xsl:variable name="author-id" as="xs:string" select="substring-after(akn:meta/akn:identification/akn:FRBRManifestation/akn:FRBRauthor/@href, '#')" />
         <html lang="de">
             <head>
                 <meta charset="utf-8" />
                 <title>
                     <xsl:value-of select=".//akn:shortTitle"/>
                 </title>
+                <meta name="author">
+                    <xsl:attribute name="content">
+                        <xsl:value-of select="normalize-space(string(akn:meta/akn:references/akn:TLCOrganization[@eId = $author-id]/@showAs))" />
+                    </xsl:attribute>
+                </meta>
+                <meta name="description">
+                    <xsl:attribute name="content">
+                        <xsl:value-of select="normalize-space(string(akn:meta/akn:analysis/akn:otherAnalysis/ris:dokumentarischeKurztexte/ris:titelzeile))" />
+                    </xsl:attribute>
+                </meta>
+                <meta name="keywords">
+                    <xsl:attribute name="content">
+                        <xsl:value-of select="string-join(akn:meta/akn:classification/akn:keyword/@showAs, ', ')" />
+                    </xsl:attribute>
+                </meta>
+                <meta name="generator" content="Rechtsinformationen des Bundes" />
+                <meta name="dcterms.created">
+                    <xsl:attribute name="content"><xsl:value-of select="string(current-dateTime())" /></xsl:attribute>
+                </meta>
+                <meta name="dcterms.modified">
+                    <xsl:attribute name="content"><xsl:value-of select="string(current-dateTime())" /></xsl:attribute>
+                </meta>
+                <meta name="ecli">
+                    <xsl:attribute name="content">
+                        <xsl:value-of select="normalize-space(string(akn:meta/akn:identification/akn:FRBRWork/akn:FRBRalias[@name = 'ecli']/@value))" />
+                    </xsl:attribute>
+                </meta>
                 <xsl:if test="$css != ''">
                     <style>
                         <xsl:value-of select="$css" disable-output-escaping="yes"/>
