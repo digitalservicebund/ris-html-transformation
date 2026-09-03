@@ -124,8 +124,14 @@ dl.metadata-pdf {
         unicode-bidi: isolate;
     }
 
+    #gliederung {
+        p {
+            @apply mb-0;
+        }
+    }
+
     section > p {
-        @apply ml-(--border-number-min-width);
+        @apply pl-(--border-number-min-width);
     }
 
     ul {
