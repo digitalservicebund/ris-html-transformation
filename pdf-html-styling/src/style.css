@@ -190,11 +190,11 @@ dl.metadata-pdf {
     }
 
     h3 {
-        @apply ris-heading3-regular;
+        @apply ris-heading3-regular text-center;
     }
 
     h4 {
-        @apply ris-body1-bold;
+        @apply ris-body1-bold text-center;
     }
 
     .border-number-link {
