@@ -194,18 +194,22 @@ dl.metadata-pdf {
     .border-number-link {
         @apply ris-link2-regular pl-[0.25ch];
     }
+
+    .border-number {
+        display: block;
+    }
+
+    .border-number .number {
+        @apply float-left text-gray-900;
+        width: calc(var(--border-number-min-width) - 0.5rem);
+        margin-right: 0.5rem;
+        break-after: avoid;
+    }
+
+    .border-number .content {
+        @apply block wrap-break-word hyphens-auto;
+        margin-left: var(--border-number-min-width);
+        orphans: 1;
+        widows: 2;
+    }
 }
-
-/*.case-law .border-number {
-    @apply flex items-start;
-}
-
-.case-law .border-number .number {
-    @apply mr-8 text-gray-900;
-    min-width: calc(var(--border-number-min-width) - 0.5rem);
-}
-
-.case-law .border-number .content {
-    @apply min-w-0 flex-1 wrap-break-word hyphens-auto;
-}*/
-
