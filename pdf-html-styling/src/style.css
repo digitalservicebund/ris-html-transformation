@@ -190,6 +190,10 @@ dl.metadata-pdf {
     h4 {
         @apply ris-body1-bold;
     }
+
+    .border-number-link {
+        @apply ris-link2-regular pl-[0.25ch];
+    }
 }
 
 /*.case-law .border-number {
@@ -203,9 +207,5 @@ dl.metadata-pdf {
 
 .case-law .border-number .content {
     @apply min-w-0 flex-1 wrap-break-word hyphens-auto;
-}
-
-.case-law .border-number-link {
-    @apply typo-link-regular pl-[0.25ch];
 }*/
 
