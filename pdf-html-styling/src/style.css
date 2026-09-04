@@ -83,7 +83,7 @@ body {
 }
 
 .footnote::footnote-marker {
-    content: counter(footnote) " ";
+    content: attr(data-marker) " ";
     @apply ris-body3-bold;
     line-height: 1.25;
 }

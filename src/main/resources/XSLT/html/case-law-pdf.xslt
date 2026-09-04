@@ -421,8 +421,8 @@
                 <xsl:value-of select="@marker"/>
             </sup>
         </a>
-        <span id="{concat('fussnoten_', @eId)}" class="footnote">
-            <xsl:apply-templates select="akn:p/node()[not(self::text()[normalize-space(.) = ''])]"/>
+        <span id="{concat('fussnoten_', @eId)}" class="footnote" data-marker="{@marker}">
+            <xsl:apply-templates select="akn:p/node()"/>
         </span>
     </xsl:template>
 
