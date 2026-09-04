@@ -14,6 +14,7 @@
 
 html {
     font-size: 10pt;
+    image-rendering: crisp-edges; /* needed for PDF/A-2a compliance */
 }
 
 @page {
