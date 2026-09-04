@@ -7,12 +7,22 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.util.Base64;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /** Class for transforming LegalDocML case law documents to the HTML-for-PDF using XSLT. */
 public class CaselawPdfXsltTransformer extends XsltTransformer {
   private static final Logger logger = LogManager.getLogger(CaselawPdfXsltTransformer.class);
+  private static final Pattern IMAGE_SRC = Pattern.compile(
+      "(<akn:img\\b[^>]*?\\bsrc\\s*=\\s*)([\\\"'])(?<imagesrc>[^\\\"']+)(\\2)", Pattern.CASE_INSENSITIVE);
 
   public CaselawPdfXsltTransformer() {
     super("XSLT/html/", "case-law-pdf.xslt");
@@ -22,18 +32,46 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
    * Key for the resource path parameter passed to the XSLT transformer.
    *
    * @param source the content of the xml file to be transformed
-   * @param resourcesBasePath the base path of the xml file to be transformed
+   * @param resourcesPath the path in which the resources referenced in the xml are stored
    *
    * @return the transformed HTML as a String
    */
-  public String transform(byte[] source, String resourcesBasePath) {
+  public String transform(byte[] source, Path resourcesPath) {
     Map<String, String> parameters = Map.of(
-        RESOURCE_PATH_KEY, resourcesBasePath,
+        RESOURCE_PATH_KEY, "",
         "css", getCss());
-    return transformLegalDocMlFromBytes(source, parameters);
+    return transformLegalDocMlFromBytes(embedLocalImages(source, resourcesPath), parameters);
   }
 
+  private byte[] embedLocalImages(byte[] source, Path resourcesPath) {
+    String xml = new String(source, StandardCharsets.UTF_8);
+    Matcher matcher = IMAGE_SRC.matcher(xml);
+    StringBuilder transformed = new StringBuilder();
+    while (matcher.find()) {
+      String imageReference = matcher.group("imagesrc");
+      Path imagePath = resourcesPath.resolve(imageReference).normalize();
+      try {
+        matcher.appendReplacement(transformed, Matcher.quoteReplacement(
+            matcher.group(1) + matcher.group(2) + toDataUri(imagePath) + matcher.group(4)));
+      } catch (IOException | IllegalArgumentException e) {
+        logger.warn("Could not embed image: {}", imagePath, e);
+      }
+    }
+    matcher.appendTail(transformed);
+    return transformed.toString().getBytes(StandardCharsets.UTF_8);
+  }
 
+  private static String toDataUri(Path imagePath) throws IOException, IllegalArgumentException {
+    if (!Files.isRegularFile(imagePath)) {
+      throw new IllegalArgumentException("ImagePath is not a regular file");
+    }
+    String mediaType = Files.probeContentType(imagePath);
+    if (mediaType == null) {
+      throw new IOException("Could not determine media type for image");
+    }
+    return "data:" + mediaType + ";base64,"
+        + Base64.getEncoder().encodeToString(Files.readAllBytes(imagePath));
+  }
 
   /**
    * Reads the CSS built by the {@code pdf-html-styling} module (see {@code build.gradle.kts}),

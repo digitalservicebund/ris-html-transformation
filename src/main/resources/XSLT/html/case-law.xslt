@@ -191,7 +191,7 @@
     </xsl:template>
 
     <xsl:template match="akn:img">
-        <img src="{concat($ressourcenpfad, @src)}">
+        <img src="{if (starts-with(@src, 'data:')) then @src else concat($ressourcenpfad, @src)}">
             <xsl:apply-templates select="@*[local-name() != 'src']" />
         </img>
     </xsl:template>
