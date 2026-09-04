@@ -38,6 +38,8 @@
     <!-- Renders the main document content (everything except the title). Extracted into a
          named template so it can be reused by stylesheets that import this one. -->
     <xsl:template name="judgment-content">
+        <xsl:param name="include-footnotes" as="xs:boolean" select="true()" />
+
         <xsl:apply-templates select=".//akn:introduction[@ris:domainTerm = 'Leitsatz']" />
 
         <xsl:apply-templates select=".//ris:orientierungssatz" />
@@ -62,7 +64,7 @@
 
         <!-- After all authorialNotes within the texts have been transformed to markers,
         in a second run we create the dedicated footnotes section -->
-        <xsl:if test=".//akn:authorialNote">
+        <xsl:if test="$include-footnotes and .//akn:authorialNote">
             <section id="fussnoten">
                 <h2>Fußnoten</h2>
                 <dl>

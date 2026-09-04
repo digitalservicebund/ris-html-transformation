@@ -10,7 +10,7 @@
                 xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0 https://docs.oasis-open.org/legaldocml/akn-core/v2.0/cs01/part2-specs/schemas/akomantoso30.xsd">
     <xsl:import href="case-law.xslt"/>
 
-    <xsl:output method="html" encoding="UTF-8" indent="yes" />
+    <xsl:output method="html" encoding="UTF-8" indent="no" />
 
     <xsl:param name="css" as="xs:string" select="''"/>
 
@@ -80,7 +80,9 @@
                 </dl>
 
                 <div class="langtexte">
-                    <xsl:call-template name="judgment-content"/>
+                    <xsl:call-template name="judgment-content">
+                        <xsl:with-param name="include-footnotes" select="false()" />
+                    </xsl:call-template>
                 </div>
             </body>
         </html>
@@ -411,6 +413,17 @@
 
     <xsl:template name="documentnumber-value">
         <xsl:value-of select="akn:meta/akn:identification/akn:FRBRWork/akn:FRBRuri/@value" />
+    </xsl:template>
+
+    <xsl:template match="akn:authorialNote">
+        <a href="{concat('#fussnoten_', @eId)}">
+            <sup id="{concat('text_', @eId)}">
+                <xsl:value-of select="@marker"/>
+            </sup>
+        </a>
+        <span id="{concat('fussnoten_', @eId)}" class="footnote">
+            <xsl:apply-templates select="akn:p/node()[not(self::text()[normalize-space(.) = ''])]"/>
+        </span>
     </xsl:template>
 
     <xsl:template name="format-date">

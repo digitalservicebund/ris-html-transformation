@@ -68,6 +68,25 @@ body {
     --border-number-min-width: 3rem;
 }
 
+.footnote {
+    float: footnote;
+    @apply ris-body3-regular;
+    line-height: 1.25;
+    margin-bottom: 0.4rem;
+}
+
+.footnote::footnote-call {
+    content: none;
+    vertical-align: super;
+    @apply ris-body3-regular;
+}
+
+.footnote::footnote-marker {
+    content: counter(footnote) " ";
+    @apply ris-body3-bold;
+    line-height: 1.25;
+}
+
 h1 {
     @apply ris-heading2-bold mb-32 mt-32;
     string-set: document-title content();
