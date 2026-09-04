@@ -20,6 +20,7 @@ html {
     size: A4 portrait;
     margin: 45mm 20mm 25mm 25mm;
 
+
     @top-left {
         content: "";
         width: 62mm; /* Header box: 55mm rendered SVG width plus room for the left-side offset. */
@@ -48,6 +49,17 @@ html {
         @apply text-sm;
         content: counter(page) " von " counter(pages);
     }
+
+    @bottom-left {
+        @apply text-sm;
+        content: string(document-title);
+    }
+}
+
+@page :first {
+    @bottom-left {
+        content: none;
+    }
 }
 
 body {
@@ -57,6 +69,7 @@ body {
 
 h1 {
     @apply ris-heading2-bold mb-32 mt-32;
+    string-set: document-title content();
 }
 
 dl.metadata,
@@ -117,6 +130,7 @@ dl.metadata-pdf {
 .case-law .langtexte {
     h2 {
         @apply ris-heading3-bold my-24 inline-block;
+        break-after: avoid;
     }
 
     p {
