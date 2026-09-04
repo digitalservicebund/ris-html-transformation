@@ -18,8 +18,21 @@ html {
 
 @page {
     size: A4 portrait;
-    margin: 45mm 20mm 25mm 25mm;
+    margin: 20mm 20mm 25mm 25mm;
 
+    @bottom-right {
+        @apply ris-body3-regular;
+        content: counter(page) " von " counter(pages);
+    }
+
+    @bottom-left {
+        @apply ris-body3-regular;
+        content: string(document-title);
+    }
+}
+
+@page :first {
+    margin-top: 45mm;
 
     @top-left {
         content: "";
@@ -45,18 +58,6 @@ html {
         vertical-align: top;
     }
 
-    @bottom-right {
-        @apply text-sm;
-        content: counter(page) " von " counter(pages);
-    }
-
-    @bottom-left {
-        @apply text-sm;
-        content: string(document-title);
-    }
-}
-
-@page :first {
     @bottom-left {
         content: none;
     }
