@@ -19,7 +19,10 @@ html {
 
 @page {
     size: A4 portrait;
-    margin: 20mm 20mm 25mm 25mm;
+    margin-top: 20mm;
+    margin-right: 20mm;
+    margin-left: 22mm;
+    margin-bottom: 25mm;
 
     @bottom-right {
         @apply ris-body3-regular;
@@ -65,7 +68,6 @@ html {
 }
 
 body {
-    margin-top: 10mm;
     --border-number-min-width: 3rem;
 }
 
@@ -135,6 +137,8 @@ dl.metadata {
 }
 
 dl.metadata-pdf {
+    margin-top: 10mm;
+
     > div > dt {
         @apply text-sm;
     }
