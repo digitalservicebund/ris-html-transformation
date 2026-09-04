@@ -204,7 +204,13 @@ dl.metadata-pdf {
     }
 
     table {
-        @apply inline-block max-w-full overflow-x-auto;
+        @apply max-w-full mb-16;
+        display: table;
+        overflow: visible;
+
+        p {
+            @apply mb-0;
+        }
 
         td,
         th {
