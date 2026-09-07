@@ -226,10 +226,16 @@
     </xsl:template>
 
     <xsl:template name="aktenzeichen-value">
-        <xsl:variable name="value" select="akn:meta/akn:identification/akn:FRBRWork/akn:FRBRalias[@eId='aktenzeichen']/@value" />
+        <xsl:variable name="items" select="akn:meta/akn:identification/akn:FRBRWork/akn:FRBRalias[@name='aktenzeichen' and normalize-space(@value) != '']" />
         <xsl:choose>
-            <xsl:when test="$value != ''">
-                <xsl:value-of select="$value" />
+            <xsl:when test="$items">
+                <ul>
+                    <xsl:for-each select="$items">
+                        <li>
+                            <xsl:value-of select="normalize-space(@value)" />
+                        </li>
+                    </xsl:for-each>
+                </ul>
             </xsl:when>
             <xsl:otherwise><xsl:call-template name="placeholder-value" /></xsl:otherwise>
         </xsl:choose>
