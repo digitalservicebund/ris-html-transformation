@@ -85,7 +85,7 @@ body {
 }
 
 .footnote::footnote-marker {
-    content: attr(data-marker) " ";
+    content: counter(footnote) " ";
     @apply ris-body3-bold;
     line-height: 1.25;
 }
@@ -110,6 +110,14 @@ dl.metadata-pdf {
 
     > div > dd {
         padding-inline-start: 0.5rem;
+    }
+
+    > div > dd > ul > li {
+        line-height: normal;
+    }
+
+    > div > dd > ul > li + li {
+        margin-top: 0.3rem;
     }
 
     > div + div > dt,
@@ -204,13 +212,9 @@ dl.metadata-pdf {
     }
 
     table {
-        @apply max-w-full mb-16;
+        @apply max-w-full;
         display: table;
         overflow: visible;
-
-        p {
-            @apply mb-0;
-        }
 
         td,
         th {
