@@ -474,4 +474,9 @@
     </xsl:template>
 
     <xsl:template name="placeholder-value">—</xsl:template>
+
+    <!-- Fix whitespace that is only represented by new-lines -->
+    <xsl:template match="text()[ancestor::akn:p]">
+        <xsl:value-of select="replace(., '\s+', ' ')" />
+    </xsl:template>
 </xsl:stylesheet>
