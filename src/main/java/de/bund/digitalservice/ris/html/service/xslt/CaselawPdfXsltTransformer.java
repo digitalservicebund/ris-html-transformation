@@ -38,7 +38,7 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
     Map<String, String> parameters = Map.of(
         RESOURCE_PATH_KEY, "",
         "css", getCss());
-    return transformLegalDocMlFromBytes(embedLocalImages(source, resourcesPath), parameters);
+    return transformLegalDocMlFromBytes(embedLocalImages(source, resourcesPath.toAbsolutePath().normalize()), parameters);
   }
 
   private byte[] embedLocalImages(byte[] source, Path resourcesPath) {
@@ -59,7 +59,7 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
         matcher.appendReplacement(transformed, Matcher.quoteReplacement(
             matcher.group(1) + matcher.group(2) + toDataUri(imagePath) + matcher.group(4)));
       } catch (IOException | IllegalArgumentException e) {
-        logger.warn("Could not embed image: {}", imagePath, e);
+        throw new FileTransformationException("Could not embed image: " + imageReference, e);
       }
     }
     matcher.appendTail(transformed);
