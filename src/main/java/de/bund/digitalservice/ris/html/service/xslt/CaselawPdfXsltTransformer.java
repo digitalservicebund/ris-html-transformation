@@ -47,7 +47,6 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
     StringBuilder transformed = new StringBuilder();
     while (matcher.find()) {
       String imageReference = matcher.group("imagesrc");
-      Path imagePath = resourcesPath.resolve(imageReference).normalize();
 
       // handle existing data uris
       if (imageReference.regionMatches(true, 0, DATA_URI_PREFIX, 0, DATA_URI_PREFIX.length())) {
@@ -56,6 +55,10 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
       }
 
       try {
+        Path imagePath = resourcesPath.resolve(imageReference).normalize();
+        if (!imagePath.startsWith(resourcesPath)) {
+          throw new IllegalArgumentException("Image path is outside the resources directory");
+        }
         matcher.appendReplacement(transformed, Matcher.quoteReplacement(
             matcher.group(1) + matcher.group(2) + toDataUri(imagePath) + matcher.group(4)));
       } catch (IOException | IllegalArgumentException e) {
