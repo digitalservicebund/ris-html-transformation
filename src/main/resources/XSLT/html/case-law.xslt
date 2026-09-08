@@ -22,42 +22,56 @@
                 </title>
             </head>
             <body>
-                <xsl:apply-templates select=".//akn:shortTitle" />
+                <xsl:call-template name="judgment-title"/>
 
-                <xsl:apply-templates select=".//akn:introduction[@ris:domainTerm = 'Leitsatz']" />
-
-                <xsl:apply-templates select=".//ris:orientierungssatz" />
-
-                <xsl:apply-templates select=".//ris:sonstigerOrientierungssatz" />
-
-                <xsl:apply-templates select=".//akn:introduction[@ris:domainTerm = 'Gliederung']" />
-
-                <xsl:apply-templates select=".//akn:decision[@ris:domainTerm = 'Tenor']" />
-
-                <xsl:apply-templates select=".//akn:background" />
-
-                <xsl:apply-templates select=".//akn:motivation[@ris:domainTerm = 'Entscheidungsgründe']" />
-
-                <xsl:apply-templates select=".//akn:motivation[@ris:domainTerm = 'Gründe']" />
-
-                <xsl:apply-templates select=".//akn:motivation[@ris:domainTerm = 'Sonstiger Langtext']" />
-
-                <xsl:apply-templates select=".//akn:motivation[@ris:domainTerm = 'Abweichende Meinung']" />
-
-                <xsl:apply-templates select=".//akn:motivation[@ris:domainTerm = 'Rechtsfrage (gesamt)']" />
-
-                <!-- After all authorialNotes within the texts have been transformed to markers,
-                in a second run we create the dedicated footnotes section -->
-                <xsl:if test=".//akn:authorialNote">
-                    <section id="fussnoten">
-                        <h2>Fußnoten</h2>
-                        <dl>
-                            <xsl:apply-templates select=".//akn:authorialNote" mode="footnote-list"/>
-                        </dl>
-                    </section>
-                </xsl:if>
+                <xsl:call-template name="judgment-content"/>
             </body>
         </html>
+    </xsl:template>
+
+    <!-- Renders the document title. Extracted into a named template so it can be reused
+         (e.g. on a dedicated title page) by stylesheets that import this one. -->
+    <xsl:template name="judgment-title">
+        <xsl:apply-templates select=".//akn:shortTitle" />
+    </xsl:template>
+
+    <!-- Renders the main document content (everything except the title). Extracted into a
+         named template so it can be reused by stylesheets that import this one. -->
+    <xsl:template name="judgment-content">
+        <xsl:param name="include-footnotes" as="xs:boolean" select="true()" />
+
+        <xsl:apply-templates select=".//akn:introduction[@ris:domainTerm = 'Leitsatz']" />
+
+        <xsl:apply-templates select=".//ris:orientierungssatz" />
+
+        <xsl:apply-templates select=".//ris:sonstigerOrientierungssatz" />
+
+        <xsl:apply-templates select=".//akn:introduction[@ris:domainTerm = 'Gliederung']" />
+
+        <xsl:apply-templates select=".//akn:decision[@ris:domainTerm = 'Tenor']" />
+
+        <xsl:apply-templates select=".//akn:background" />
+
+        <xsl:apply-templates select=".//akn:motivation[@ris:domainTerm = 'Entscheidungsgründe']" />
+
+        <xsl:apply-templates select=".//akn:motivation[@ris:domainTerm = 'Gründe']" />
+
+        <xsl:apply-templates select=".//akn:motivation[@ris:domainTerm = 'Sonstiger Langtext']" />
+
+        <xsl:apply-templates select=".//akn:motivation[@ris:domainTerm = 'Abweichende Meinung']" />
+
+        <xsl:apply-templates select=".//akn:motivation[@ris:domainTerm = 'Rechtsfrage (gesamt)']" />
+
+        <!-- After all authorialNotes within the texts have been transformed to markers,
+        in a second run we create the dedicated footnotes section -->
+        <xsl:if test="$include-footnotes and .//akn:authorialNote">
+            <section id="fussnoten">
+                <h2>Fußnoten</h2>
+                <dl>
+                    <xsl:apply-templates select=".//akn:authorialNote" mode="footnote-list"/>
+                </dl>
+            </section>
+        </xsl:if>
     </xsl:template>
 
     <!-- Ignore certain elements and their content in the html  -->
@@ -179,7 +193,7 @@
     </xsl:template>
 
     <xsl:template match="akn:img">
-        <img src="{concat($ressourcenpfad, @src)}">
+        <img src="{if (starts-with(@src, 'data:')) then @src else concat($ressourcenpfad, @src)}">
             <xsl:apply-templates select="@*[local-name() != 'src']" />
         </img>
     </xsl:template>

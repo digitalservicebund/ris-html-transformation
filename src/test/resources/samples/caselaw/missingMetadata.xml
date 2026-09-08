@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<akn:akomaNtoso xmlns:akn="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
+                xmlns:ris="http://rechtsinformationen.bund.de/schema/ris/0.1"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0 https://docs.oasis-open.org/legaldocml/akn-core/v2.0/cs01/part2-specs/schemas/akomantoso30.xsd">
+    <akn:judgment>
+        <akn:meta>
+            <akn:identification>
+                <akn:FRBRWork>
+                    <akn:FRBRuri value="MISSING001"/>
+                    <akn:FRBRthis value="MISSING001"/>
+                </akn:FRBRWork>
+                <akn:FRBRManifestation>
+                    <akn:FRBRthis value="MISSING001.xml"/>
+                </akn:FRBRManifestation>
+            </akn:identification>
+            <akn:proprietary>
+                <ris:meta/>
+            </akn:proprietary>
+        </akn:meta>
+        <akn:header>
+            <akn:p>
+                <akn:shortTitle>Dokument ohne optionale Metadaten</akn:shortTitle>
+            </akn:p>
+        </akn:header>
+        <akn:judgmentBody>
+            <akn:motivation>
+                <akn:p>Inhalt des synthetischen Dokuments.</akn:p>
+            </akn:motivation>
+        </akn:judgmentBody>
+    </akn:judgment>
+</akn:akomaNtoso>
+
+
