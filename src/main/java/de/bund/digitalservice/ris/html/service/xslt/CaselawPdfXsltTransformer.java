@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 /** Class for transforming LegalDocML case law documents to the HTML-for-PDF using XSLT. */
 public class CaselawPdfXsltTransformer extends XsltTransformer {
   private static final Logger logger = LogManager.getLogger(CaselawPdfXsltTransformer.class);
+  private static final String DATA_URI_PREFIX = "data:";
   private static final Pattern IMAGE_SRC = Pattern.compile(
       "(<akn:img\\b[^>]*?\\bsrc\\s*=\\s*)([\\\"'])(?<imagesrc>[^\\\"']+)(\\2)", Pattern.CASE_INSENSITIVE);
 
@@ -47,6 +48,13 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
     while (matcher.find()) {
       String imageReference = matcher.group("imagesrc");
       Path imagePath = resourcesPath.resolve(imageReference).normalize();
+
+      // handle existing data uris
+      if (imageReference.regionMatches(true, 0, DATA_URI_PREFIX, 0, DATA_URI_PREFIX.length())) {
+        matcher.appendReplacement(transformed, Matcher.quoteReplacement(matcher.group()));
+        continue;
+      }
+
       try {
         matcher.appendReplacement(transformed, Matcher.quoteReplacement(
             matcher.group(1) + matcher.group(2) + toDataUri(imagePath) + matcher.group(4)));
@@ -66,7 +74,7 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
     if (mediaType == null) {
       throw new IOException("Could not determine media type for image");
     }
-    return "data:" + mediaType + ";base64,"
+    return DATA_URI_PREFIX + mediaType + ";base64,"
         + Base64.getEncoder().encodeToString(Files.readAllBytes(imagePath));
   }
 
