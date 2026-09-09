@@ -23,7 +23,7 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
       "(<akn:img\\b[^>]*?\\bsrc\\s*=\\s*)([\\\"'])(?<imagesrc>[^\\\"']+)(\\2)", Pattern.CASE_INSENSITIVE);
 
   public CaselawPdfXsltTransformer() {
-    super("XSLT/html/", "case-law-pdf.xslt");
+    super("de/bund/digitalservice/ris/html/xslt/", "case-law-pdf.xslt");
   }
 
   /**

@@ -1,0 +1,279 @@
+<akn:akomaNtoso
+        xmlns:akn="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
+        xmlns:ris="http://rechtsinformationen.bund.de/schema/ris/0.1"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0 https://docs.oasis-open.org/legaldocml/akn-core/v2.0/cs01/part2-specs/schemas/akomantoso30.xsd"
+>
+    <akn:judgment
+            name="/akn/ontology/de/concept/documenttype/bund/rechtsprechung/entscheidung"
+    >
+        <akn:meta>
+            <akn:identification source="#ris">
+                <akn:FRBRWork>
+                    <akn:FRBRthis value="testDocumentNumber"/>
+                    <akn:FRBRuri value="testDocumentNumber"/>
+                    <akn:FRBRalias name="Dokumentnummer" value="testDocumentNumber"/>
+                    <akn:FRBRauthor href="#organization-gericht-ag-aachen"/>
+                    <akn:FRBRcountry value="deu"/>
+                </akn:FRBRWork>
+                <akn:FRBRExpression>
+                    <akn:FRBRthis value="testDocumentNumber"/>
+                    <akn:FRBRuri value="testDocumentNumber"/>
+                    <akn:FRBRauthor href="#organization-gericht-ag-aachen"/>
+                    <akn:FRBRlanguage language="deu"/>
+                </akn:FRBRExpression>
+                <akn:FRBRManifestation>
+                    <akn:FRBRthis value="testDocumentNumber.xml"/>
+                    <akn:FRBRuri value="testDocumentNumber.xml"/>
+                    <akn:FRBRauthor href="#dokumentationsstelle"/>
+                </akn:FRBRManifestation>
+            </akn:identification>
+            <akn:analysis source="#ris">
+                <akn:otherReferences source="#ris">
+                    <!-- referenzRechtsprechung: aktiv, referenzURI present -> linked; gericht only has gerichtstyp -->
+                    <akn:implicitReference ris:domainTerm="Referenz Rechtsprechung">
+                        <ris:referenzRechtsprechung domainTerm="Referenz Rechtsprechung">
+                            <ris:richtung domainTerm="Richtung der Referenzierung">aktiv</ris:richtung>
+                            <ris:referenzArt domainTerm="Art der Referenz">caselaw</ris:referenzArt>
+                            <ris:referenzURI domainTerm="URI der Referenz">ris:/rechtsprechung/XYTestDoc0003</ris:referenzURI>
+                            <ris:dokumentnummer domainTerm="Dokumentnummer">XYTestDoc0003</ris:dokumentnummer>
+                            <ris:gericht domainTerm="Gericht">
+                                <ris:gerichtstyp domainTerm="Gerichtstyp">BVerfG</ris:gerichtstyp>
+                            </ris:gericht>
+                            <ris:entscheidungsdatum domainTerm="Entscheidungsdatum">2020-11-11</ris:entscheidungsdatum>
+                            <ris:dokumenttyp domainTerm="Dokumenttyp">Beschluss</ris:dokumenttyp>
+                            <ris:aktenzeichen domainTerm="Aktenzeichen">1 BvR 1/20</ris:aktenzeichen>
+                        </ris:referenzRechtsprechung>
+                    </akn:implicitReference>
+                    <!-- referenzRechtsprechung: passiv, full data, no referenzURI -> not linked -->
+                    <akn:implicitReference ris:domainTerm="Referenz Rechtsprechung">
+                        <ris:referenzRechtsprechung domainTerm="Referenz Rechtsprechung">
+                            <ris:richtung domainTerm="Richtung der Referenzierung">passiv</ris:richtung>
+                            <ris:referenzArt domainTerm="Art der Referenz">caselaw</ris:referenzArt>
+                            <ris:gericht domainTerm="Gericht">
+                                <ris:gerichtstyp domainTerm="Gerichtstyp">LG</ris:gerichtstyp>
+                                <ris:gerichtsort domainTerm="Gerichtsort">München</ris:gerichtsort>
+                            </ris:gericht>
+                            <ris:entscheidungsdatum domainTerm="Entscheidungsdatum">2015-06-06</ris:entscheidungsdatum>
+                            <ris:dokumenttyp domainTerm="Dokumenttyp">Urteil</ris:dokumenttyp>
+                            <ris:aktenzeichen domainTerm="Aktenzeichen">3 O 4/15</ris:aktenzeichen>
+                        </ris:referenzRechtsprechung>
+                    </akn:implicitReference>
+                    <!-- referenzRechtsprechung: passiv, only aktenzeichen present -->
+                    <akn:implicitReference ris:domainTerm="Referenz Rechtsprechung">
+                        <ris:referenzRechtsprechung domainTerm="Referenz Rechtsprechung">
+                            <ris:richtung domainTerm="Richtung der Referenzierung">passiv</ris:richtung>
+                            <ris:referenzArt domainTerm="Art der Referenz">caselaw</ris:referenzArt>
+                            <ris:aktenzeichen domainTerm="Aktenzeichen">9 T 2/14</ris:aktenzeichen>
+                        </ris:referenzRechtsprechung>
+                    </akn:implicitReference>
+                    <!-- referenzRechtsprechung: passiv, malformed entscheidungsdatum -> displayed as-is instead of aborting the transformation -->
+                    <akn:implicitReference ris:domainTerm="Referenz Rechtsprechung">
+                        <ris:referenzRechtsprechung domainTerm="Referenz Rechtsprechung">
+                            <ris:richtung domainTerm="Richtung der Referenzierung">passiv</ris:richtung>
+                            <ris:referenzArt domainTerm="Art der Referenz">caselaw</ris:referenzArt>
+                            <ris:gericht domainTerm="Gericht">
+                                <ris:gerichtstyp domainTerm="Gerichtstyp">VG</ris:gerichtstyp>
+                            </ris:gericht>
+                            <ris:entscheidungsdatum domainTerm="Entscheidungsdatum">2020-13-40</ris:entscheidungsdatum>
+                            <ris:dokumenttyp domainTerm="Dokumenttyp">Beschluss</ris:dokumenttyp>
+                            <ris:aktenzeichen domainTerm="Aktenzeichen">2 B 1/20</ris:aktenzeichen>
+                        </ris:referenzRechtsprechung>
+                    </akn:implicitReference>
+                    <!-- referenzNorm: multiple einzelnorm -> one Normenkette entry per einzelnorm, joined -->
+                    <akn:implicitReference ris:domainTerm="Norm">
+                        <ris:referenzNorm domainTerm="Norm">
+                            <ris:abkuerzung domainTerm="Abkürzung">GG</ris:abkuerzung>
+                            <ris:einzelnorm domainTerm="Einzelnorm">
+                                <ris:bezeichnung domainTerm="Bezeichnung">Art. 1</ris:bezeichnung>
+                            </ris:einzelnorm>
+                            <ris:einzelnorm domainTerm="Einzelnorm">
+                                <ris:bezeichnung domainTerm="Bezeichnung">Art. 20</ris:bezeichnung>
+                            </ris:einzelnorm>
+                        </ris:referenzNorm>
+                    </akn:implicitReference>
+                    <!-- referenzNorm: no einzelnorm, but titel present -> abkuerzung + titel -->
+                    <akn:implicitReference ris:domainTerm="Norm">
+                        <ris:referenzNorm domainTerm="Norm">
+                            <ris:abkuerzung domainTerm="Abkürzung">BGB</ris:abkuerzung>
+                            <ris:titel domainTerm="Amtliche Langüberschrift">Bürgerliches Gesetzbuch</ris:titel>
+                        </ris:referenzNorm>
+                    </akn:implicitReference>
+                    <!-- referenzNorm: titel + einzelnorm with fassungsdatum, jahr and gesetzeskraft -->
+                    <akn:implicitReference ris:domainTerm="Norm">
+                        <ris:referenzNorm domainTerm="Norm">
+                            <ris:abkuerzung domainTerm="Abkürzung">StGB</ris:abkuerzung>
+                            <ris:titel domainTerm="Amtliche Langüberschrift">Strafgesetzbuch</ris:titel>
+                            <ris:einzelnorm domainTerm="Einzelnorm">
+                                <ris:bezeichnung domainTerm="Bezeichnung">§ 242</ris:bezeichnung>
+                                <ris:gesetzeskraft domainTerm="Gesetzeskraft">
+                                    <ris:gesetzeskraftTyp domainTerm="Typ der Gesetzeskraft">rechtskräftig</ris:gesetzeskraftTyp>
+                                    <ris:geltungsbereich domainTerm="Geltungsbereich">Bund</ris:geltungsbereich>
+                                </ris:gesetzeskraft>
+                                <ris:fassungsdatum domainTerm="Fassungsdatum">1998-04-13</ris:fassungsdatum>
+                                <ris:jahr domainTerm="Jahr">1998</ris:jahr>
+                            </ris:einzelnorm>
+                        </ris:referenzNorm>
+                    </akn:implicitReference>
+                    <!-- referenzNorm: einzelnorm with only jahr (no fassungsdatum) -->
+                    <akn:implicitReference ris:domainTerm="Norm">
+                        <ris:referenzNorm domainTerm="Norm">
+                            <ris:abkuerzung domainTerm="Abkürzung">HGB</ris:abkuerzung>
+                            <ris:einzelnorm domainTerm="Einzelnorm">
+                                <ris:bezeichnung domainTerm="Bezeichnung">§ 1</ris:bezeichnung>
+                                <ris:jahr domainTerm="Jahr">1900</ris:jahr>
+                            </ris:einzelnorm>
+                        </ris:referenzNorm>
+                    </akn:implicitReference>
+                    <!-- referenzRechtsprechung: aktiv, referenzURI present -> linked; full fundstelle -->
+                    <akn:implicitReference ris:domainTerm="Referenz Verwaltungsvorschrift">
+                        <ris:referenzVerwaltungsvorschrift domainTerm="Referenz Verwaltungsvorschrift">
+                            <ris:richtung domainTerm="Richtung der Referenzierung">aktiv</ris:richtung>
+                            <ris:referenzArt domainTerm="Art der Referenz">adm</ris:referenzArt>
+                            <ris:referenzURI domainTerm="URI der Referenz">ris:/verwaltungsvorschrift/XYTestDoc0004</ris:referenzURI>
+                            <ris:dokumentnummer domainTerm="Dokumentnummer">XYTestDoc0004</ris:dokumentnummer>
+                            <ris:jurisAbkuerzung domainTerm="juris-Abkürzung">VV DEU BMF 2010-01-01 1</ris:jurisAbkuerzung>
+                            <ris:fundstelle domainTerm="Fundstelle">
+                                <ris:periodikum domainTerm="Periodikum">
+                                    <ris:abkuerzung domainTerm="Abkürzung">BStBl I</ris:abkuerzung>
+                                    <ris:titel domainTerm="Titel">Bundessteuerblatt Teil I</ris:titel>
+                                </ris:periodikum>
+                                <ris:zitatstelle domainTerm="Zitatstelle">2010, 1</ris:zitatstelle>
+                            </ris:fundstelle>
+                        </ris:referenzVerwaltungsvorschrift>
+                    </akn:implicitReference>
+                    <!-- referenzVerwaltungsvorschrift: passiv, no fundstelle -> only jurisAbkuerzung, no referenzURI -> not linked -->
+                    <akn:implicitReference ris:domainTerm="Referenz Verwaltungsvorschrift">
+                        <ris:referenzVerwaltungsvorschrift domainTerm="Referenz Verwaltungsvorschrift">
+                            <ris:richtung domainTerm="Richtung der Referenzierung">passiv</ris:richtung>
+                            <ris:referenzArt domainTerm="Art der Referenz">adm</ris:referenzArt>
+                            <ris:jurisAbkuerzung domainTerm="juris-Abkürzung">VV DEU BMF 2011-02-02 2</ris:jurisAbkuerzung>
+                        </ris:referenzVerwaltungsvorschrift>
+                    </akn:implicitReference>
+                    <!-- referenzUnselbstaendigeLiteratur: aktiv, referenzURI present -> linked; periodikum has no abkuerzung -> falls back to titel -->
+                    <akn:implicitReference ris:domainTerm="Referenz Unselbständige Literatur">
+                        <ris:referenzUnselbstaendigeLiteratur domainTerm="Referenz Unselbständige Literatur">
+                            <ris:richtung domainTerm="Richtung der Referenzierung">aktiv</ris:richtung>
+                            <ris:referenzArt domainTerm="Art der Referenz">uli</ris:referenzArt>
+                            <ris:referenzURI domainTerm="URI der Referenz">ris:/literatur/XYTestDoc0005</ris:referenzURI>
+                            <ris:dokumentnummer domainTerm="Dokumentnummer">XYTestDoc0005</ris:dokumentnummer>
+                            <ris:autor domainTerm="Autor(en)">Müller</ris:autor>
+                            <ris:dokumenttyp domainTerm="Dokumenttyp">Zeitschrift</ris:dokumenttyp>
+                            <ris:fundstelle domainTerm="Fundstelle">
+                                <ris:periodikum domainTerm="Periodikum">
+                                    <ris:titel domainTerm="Titel">Neue Juristische Wochenschrift</ris:titel>
+                                </ris:periodikum>
+                                <ris:zitatstelle domainTerm="Zitatstelle">2019, 42</ris:zitatstelle>
+                            </ris:fundstelle>
+                        </ris:referenzUnselbstaendigeLiteratur>
+                    </akn:implicitReference>
+                    <!-- referenzUnselbstaendigeLiteratur: passiv, no autor, no referenzURI -> not linked -->
+                    <akn:implicitReference ris:domainTerm="Referenz Unselbständige Literatur">
+                        <ris:referenzUnselbstaendigeLiteratur domainTerm="Referenz Unselbständige Literatur">
+                            <ris:richtung domainTerm="Richtung der Referenzierung">passiv</ris:richtung>
+                            <ris:referenzArt domainTerm="Art der Referenz">uli</ris:referenzArt>
+                            <ris:fundstelle domainTerm="Fundstelle">
+                                <ris:periodikum domainTerm="Periodikum">
+                                    <ris:abkuerzung domainTerm="Abkürzung">NVwZ</ris:abkuerzung>
+                                </ris:periodikum>
+                                <ris:zitatstelle domainTerm="Zitatstelle">2020, 7</ris:zitatstelle>
+                            </ris:fundstelle>
+                        </ris:referenzUnselbstaendigeLiteratur>
+                    </akn:implicitReference>
+                    <!-- referenzSelbstaendigeLiteratur: passiv, referenzURI present -> linked; full data -->
+                    <akn:implicitReference ris:domainTerm="Referenz Selbständige Literatur">
+                        <ris:referenzSelbstaendigeLiteratur domainTerm="Referenz Selbständige Literatur">
+                            <ris:richtung domainTerm="Richtung der Referenzierung">passiv</ris:richtung>
+                            <ris:referenzArt domainTerm="Art der Referenz">sli</ris:referenzArt>
+                            <ris:referenzURI domainTerm="URI der Referenz">ris:/literatur/XYTestDoc0006</ris:referenzURI>
+                            <ris:dokumentnummer domainTerm="Dokumentnummer">XYTestDoc0006</ris:dokumentnummer>
+                            <ris:autor domainTerm="Autor(en)">Schmidt, Peter</ris:autor>
+                            <ris:titel domainTerm="Titel">Grundzüge des Verwaltungsrechts</ris:titel>
+                            <ris:veroeffentlichungsjahr domainTerm="Veröffentlichungsjahr">2011</ris:veroeffentlichungsjahr>
+                        </ris:referenzSelbstaendigeLiteratur>
+                    </akn:implicitReference>
+                    <!-- referenzSelbstaendigeLiteratur: aktiv, only autor present -->
+                    <akn:implicitReference ris:domainTerm="Referenz Selbständige Literatur">
+                        <ris:referenzSelbstaendigeLiteratur domainTerm="Referenz Selbständige Literatur">
+                            <ris:richtung domainTerm="Richtung der Referenzierung">aktiv</ris:richtung>
+                            <ris:referenzArt domainTerm="Art der Referenz">sli</ris:referenzArt>
+                            <ris:autor domainTerm="Autor(en)">Weber</ris:autor>
+                        </ris:referenzSelbstaendigeLiteratur>
+                    </akn:implicitReference>
+                    <!-- vorgehendeEntscheidung: full data, no referenzURI -> not linked -->
+                    <akn:implicitReference ris:domainTerm="Rechtszug">
+                        <ris:vorgehendeEntscheidung domainTerm="Vorgehende Entscheidung">
+                            <ris:dokumenttyp domainTerm="Dokumenttyp">Urteil</ris:dokumenttyp>
+                            <ris:entscheidungsdatum domainTerm="Entscheidungsdatum">2019-05-12</ris:entscheidungsdatum>
+                            <ris:aktenzeichen domainTerm="Aktenzeichen">12 O 34/18</ris:aktenzeichen>
+                            <ris:gericht domainTerm="Gericht">
+                                <ris:gerichtstyp domainTerm="Gerichtstyp">LG</ris:gerichtstyp>
+                                <ris:gerichtsort domainTerm="Gerichtsort">Berlin</ris:gerichtsort>
+                            </ris:gericht>
+                        </ris:vorgehendeEntscheidung>
+                    </akn:implicitReference>
+                    <!-- vorgehendeEntscheidung: referenzURI present -> linked; gericht only has gerichtstyp -->
+                    <akn:implicitReference ris:domainTerm="Rechtszug">
+                        <ris:vorgehendeEntscheidung domainTerm="Vorgehende Entscheidung">
+                            <ris:referenzURI domainTerm="URI der Referenz">ris:/rechtsprechung/XYTestDoc0001</ris:referenzURI>
+                            <ris:dokumenttyp domainTerm="Dokumenttyp">Beschluss</ris:dokumenttyp>
+                            <ris:entscheidungsdatum domainTerm="Entscheidungsdatum">2018-01-01</ris:entscheidungsdatum>
+                            <ris:dokumentnummer domainTerm="Dokumentnummer">XYTestDoc0001</ris:dokumentnummer>
+                            <ris:aktenzeichen domainTerm="Aktenzeichen">5 U 1/18</ris:aktenzeichen>
+                            <ris:gericht domainTerm="Gericht">
+                                <ris:gerichtstyp domainTerm="Gerichtstyp">OLG</ris:gerichtstyp>
+                            </ris:gericht>
+                        </ris:vorgehendeEntscheidung>
+                    </akn:implicitReference>
+                    <!-- vorgehendeEntscheidung: no gericht at all -->
+                    <akn:implicitReference ris:domainTerm="Rechtszug">
+                        <ris:vorgehendeEntscheidung domainTerm="Vorgehende Entscheidung">
+                            <ris:dokumenttyp domainTerm="Dokumenttyp">Urteil</ris:dokumenttyp>
+                            <ris:entscheidungsdatum domainTerm="Entscheidungsdatum">2017-07-07</ris:entscheidungsdatum>
+                            <ris:aktenzeichen domainTerm="Aktenzeichen">3 K 9/16</ris:aktenzeichen>
+                        </ris:vorgehendeEntscheidung>
+                    </akn:implicitReference>
+                    <!-- vorgehendeEntscheidung: no dokumenttyp -->
+                    <akn:implicitReference ris:domainTerm="Rechtszug">
+                        <ris:vorgehendeEntscheidung domainTerm="Vorgehende Entscheidung">
+                            <ris:entscheidungsdatum domainTerm="Entscheidungsdatum">2016-02-02</ris:entscheidungsdatum>
+                            <ris:aktenzeichen domainTerm="Aktenzeichen">1 W 2/16</ris:aktenzeichen>
+                            <ris:gericht domainTerm="Gericht">
+                                <ris:gerichtstyp domainTerm="Gerichtstyp">AG</ris:gerichtstyp>
+                                <ris:gerichtsort domainTerm="Gerichtsort">Köln</ris:gerichtsort>
+                            </ris:gericht>
+                        </ris:vorgehendeEntscheidung>
+                    </akn:implicitReference>
+                    <!-- vorgehendeEntscheidung: only aktenzeichen present -->
+                    <akn:implicitReference ris:domainTerm="Rechtszug">
+                        <ris:vorgehendeEntscheidung domainTerm="Vorgehende Entscheidung">
+                            <ris:aktenzeichen domainTerm="Aktenzeichen">7 T 3/15</ris:aktenzeichen>
+                        </ris:vorgehendeEntscheidung>
+                    </akn:implicitReference>
+                    <!-- nachgehendeEntscheidung: art=nachgehend, entscheidungsdatum, referenzURI present -> linked -->
+                    <akn:implicitReference ris:domainTerm="Rechtszug">
+                        <ris:nachgehendeEntscheidung domainTerm="Nachgehende Entscheidung" art="nachgehend">
+                            <ris:referenzURI domainTerm="URI der Referenz">ris:/rechtsprechung/XYTestDoc0002</ris:referenzURI>
+                            <ris:dokumenttyp domainTerm="Dokumenttyp">Revisionsurteil</ris:dokumenttyp>
+                            <ris:entscheidungsdatum domainTerm="Entscheidungsdatum">2021-03-03</ris:entscheidungsdatum>
+                            <ris:dokumentnummer domainTerm="Dokumentnummer">XYTestDoc0002</ris:dokumentnummer>
+                            <ris:aktenzeichen domainTerm="Aktenzeichen">IV ZR 5/20</ris:aktenzeichen>
+                            <ris:gericht domainTerm="Gericht">
+                                <ris:gerichtstyp domainTerm="Gerichtstyp">BGH</ris:gerichtstyp>
+                            </ris:gericht>
+                        </ris:nachgehendeEntscheidung>
+                    </akn:implicitReference>
+                    <!-- nachgehendeEntscheidung: art=anhängig, only mitteilungsdatum, no gericht, vermerk ignored -->
+                    <akn:implicitReference ris:domainTerm="Rechtszug">
+                        <ris:nachgehendeEntscheidung domainTerm="Nachgehende Entscheidung" art="anhängig">
+                            <ris:dokumenttyp domainTerm="Dokumenttyp">Revision</ris:dokumenttyp>
+                            <ris:mitteilungsdatum domainTerm="Mitteilungsdatum">2022-09-09</ris:mitteilungsdatum>
+                            <ris:aktenzeichen domainTerm="Aktenzeichen">V ZR 9/22</ris:aktenzeichen>
+                            <ris:vermerk domainTerm="Vermerk">anhängiges Verfahren</ris:vermerk>
+                        </ris:nachgehendeEntscheidung>
+                    </akn:implicitReference>
+                </akn:otherReferences>
+            </akn:analysis>
+        </akn:meta>
+    </akn:judgment>
+</akn:akomaNtoso>

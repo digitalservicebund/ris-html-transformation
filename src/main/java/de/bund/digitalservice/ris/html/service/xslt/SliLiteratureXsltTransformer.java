@@ -6,7 +6,7 @@ import java.util.Collections;
 public class SliLiteratureXsltTransformer extends XsltTransformer {
 
   public SliLiteratureXsltTransformer() {
-    super("XSLT/html/", "sli-literature.xslt");
+    super("de/bund/digitalservice/ris/html/xslt/", "sli-literature.xslt");
   }
 
   public String transform(byte[] source) {
