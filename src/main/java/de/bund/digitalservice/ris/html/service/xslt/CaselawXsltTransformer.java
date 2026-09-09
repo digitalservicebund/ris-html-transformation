@@ -6,7 +6,7 @@ import java.util.Map;
 public class CaselawXsltTransformer extends XsltTransformer {
 
   public CaselawXsltTransformer() {
-    super("XSLT/html/", "case-law.xslt");
+    super("de/bund/digitalservice/ris/html/xslt/", "case-law.xslt");
   }
 
   /**

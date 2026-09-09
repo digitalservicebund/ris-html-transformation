@@ -197,6 +197,20 @@ class CaselawPortalCompatibilityTest {
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
   }
 
+  @Test
+  void testReferencesAreTransformedCorrectly() throws IOException {
+    String sampleLDMLPath = "/samples/references/references.xml";
+    String sampleHTMLPath = "/samples/references/references.html";
+
+    byte[] ldmlBytes = readResourceAsBytes(sampleLDMLPath);
+    String expectedHTML = readResourceAsString(sampleHTMLPath);
+
+    var actualHtml = XSLT_TRANSFORMER.transform(ldmlBytes, API_RESOURCE_BASE_PATH);
+
+    assertThat(actualHtml).isNotNull();
+    assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
+  }
+
   private byte[] readResourceAsBytes(String classpath) throws IOException {
     try (InputStream inputStream = getClass().getResourceAsStream(classpath)) {
       assertThat(inputStream)
