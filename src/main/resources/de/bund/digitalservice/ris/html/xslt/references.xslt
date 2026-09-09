@@ -6,14 +6,11 @@
                 xmlns:local="http://rechtsinformationen.bund.de/schema/ris/0.1"
                 exclude-result-prefixes="ris xs akn local">
 
+    <xsl:include href="utils.xslt" />
+
     <!-- Ignore the otherReferences container itself; its content is rendered separately via
          reference-list into the <template> blocks built in the html head. -->
     <xsl:template match="akn:otherReferences" />
-
-    <!-- German month names, indexed by month-from-date() (1-12); Saxon HE's format-date only ships
-         English localization data, so German dates are built manually with these. -->
-    <xsl:variable name="local:german-months" as="xs:string+"
-                  select="('Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember')" />
 
     <!-- Joins the non-blank values of $parts with $separator, so that missing values don't leave
          behind stray or doubled separators. -->
@@ -21,34 +18,6 @@
         <xsl:param name="parts" as="xs:string*" />
         <xsl:param name="separator" as="xs:string" />
         <xsl:sequence select="string-join($parts[normalize-space(.) != ''], $separator)" />
-    </xsl:function>
-
-    <!-- Formats an ISO date (YYYY-MM-DD) in German long form, e.g. "5. Februar 2021". If $date is
-         non-blank but not a valid ISO date (malformed/legacy data), it is displayed as-is instead
-         of aborting the transformation. -->
-    <xsl:function name="local:format-date" as="xs:string">
-        <xsl:param name="date" as="xs:string?" />
-
-        <xsl:variable name="trimmedDate" select="normalize-space($date)" />
-
-        <xsl:variable name="parsedDate" as="xs:date?">
-            <xsl:try>
-                <xsl:sequence select="if ($trimmedDate != '') then xs:date($trimmedDate) else ()" />
-                <xsl:catch>
-                    <xsl:sequence select="()" />
-                </xsl:catch>
-            </xsl:try>
-        </xsl:variable>
-
-        <xsl:sequence select="
-            if ($trimmedDate = '')
-            then ''
-            else if (empty($parsedDate))
-            then $trimmedDate
-            else concat(
-                string(day-from-date($parsedDate)), '. ',
-                $local:german-months[month-from-date($parsedDate)], ' ',
-                string(year-from-date($parsedDate)))" />
     </xsl:function>
 
     <!-- Formats a court decision reference (referenzRechtsprechung, vorgehendeEntscheidung,
@@ -60,7 +29,7 @@
 
         <xsl:variable name="gericht" select="local:join-non-empty(($reference/ris:gericht/ris:gerichtstyp, $reference/ris:gericht/ris:gerichtsort), ' ')" />
         <xsl:variable name="datum" select="($reference/ris:entscheidungsdatum, $reference/ris:mitteilungsdatum)[1]" />
-        <xsl:variable name="datumMitPraefix" select="if ($datum) then concat('vom ', local:format-date($datum)) else ''" />
+        <xsl:variable name="datumMitPraefix" select="if ($datum) then concat('vom ', local:format-date-long($datum)) else ''" />
         <xsl:variable name="dokumenttypMitDatum" select="local:join-non-empty(($reference/ris:dokumenttyp, $datumMitPraefix), ' ')" />
         <xsl:variable name="main" select="local:join-non-empty(($gericht, $dokumenttypMitDatum), ', ')" />
 
@@ -117,7 +86,7 @@
         <xsl:param name="einzelnorm" as="element()" />
 
         <xsl:variable name="bezeichnungMitAbkuerzung" select="local:join-non-empty(($abkuerzung, $einzelnorm/ris:bezeichnung), ' ')" />
-        <xsl:variable name="datum" select="if ($einzelnorm/ris:fassungsdatum) then concat('vom ', local:format-date($einzelnorm/ris:fassungsdatum)) else ''" />
+        <xsl:variable name="datum" select="if ($einzelnorm/ris:fassungsdatum) then concat('vom ', local:format-date-long($einzelnorm/ris:fassungsdatum)) else ''" />
         <xsl:variable name="gesetzeskraft" select="local:join-non-empty(($einzelnorm/ris:gesetzeskraft/ris:gesetzeskraftTyp, $einzelnorm/ris:gesetzeskraft/ris:geltungsbereich), ' ')" />
 
         <xsl:sequence select="local:join-non-empty(($bezeichnungMitAbkuerzung, $datum, $gesetzeskraft), ', ')" />

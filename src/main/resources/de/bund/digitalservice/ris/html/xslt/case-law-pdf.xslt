@@ -9,6 +9,7 @@
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0 https://docs.oasis-open.org/legaldocml/akn-core/v2.0/cs01/part2-specs/schemas/akomantoso30.xsd">
     <xsl:import href="case-law.xslt"/>
+    <xsl:include href="utils.xslt" />
 
     <xsl:output method="html" encoding="UTF-8" indent="no" />
 
@@ -265,9 +266,7 @@
         <xsl:variable name="value" select="akn:meta/akn:identification/akn:FRBRWork/akn:FRBRdate[@eId='entscheidungsdatum']/@date" />
         <xsl:choose>
             <xsl:when test="$value != ''">
-                <xsl:call-template name="format-date-long">
-                    <xsl:with-param name="date" select="$value" />
-                </xsl:call-template>
+                <xsl:value-of select="local:format-date-long($value)" />
             </xsl:when>
             <xsl:otherwise><xsl:call-template name="placeholder-value" /></xsl:otherwise>
         </xsl:choose>
@@ -371,9 +370,7 @@
         </xsl:if>
         <xsl:if test="ris:entscheidungsdatum != ''">
             <xsl:text> vom </xsl:text>
-            <xsl:call-template name="format-date-long">
-                <xsl:with-param name="date" select="normalize-space(ris:entscheidungsdatum)" />
-            </xsl:call-template>
+            <xsl:value-of select="local:format-date-long(normalize-space(ris:entscheidungsdatum))" />
         </xsl:if>
         <xsl:if test="ris:aktenzeichen != ''">
             <xsl:text> - </xsl:text>
@@ -437,35 +434,6 @@
         <xsl:choose>
             <xsl:when test="$date castable as xs:date">
                 <xsl:value-of select="format-date(xs:date($date), '[D01].[M01].[Y0001]')" />
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="$date" />
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:template>
-
-    <xsl:template name="format-date-long">
-        <xsl:param name="date" as="xs:string" />
-        <xsl:choose>
-            <xsl:when test="$date castable as xs:date">
-                <xsl:value-of select="format-date(xs:date($date), '[D1]. ')" />
-                <xsl:choose>
-                    <!-- XSLT 1.0 has no local supported date formatting -->
-                    <xsl:when test="format-date(xs:date($date), '[M01]') = '01'">Januar</xsl:when>
-                    <xsl:when test="format-date(xs:date($date), '[M01]') = '02'">Februar</xsl:when>
-                    <xsl:when test="format-date(xs:date($date), '[M01]') = '03'">März</xsl:when>
-                    <xsl:when test="format-date(xs:date($date), '[M01]') = '04'">April</xsl:when>
-                    <xsl:when test="format-date(xs:date($date), '[M01]') = '05'">Mai</xsl:when>
-                    <xsl:when test="format-date(xs:date($date), '[M01]') = '06'">Juni</xsl:when>
-                    <xsl:when test="format-date(xs:date($date), '[M01]') = '07'">Juli</xsl:when>
-                    <xsl:when test="format-date(xs:date($date), '[M01]') = '08'">August</xsl:when>
-                    <xsl:when test="format-date(xs:date($date), '[M01]') = '09'">September</xsl:when>
-                    <xsl:when test="format-date(xs:date($date), '[M01]') = '10'">Oktober</xsl:when>
-                    <xsl:when test="format-date(xs:date($date), '[M01]') = '11'">November</xsl:when>
-                    <xsl:when test="format-date(xs:date($date), '[M01]') = '12'">Dezember</xsl:when>
-                </xsl:choose>
-                <xsl:text> </xsl:text>
-                <xsl:value-of select="format-date(xs:date($date), '[Y0001]')" />
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="$date" />
