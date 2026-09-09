@@ -22,66 +22,66 @@
 
                 <xsl:call-template name="reference-list">
                     <xsl:with-param name="id" select="'referenzNorm'" />
-                    <xsl:with-param name="references" select=".//ris:referenzNorm" />
+                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzNorm" />
                     <xsl:with-param name="format" select="'normenkette'" />
                 </xsl:call-template>
                 <xsl:call-template name="reference-list">
                     <xsl:with-param name="id" select="'referenzRechtsprechungAktiv'" />
-                    <xsl:with-param name="references" select=".//ris:referenzRechtsprechung[ris:richtung = 'aktiv']" />
+                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzRechtsprechung[ris:richtung = 'aktiv']" />
                     <xsl:with-param name="linkBasePath" select="'/gerichtsentscheidungen/'" />
                     <xsl:with-param name="format" select="'rechtsprechung'" />
                 </xsl:call-template>
                 <xsl:call-template name="reference-list">
                     <xsl:with-param name="id" select="'referenzRechtsprechungPassiv'" />
-                    <xsl:with-param name="references" select=".//ris:referenzRechtsprechung[ris:richtung = 'passiv']" />
+                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzRechtsprechung[ris:richtung = 'passiv']" />
                     <xsl:with-param name="linkBasePath" select="'/gerichtsentscheidungen/'" />
                     <xsl:with-param name="format" select="'rechtsprechung'" />
                 </xsl:call-template>
                 <xsl:call-template name="reference-list">
                     <xsl:with-param name="id" select="'referenzVerwaltungsvorschriftAktiv'" />
-                    <xsl:with-param name="references" select=".//ris:referenzVerwaltungsvorschrift[ris:richtung = 'aktiv']" />
+                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzVerwaltungsvorschrift[ris:richtung = 'aktiv']" />
                     <xsl:with-param name="linkBasePath" select="'/verwaltungsregelung/'" />
                     <xsl:with-param name="format" select="'verwaltungsvorschrift'" />
                 </xsl:call-template>
                 <xsl:call-template name="reference-list">
                     <xsl:with-param name="id" select="'referenzVerwaltungsvorschriftPassiv'" />
-                    <xsl:with-param name="references" select=".//ris:referenzVerwaltungsvorschrift[ris:richtung = 'passiv']" />
+                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzVerwaltungsvorschrift[ris:richtung = 'passiv']" />
                     <xsl:with-param name="linkBasePath" select="'/verwaltungsregelung/'" />
                     <xsl:with-param name="format" select="'verwaltungsvorschrift'" />
                 </xsl:call-template>
                 <xsl:call-template name="reference-list">
                     <xsl:with-param name="id" select="'referenzUnselbstaendigeLiteraturAktiv'" />
-                    <xsl:with-param name="references" select=".//ris:referenzUnselbstaendigeLiteratur[ris:richtung = 'aktiv']" />
+                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzUnselbstaendigeLiteratur[ris:richtung = 'aktiv']" />
                     <xsl:with-param name="linkBasePath" select="'/literaturnachweise/'" />
                     <xsl:with-param name="format" select="'uli'" />
                 </xsl:call-template>
                 <xsl:call-template name="reference-list">
                     <xsl:with-param name="id" select="'referenzUnselbstaendigeLiteraturPassiv'" />
-                    <xsl:with-param name="references" select=".//ris:referenzUnselbstaendigeLiteratur[ris:richtung = 'passiv']" />
+                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzUnselbstaendigeLiteratur[ris:richtung = 'passiv']" />
                     <xsl:with-param name="linkBasePath" select="'/literaturnachweise/'" />
                     <xsl:with-param name="format" select="'uli'" />
                 </xsl:call-template>
                 <xsl:call-template name="reference-list">
                     <xsl:with-param name="id" select="'referenzSelbstaendigeLiteraturAktiv'" />
-                    <xsl:with-param name="references" select=".//ris:referenzSelbstaendigeLiteratur[ris:richtung = 'aktiv']" />
+                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzSelbstaendigeLiteratur[ris:richtung = 'aktiv']" />
                     <xsl:with-param name="linkBasePath" select="'/literaturnachweise/'" />
                     <xsl:with-param name="format" select="'sli'" />
                 </xsl:call-template>
                 <xsl:call-template name="reference-list">
                     <xsl:with-param name="id" select="'referenzSelbstaendigeLiteraturPassiv'" />
-                    <xsl:with-param name="references" select=".//ris:referenzSelbstaendigeLiteratur[ris:richtung = 'passiv']" />
+                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzSelbstaendigeLiteratur[ris:richtung = 'passiv']" />
                     <xsl:with-param name="linkBasePath" select="'/literaturnachweise/'" />
                     <xsl:with-param name="format" select="'sli'" />
                 </xsl:call-template>
                 <xsl:call-template name="reference-list">
                     <xsl:with-param name="id" select="'vorgehendeEntscheidung'" />
-                    <xsl:with-param name="references" select=".//ris:vorgehendeEntscheidung" />
+                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:vorgehendeEntscheidung" />
                     <xsl:with-param name="linkBasePath" select="'/gerichtsentscheidungen/'" />
                     <xsl:with-param name="format" select="'entscheidung'" />
                 </xsl:call-template>
                 <xsl:call-template name="reference-list">
                     <xsl:with-param name="id" select="'nachgehendeEntscheidung'" />
-                    <xsl:with-param name="references" select=".//ris:nachgehendeEntscheidung" />
+                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:nachgehendeEntscheidung" />
                     <xsl:with-param name="linkBasePath" select="'/gerichtsentscheidungen/'" />
                     <xsl:with-param name="format" select="'entscheidung'" />
                 </xsl:call-template>
