@@ -55,7 +55,7 @@
          nachgehendeEntscheidung) as:
          "<gerichtstyp> <gerichtsort>, <dokumenttyp> vom <entscheidungsdatum|mitteilungsdatum> - <aktenzeichen>".
          Any missing value is left out without leaving stray separators behind. -->
-    <xsl:function name="local:format-court-decision-reference" as="xs:string">
+    <xsl:function name="local:format-rechtsprechung-reference" as="xs:string">
         <xsl:param name="reference" as="element()" />
 
         <xsl:variable name="gericht" select="local:join-non-empty(($reference/ris:gericht/ris:gerichtstyp, $reference/ris:gericht/ris:gerichtsort), ' ')" />
@@ -68,12 +68,12 @@
     </xsl:function>
 
     <!-- Formats a vorgehendeEntscheidung/nachgehendeEntscheidung reference like
-         local:format-court-decision-reference, additionally appending " (anhängig)" when @art is
+         local:format-rechtsprechung-reference, additionally appending " (anhängig)" when @art is
          "anhängig". -->
-    <xsl:function name="local:format-entscheidung-reference" as="xs:string">
+    <xsl:function name="local:format-rechtsprechung-anhangiges-verfahren" as="xs:string">
         <xsl:param name="reference" as="element()" />
 
-        <xsl:variable name="formatted" select="local:format-court-decision-reference($reference)" />
+        <xsl:variable name="formatted" select="local:format-rechtsprechung-reference($reference)" />
         <xsl:variable name="anhaengigSuffix" select="if ($reference/@art = 'anhängig') then '(anhängig)' else ''" />
 
         <xsl:sequence select="local:join-non-empty(($formatted, $anhaengigSuffix), ' ')" />
@@ -143,7 +143,7 @@
     </xsl:function>
 
     <!-- Builds a template block (identified by $id) containing one ul of the given references, with
-         each reference rendered as a li. $format selects how the li text is built: 'court-decision',
+         each reference rendered as a li. $format selects how the li text is built: 'rechtsprechung',
          'entscheidung', 'verwaltungsvorschrift', 'uli', 'sli' and 'normenkette' use the formatting
          functions above, while 'default' (the default) joins the reference's own values with ', '.
          If a reference has a referenzURI (risUri) and a $linkBasePath was given, the li content is
@@ -162,10 +162,10 @@
                             <xsl:variable name="text" as="xs:string">
                                 <xsl:choose>
                                     <xsl:when test="$format = 'entscheidung'">
-                                        <xsl:sequence select="local:format-entscheidung-reference(.)" />
+                                        <xsl:sequence select="local:format-rechtsprechung-anhangiges-verfahren(.)" />
                                     </xsl:when>
-                                    <xsl:when test="$format = 'court-decision'">
-                                        <xsl:sequence select="local:format-court-decision-reference(.)" />
+                                    <xsl:when test="$format = 'rechtsprechung'">
+                                        <xsl:sequence select="local:format-rechtsprechung-reference(.)" />
                                     </xsl:when>
                                     <xsl:when test="$format = 'verwaltungsvorschrift'">
                                         <xsl:sequence select="local:format-verwaltungsvorschrift-reference(.)" />

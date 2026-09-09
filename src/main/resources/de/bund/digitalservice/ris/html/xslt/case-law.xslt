@@ -29,13 +29,13 @@
                     <xsl:with-param name="id" select="'referenzRechtsprechungAktiv'" />
                     <xsl:with-param name="references" select=".//ris:referenzRechtsprechung[ris:richtung = 'aktiv']" />
                     <xsl:with-param name="linkBasePath" select="'/gerichtsentscheidungen/'" />
-                    <xsl:with-param name="format" select="'court-decision'" />
+                    <xsl:with-param name="format" select="'rechtsprechung'" />
                 </xsl:call-template>
                 <xsl:call-template name="reference-list">
                     <xsl:with-param name="id" select="'referenzRechtsprechungPassiv'" />
                     <xsl:with-param name="references" select=".//ris:referenzRechtsprechung[ris:richtung = 'passiv']" />
                     <xsl:with-param name="linkBasePath" select="'/gerichtsentscheidungen/'" />
-                    <xsl:with-param name="format" select="'court-decision'" />
+                    <xsl:with-param name="format" select="'rechtsprechung'" />
                 </xsl:call-template>
                 <xsl:call-template name="reference-list">
                     <xsl:with-param name="id" select="'referenzVerwaltungsvorschriftAktiv'" />
