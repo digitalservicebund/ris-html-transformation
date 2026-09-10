@@ -3,7 +3,6 @@
 @import "tailwindcss/utilities.css";
 
 @import "../node_modules/@digitalservicebund/ris-ui/dist/style.css";
-@import "../node_modules/@digitalservicebund/ris-ui/dist/fonts.css";
 @source "../node_modules/@digitalservicebund/ris-ui/dist/**/*.{js,vue,ts}";
 
 @theme {
