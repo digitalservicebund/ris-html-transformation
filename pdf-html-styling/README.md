@@ -9,7 +9,7 @@ It is invoked automatically as part of the Gradle build (see the root
 `src/main/resources/style.css`, which ends up in the published jar.
 
 For background on the required setup (individual tailwind imports instead of
-`@layer`, disabling optimization to keep `@page :nth(...)` rules, and
+`@layer`, and
 replacing selectors unsupported by WeasyPrint), see:
 https://github.com/digitalservicebund/ris-pdf-infra/blob/main/doc/how-to-use-weasyprint-with-tailwind.md
 
