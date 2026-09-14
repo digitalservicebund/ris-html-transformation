@@ -101,12 +101,13 @@ class CaselawPdfXsltTransformerTest {
   }
 
   @Test
-  void rendersPlaceholdersForMissingMetadata() throws IOException {
+  void omitsMissingMetadata() throws IOException {
     Document document = Jsoup.parse(transformSample("missingMetadata.xml"));
 
-    assertThat(document.select("dl.metadata").text()).contains("Gericht: —", "Dokumenttyp: —",
-        "Entscheidungsdatum: —", "Aktenzeichen: —", "Spruchkörper: —", "ECLI: —",
-        "Streitjahr: —", "Vorabdokument: Nein", "Norm: —");
+    assertThat(document.select("dl.metadata > div")).isEmpty();
+    assertThat(document.select("dl.metadata").text()).doesNotContain("—", "Gericht:",
+        "Dokumenttyp:", "Entscheidungsdatum:", "Aktenzeichen:", "Spruchkörper:", "ECLI:",
+        "Streitjahr:", "Vorabdokument:", "Norm:");
   }
 
   private String transformSample(String samplePath) throws IOException {
