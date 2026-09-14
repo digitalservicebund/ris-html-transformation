@@ -37,6 +37,20 @@ html {
 @page :first {
     margin-top: 45mm;
 
+    /*
+    For positioning the logos we try to follow the Bundesstylguide: https://styleguide.bundesregierung.gov.de/sg-de/basiselemente/identitaetsbereich#idSideNav-2025456
+
+    Therefore, bmjv-logo is placed 1.7 "Adlergrößen" away from the page border (including the 1 Adler safety margin
+    included in the image file).
+    The bmjv-logo size may not be changed.
+    Additionally we want the Deutschlandflagge to be aligned with the page margin.
+    Also we want both logos to feel like they have the same size -> match the font-size of the text of both logos.
+
+    We basically used AI to figure out the individual values for the width, height, margins & background-sizes based on
+    the content of the svg and these requirements.
+    When checking a printed page with a ruler everything looked correct ^^
+     */
+
     @top-left {
         content: "";
         width: 62mm; /* Header box: 55mm rendered SVG width plus room for the left-side offset. */
