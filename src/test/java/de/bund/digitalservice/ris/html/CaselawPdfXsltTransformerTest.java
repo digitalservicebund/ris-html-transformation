@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLConnection;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 
@@ -33,6 +35,20 @@ class CaselawPdfXsltTransformerTest {
         .doesNotContain("src=\"bild1.jpg\"");
     assertThat(Jsoup.parse(actualHtml).select("img[src^=data:image/jpeg;base64,]"))
         .hasSize(49);
+  }
+
+  @Test
+  void embedsImagesUsingCallerProvidedMediaType() throws IOException {
+    String actualHtml = XSLT_TRANSFORMER.transform(
+        readResourceAsBytes(SAMPLE_CLASSPATH_ROOT + "image.xml"),
+        imageReference -> {
+          assertThat(imageReference).isEqualTo("bild1.jpg");
+          return new CaselawPdfXsltTransformer.ResolvedImage(
+              new byte[]{1, 2, 3}, "image/custom");
+        });
+
+    assertThat(Jsoup.parse(actualHtml).select("img[src^=data:image/custom;base64,]"))
+        .hasSize(1);
   }
 
   @Test
@@ -113,12 +129,34 @@ class CaselawPdfXsltTransformerTest {
   private String transformSample(String samplePath) throws IOException {
     return XSLT_TRANSFORMER.transform(
         readResourceAsBytes(SAMPLE_CLASSPATH_ROOT + samplePath),
-        SAMPLE_FILESYSTEM_ROOT);
+        localImageResolver(SAMPLE_FILESYSTEM_ROOT));
   }
 
   private String transformSampleWithImages() throws IOException {
     return XSLT_TRANSFORMER.transform(
-        readResourceAsBytes(SAMPLE_CLASSPATH_ROOT + "MPRE183880964/MPRE183880964.xml"), SAMPLE_FILESYSTEM_ROOT.resolve("MPRE183880964"));
+        readResourceAsBytes(SAMPLE_CLASSPATH_ROOT + "MPRE183880964/MPRE183880964.xml"),
+        localImageResolver(SAMPLE_FILESYSTEM_ROOT.resolve("MPRE183880964")));
+  }
+
+  private CaselawPdfXsltTransformer.ImageResolver localImageResolver(Path resourcesPath) {
+    Path normalizedResourcesPath = resourcesPath.toAbsolutePath().normalize();
+    return imageReference -> {
+      Path imagePath = normalizedResourcesPath.resolve(imageReference).normalize();
+      if (!imagePath.startsWith(normalizedResourcesPath)) {
+        throw new IllegalArgumentException("Image path is traversing outside of resources directory");
+      }
+
+      try {
+        String mediaType = Files.probeContentType(imagePath);
+        if (mediaType == null) {
+          mediaType = URLConnection.guessContentTypeFromName(imagePath.toString());
+        }
+        return new CaselawPdfXsltTransformer.ResolvedImage(Files.readAllBytes(imagePath), mediaType);
+      } catch (IOException e) {
+        throw new CaselawPdfXsltTransformer.ImageResolver.ImageNotFoundException(
+            "Could not read image: " + imageReference, e);
+      }
+    };
   }
 
   private Element element(Document document, String selector) {

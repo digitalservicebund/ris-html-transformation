@@ -4,11 +4,11 @@ import de.bund.digitalservice.ris.html.exception.FileTransformationException;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jspecify.annotations.NonNull;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
 import java.util.Map;
@@ -27,21 +27,50 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
   }
 
   /**
-   * Key for the resource path parameter passed to the XSLT transformer.
+   * The resolved image content and its media type.
+   */
+  public record ResolvedImage(byte @NonNull [] content, @NonNull String mediaType) {}
+
+  /** Resolver for image references in the content of the LegalDocML */
+  public interface ImageResolver {
+    /**
+     * Resolves an image reference
+     * @param imageReference the reference of the image
+     * @return the data about the image
+     * @throws ImageNotFoundException when the image could not be resolved
+     */
+    @NonNull ResolvedImage resolveImage(@NonNull String imageReference) throws ImageNotFoundException;
+
+    /**
+     * The image could not be found
+     */
+    class ImageNotFoundException extends Exception {
+      public ImageNotFoundException(String message) {
+        super(message);
+      }
+
+      public ImageNotFoundException(String message, Throwable cause) {
+        super(message, cause);
+      }
+    }
+  }
+
+  /**
+   * Transforms a document, resolving every non-data-URI image through the supplied resolver.
    *
-   * @param source the content of the xml file to be transformed
-   * @param resourcesPath the path in which the resources referenced in the xml are stored
-   *
+   * @param source the content of the XML file to be transformed
+   * @param imageResolver resolver for image references found in the XML
    * @return the transformed HTML as a String
    */
-  public String transform(byte[] source, Path resourcesPath) {
+  public String transform(byte @NonNull [] source, @NonNull ImageResolver imageResolver) {
     Map<String, String> parameters = Map.of(
         RESOURCE_PATH_KEY, "",
         "css", getCss());
-    return transformLegalDocMlFromBytes(embedLocalImages(source, resourcesPath.toAbsolutePath().normalize()), parameters);
+    return transformLegalDocMlFromBytes(embedLocalImages(source, imageResolver), parameters);
   }
 
-  private byte[] embedLocalImages(byte[] source, Path resourcesPath) {
+
+  private byte[] embedLocalImages(byte[] source, ImageResolver imageResolver) {
     String xml = new String(source, StandardCharsets.UTF_8);
     Matcher matcher = IMAGE_SRC.matcher(xml);
     StringBuilder transformed = new StringBuilder();
@@ -55,13 +84,19 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
       }
 
       try {
-        Path imagePath = resourcesPath.resolve(imageReference).normalize();
-        if (!imagePath.startsWith(resourcesPath)) {
-          throw new IllegalArgumentException("Image path is outside the resources directory");
+        if (Path.of(imageReference).isAbsolute()) {
+          throw new IllegalArgumentException("Image reference is absolute");
         }
+
+        if (Path.of(imageReference).normalize().startsWith("..")) {
+          throw new IllegalArgumentException("Image reference is traversing outside of current directory");
+        }
+
+        var image = imageResolver.resolveImage(imageReference);
+
         matcher.appendReplacement(transformed, Matcher.quoteReplacement(
-            matcher.group(1) + matcher.group(2) + toDataUri(imagePath) + matcher.group(4)));
-      } catch (IOException | IllegalArgumentException e) {
+            matcher.group(1) + matcher.group(2) + toDataUri(image) + matcher.group(4)));
+      } catch (IllegalArgumentException | ImageResolver.ImageNotFoundException e) {
         throw new FileTransformationException("Could not embed image: " + imageReference, e);
       }
     }
@@ -69,16 +104,13 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
     return transformed.toString().getBytes(StandardCharsets.UTF_8);
   }
 
-  private static String toDataUri(Path imagePath) throws IOException, IllegalArgumentException {
-    if (!Files.isRegularFile(imagePath)) {
-      throw new IllegalArgumentException("ImagePath is not a regular file");
+  private static String toDataUri(@NonNull ResolvedImage image) {
+    if (image.mediaType().isBlank()) {
+      throw new IllegalArgumentException("Could not determine media type for image");
     }
-    String mediaType = Files.probeContentType(imagePath);
-    if (mediaType == null) {
-      throw new IOException("Could not determine media type for image");
-    }
-    return DATA_URI_PREFIX + mediaType + ";base64,"
-        + Base64.getEncoder().encodeToString(Files.readAllBytes(imagePath));
+
+    return DATA_URI_PREFIX + image.mediaType() + ";base64,"
+        + Base64.getEncoder().encodeToString(image.content());
   }
 
   /**
