@@ -281,7 +281,7 @@ dl.metadata-pdf {
         widows: 2;
     }
 
-    .border-number:has(img) {
+    .border-number:has(.content > *:first-child > img:first-child) {
         break-inside: avoid;
     }
 }
