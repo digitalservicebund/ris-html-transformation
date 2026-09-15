@@ -175,7 +175,7 @@ dl.metadata-pdf {
 
 .case-law .langtexte {
     h2 {
-        @apply ris-heading3-bold my-24 inline-block;
+        @apply ris-heading3-bold my-24 block;
         break-after: avoid;
     }
 
