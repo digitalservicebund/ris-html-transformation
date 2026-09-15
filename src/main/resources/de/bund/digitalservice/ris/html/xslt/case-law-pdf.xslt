@@ -323,7 +323,7 @@
                 <ul>
                     <xsl:for-each select="$items">
                         <li>
-                            <xsl:call-template name="rechtszug" />
+                            <xsl:sequence select="local:format-rechtsprechung-reference(.)" />
                         </li>
                     </xsl:for-each>
                 </ul>
@@ -339,7 +339,7 @@
                 <ul>
                     <xsl:for-each select="$items">
                         <li>
-                            <xsl:call-template name="rechtszug" />
+                            <xsl:sequence select="local:format-rechtsprechung-reference(.)" />
                         </li>
                     </xsl:for-each>
                 </ul>
@@ -355,34 +355,13 @@
                 <ul>
                     <xsl:for-each select="$items">
                         <li>
-                            <xsl:call-template name="rechtszug" />
+                            <xsl:sequence select="local:format-rechtsprechung-reference(.)" />
                         </li>
                     </xsl:for-each>
                 </ul>
             </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
-    </xsl:template>
-
-    <xsl:template name="rechtszug">
-        <xsl:value-of select="ris:gericht/@showAs" />
-        <xsl:if test="ris:dokumenttyp != ''">
-            <xsl:text>, </xsl:text>
-            <xsl:value-of select="normalize-space(ris:dokumenttyp)" />
-        </xsl:if>
-        <xsl:if test="ris:entscheidungsdatum != ''">
-            <xsl:text> vom </xsl:text>
-            <xsl:value-of select="local:format-date-long(normalize-space(ris:entscheidungsdatum))" />
-        </xsl:if>
-        <xsl:if test="ris:aktenzeichen != ''">
-            <xsl:text> - </xsl:text>
-            <xsl:value-of select="normalize-space(ris:aktenzeichen)" />
-        </xsl:if>
-        <xsl:if test="ris:vermerk != ''">
-            <xsl:text> (</xsl:text>
-            <xsl:value-of select="normalize-space(ris:vermerk)" />
-            <xsl:text>)</xsl:text>
-        </xsl:if>
     </xsl:template>
 
     <xsl:template name="normen-value">
@@ -392,22 +371,7 @@
                 <ul>
                     <xsl:for-each select="$items">
                         <li>
-                            <xsl:if test="ris:abkuerzung != ''">
-                                <xsl:value-of select="normalize-space(ris:abkuerzung)" />
-                            </xsl:if>
-                            <xsl:for-each select="ris:einzelnorm">
-                                <xsl:if test="ris:bezeichnung != ''">
-                                    <xsl:text> </xsl:text>
-                                    <xsl:value-of select="normalize-space(ris:bezeichnung)" />
-                                </xsl:if>
-                                <xsl:if test="ris:fassungsdatum != ''">
-                                    <xsl:text> (</xsl:text>
-                                    <xsl:call-template name="format-date">
-                                        <xsl:with-param name="date" select="normalize-space(ris:fassungsdatum)" />
-                                    </xsl:call-template>
-                                    <xsl:text>)</xsl:text>
-                                </xsl:if>
-                            </xsl:for-each>
+                            <xsl:sequence select="local:format-norm-reference(.)" />
                         </li>
                     </xsl:for-each>
                 </ul>
