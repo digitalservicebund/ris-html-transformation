@@ -95,7 +95,10 @@ class CaselawPdfXsltTransformerTest {
         .orElseThrow();
 
     assertThat(norms.select("li")).hasSize(10);
-    assertThat(norms.text()).contains("PatG § 47 Abs 1 S 1", "EAPatV § 2", "ZPO § 315 Abs 1");
+    assertThat(norms.text()).contains(
+        "PatG, Patentgesetz § 47 Abs 1 S 1",
+        "EAPatV, Verordnung über die elektronische Aktenführung bei dem Deutschen Patent- und Markenamt, dem Patentgericht und dem Bundesgerichtshof § 2",
+        "ZPO, Zivilprozessordnung § 315 Abs 1");
   }
 
   @Test
