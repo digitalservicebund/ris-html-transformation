@@ -295,12 +295,16 @@
     </xsl:template>
 
     <xsl:template name="streitjahre-value">
+        <xsl:variable name="items" select="akn:meta/akn:proprietary/ris:meta/ris:streitjahre/ris:streitjahr" />
         <xsl:choose>
-            <xsl:when test="akn:meta/akn:proprietary/ris:meta/ris:streitjahre/ris:streitjahr">
-                <xsl:for-each select="akn:meta/akn:proprietary/ris:meta/ris:streitjahre/ris:streitjahr">
-                    <xsl:if test="position() > 1">, </xsl:if>
-                    <xsl:value-of select="." />
-                </xsl:for-each>
+            <xsl:when test="$items">
+                <ul>
+                    <xsl:for-each select="$items">
+                        <li>
+                            <xsl:value-of select="." />
+                        </li>
+                    </xsl:for-each>
+                </ul>
             </xsl:when>
             <xsl:otherwise />
         </xsl:choose>
