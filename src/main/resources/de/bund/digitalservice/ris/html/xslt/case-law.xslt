@@ -313,7 +313,7 @@
                 <xsl:value-of select="concat('Springe zu Randnummer: ', .)"/>
             </xsl:attribute>
 
-            <xsl:apply-templates/>
+            Rn. <xsl:apply-templates/>
         </a>
     </xsl:template>
 
