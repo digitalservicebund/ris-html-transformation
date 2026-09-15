@@ -280,4 +280,8 @@ dl.metadata-pdf {
         orphans: 1;
         widows: 2;
     }
+
+    .border-number:has(img) {
+        break-inside: avoid;
+    }
 }
