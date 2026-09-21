@@ -36,7 +36,7 @@ class LiteratureXsltTransformerTest {
         "uli/example10 | transforms active and passive citations",
       },
       delimiter = '|')
-  void testTransformLiteratureXmlDocuments(String testfileDir, String testName) throws IOException {
+  void testTransform_literatureXmlSample_producesExpectedHtml(String testfileDir, String testName) throws IOException {
     Path inputFilePath = Paths.get(resourcesBasePath, testfileDir, "literature.xml");
     Path expectedFilePath = Paths.get(resourcesBasePath, testfileDir, "literature.html");
 

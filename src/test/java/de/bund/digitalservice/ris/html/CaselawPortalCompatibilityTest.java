@@ -18,7 +18,7 @@ class CaselawPortalCompatibilityTest {
   private static final String RESOURCE_NOT_FOUND_MESSAGE = "Could not find local sample file at classpath: ";
 
   @Test
-  void testHeadingHasCorrectId() throws IOException {
+  void testTransform_allSectionsSample_headingHasCorrectTitleId() throws IOException {
     /** The id is used to extract the title from the HTML.
      * If the transformation of the heading in the xslt transformation
      * changes unexpectedly and thus breaks the frontend rendering, this test will fail. **/
@@ -35,7 +35,7 @@ class CaselawPortalCompatibilityTest {
   }
 
   @Test
-  void testSectionsHaveCorrectIdsAndOrder() throws IOException {
+  void testTransform_allSectionsSample_sectionsHaveCorrectIdsAndOrder() throws IOException {
     /** The generation of the TabledOfContents relies on the headings having specific ids.
      * If the transformation of the headings in the xslt transformation changes unexpectedly
      * and thus breaks the frontend rendering, this test will fail. **/
@@ -81,7 +81,7 @@ class CaselawPortalCompatibilityTest {
   }
 
   @Test
-  void testTransformsCaselawBorderNumbersCorrectly() throws IOException {
+  void testTransform_borderNumbersSample_transformsCaselawBorderNumbersCorrectly() throws IOException {
     /**
      * If the rendering of the broder numbers changes, the portal would have to adapt the CSS in the
      * frontend to display the border numbers correctly. This test ensures that the
@@ -107,7 +107,7 @@ class CaselawPortalCompatibilityTest {
   }
 
   @Test
-  void testTransformsCaselawListsCorrectly() throws IOException {
+  void testTransform_listsSample_transformsCaselawListsCorrectly() throws IOException {
     String sampleLDMLPath = SAMPLE_BASE_PATH + "lists.xml";
     String sampleHTMLPath = SAMPLE_BASE_PATH + "lists.html";
 
@@ -121,7 +121,7 @@ class CaselawPortalCompatibilityTest {
   }
 
   @Test
-  void testTablesAreTransferredCorrectly() throws IOException {
+  void testTransform_tableSample_tablesAreTransferredCorrectly() throws IOException {
     /** The current structure is needed for styling, especially for setting the table
      * width to allow horizontal scrolling when the table is too wide for our layout. **/
 
@@ -138,7 +138,7 @@ class CaselawPortalCompatibilityTest {
   }
 
   @Test
-  void testImagetagsAreTransferredCorrectly() throws IOException {
+  void testTransform_imageSample_imageTagsAreTransferredCorrectly() throws IOException {
     /** Important here is that the src attribute is correctly set,
      * so that the backend can provide the right image from the bucket. **/
     String sampleLDMLPath = SAMPLE_BASE_PATH + "image.xml";
@@ -154,7 +154,7 @@ class CaselawPortalCompatibilityTest {
   }
 
   @Test
-  void testAknHtmlIsTransformedCorrectly() throws IOException {
+  void testTransform_aknHtmlSample_isTransformedCorrectly() throws IOException {
     String sampleLDMLPath = SAMPLE_BASE_PATH + "aknHtml.xml";
     String sampleHTMLPath = SAMPLE_BASE_PATH + "aknHtml.html";
 
@@ -169,7 +169,7 @@ class CaselawPortalCompatibilityTest {
   }
 
   @Test
-  void testAuthorialNoteIsTransformedCorrectly() throws IOException {
+  void testTransform_authorialNoteSample_isTransformedCorrectly() throws IOException {
     String sampleLDMLPath = SAMPLE_BASE_PATH + "authorialNote.xml";
     String sampleHTMLPath = SAMPLE_BASE_PATH + "authorialNote.html";
 
@@ -184,7 +184,7 @@ class CaselawPortalCompatibilityTest {
   }
 
   @Test
-  void testPendingProceedingIsTransformedCorrectly() throws IOException {
+  void testTransform_pendingProceedingSample_isTransformedCorrectly() throws IOException {
     String sampleLDMLPath = SAMPLE_BASE_PATH + "pendingProceeding.xml";
     String sampleHTMLPath = SAMPLE_BASE_PATH + "pendingProceeding.html";
 
@@ -198,7 +198,7 @@ class CaselawPortalCompatibilityTest {
   }
 
   @Test
-  void testReferencesAreTransformedCorrectly() throws IOException {
+  void testTransform_referencesSample_areTransformedCorrectly() throws IOException {
     String sampleLDMLPath = "/samples/references/references.xml";
     String sampleHTMLPath = "/samples/references/references.html";
 

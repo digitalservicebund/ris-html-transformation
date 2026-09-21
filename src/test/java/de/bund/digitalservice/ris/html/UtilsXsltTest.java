@@ -41,7 +41,7 @@ class UtilsXsltTest {
       "not-a-date, not-a-date",
       "'2020-13-40', '2020-13-40'"
   })
-  void formatsDateInGermanLongForm(String input, String expected) throws Exception {
+  void testFormatDateLong_isoDate_returnsGermanLongDateFormat(String input, String expected) throws Exception {
     assertThat(formatDateLong(input)).isEqualTo(expected);
   }
 

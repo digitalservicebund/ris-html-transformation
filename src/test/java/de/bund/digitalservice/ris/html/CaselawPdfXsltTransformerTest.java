@@ -27,7 +27,7 @@ class CaselawPdfXsltTransformerTest {
   private static final String RESOURCE_NOT_FOUND_MESSAGE = "Could not find local sample file at classpath: ";
 
   @Test
-  void embedsImages() throws IOException {
+  void testTransform_xmlWithMultipleImages_embedsImagesAsBase64() throws IOException {
     String actualHtml = transformSampleWithImages();
 
     assertThat(actualHtml)
@@ -37,7 +37,7 @@ class CaselawPdfXsltTransformerTest {
   }
 
   @Test
-  void embedsImagesUsingCallerProvidedMediaType() throws IOException {
+  void testTransform_customImageResolverWithMediaType_embedsImageUsingProvidedMediaType() throws IOException {
     String actualHtml = XSLT_TRANSFORMER.transform(
         readResourceAsBytes(SAMPLE_CLASSPATH_ROOT + "image.xml"),
         imageReference -> {
@@ -51,7 +51,7 @@ class CaselawPdfXsltTransformerTest {
   }
 
   @Test
-  void fallsBackToPlaceholderImageWhenImageIsMissing() throws IOException {
+  void testTransform_missingImage_fallsBackToPlaceholderImage() throws IOException {
     Document document = Jsoup.parse(transformSample("image.xml"));
 
     Element image = document.selectFirst("img");
@@ -65,7 +65,7 @@ class CaselawPdfXsltTransformerTest {
   }
 
   @Test
-  void rendersDocumentMetadataAndJudgmentContent() throws IOException {
+  void testTransform_judgmentSample_rendersDocumentMetadataAndJudgmentContent() throws IOException {
     Document document = Jsoup.parse(transformSampleWithImages());
 
     assertThat(element(document, "html").attr("lang")).isEqualTo("de");
@@ -92,7 +92,7 @@ class CaselawPdfXsltTransformerTest {
   }
 
   @Test
-  void rendersNormListFromExistingFixture() throws IOException {
+  void testTransform_judgmentSample_rendersNormList() throws IOException {
     Document document = Jsoup.parse(transformSampleWithImages());
 
     var norms = document.select("dl.metadata > div").stream()
@@ -108,7 +108,7 @@ class CaselawPdfXsltTransformerTest {
   }
 
   @Test
-  void rendersPendingProceedingFixture() throws IOException {
+  void testTransform_pendingProceedingSample_rendersPendingProceedingContent() throws IOException {
     Document document = Jsoup.parse(transformSample("pendingProceeding.xml"));
 
     assertThat(document.select("dl.metadata").text()).contains("Anhängiges Verfahren", "1. Januar 2020");
@@ -116,7 +116,7 @@ class CaselawPdfXsltTransformerTest {
   }
 
   @Test
-  void rendersAuthorialNotesInPdfOutput() throws IOException {
+  void testTransform_authorialNoteSample_rendersFootnotesInPdfOutput() throws IOException {
     Document document = Jsoup.parse(transformSample("authorialNote.xml"));
 
     assertThat(document.select("a[href^=#fussnoten_]")).hasSize(3);
@@ -126,7 +126,7 @@ class CaselawPdfXsltTransformerTest {
   }
 
   @Test
-  void omitsMissingMetadata() throws IOException {
+  void testTransform_missingMetadataSample_omitsMissingMetadataFields() throws IOException {
     Document document = Jsoup.parse(transformSample("missingMetadata.xml"));
 
     assertThat(document.select("dl.metadata > div")).isEmpty();
