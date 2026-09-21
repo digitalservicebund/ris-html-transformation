@@ -21,6 +21,9 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
   private static final String DATA_URI_PREFIX = "data:";
   private static final Pattern IMAGE_SRC = Pattern.compile(
       "(<akn:img\\b[^>]*?\\bsrc\\s*=\\s*)([\\\"'])(?<imagesrc>[^\\\"']+)(\\2)", Pattern.CASE_INSENSITIVE);
+  private static final String PLACEHOLDER_IMAGE_RESOURCE =
+      "de/bund/digitalservice/ris/html/xslt/placeholder.png";
+  private static final String PLACEHOLDER_IMAGE_MEDIA_TYPE = "image/png";
 
   public CaselawPdfXsltTransformer() {
     super("de/bund/digitalservice/ris/html/xslt/", "case-law-pdf.xslt");
@@ -83,25 +86,40 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
         continue;
       }
 
-      try {
-        if (Path.of(imageReference).isAbsolute()) {
-          throw new IllegalArgumentException("Image reference is absolute");
-        }
-
-        if (Path.of(imageReference).normalize().startsWith("..")) {
-          throw new IllegalArgumentException("Image reference is traversing outside of current directory");
-        }
-
-        var image = imageResolver.resolveImage(imageReference);
-
-        matcher.appendReplacement(transformed, Matcher.quoteReplacement(
-            matcher.group(1) + matcher.group(2) + toDataUri(image) + matcher.group(4)));
-      } catch (IllegalArgumentException | ImageResolver.ImageNotFoundException e) {
-        throw new FileTransformationException("Could not embed image: " + imageReference, e);
-      }
+      matcher.appendReplacement(transformed, Matcher.quoteReplacement(
+          matcher.group(1) + matcher.group(2) + toDataUri(loadImage(imageResolver, imageReference)) + matcher.group(4)));
     }
     matcher.appendTail(transformed);
     return transformed.toString().getBytes(StandardCharsets.UTF_8);
+  }
+
+  private ResolvedImage loadImage(ImageResolver imageResolver, String imageReference) {
+    try {
+      if (Path.of(imageReference).isAbsolute()) {
+        throw new IllegalArgumentException("Image reference is absolute");
+      }
+
+      if (Path.of(imageReference).normalize().startsWith("..")) {
+        throw new IllegalArgumentException("Image reference is traversing outside of current directory");
+      }
+
+      return imageResolver.resolveImage(imageReference);
+    } catch (IllegalArgumentException | ImageResolver.ImageNotFoundException e) {
+      logger.error("Could not embed image '{}', using placeholder image instead.", imageReference, e);
+      return getPlaceholderImage();
+    }
+  }
+
+  private static ResolvedImage getPlaceholderImage() {
+    try (InputStream inputStream =
+             XsltTransformer.class.getClassLoader().getResourceAsStream(PLACEHOLDER_IMAGE_RESOURCE)) {
+      if (inputStream == null) {
+        throw new FileTransformationException("Placeholder image not found: " + PLACEHOLDER_IMAGE_RESOURCE);
+      }
+      return new ResolvedImage(IOUtils.toByteArray(inputStream), PLACEHOLDER_IMAGE_MEDIA_TYPE);
+    } catch (IOException e) {
+      throw new FileTransformationException("Could not read placeholder image.", e);
+    }
   }
 
   private static String toDataUri(@NonNull ResolvedImage image) {

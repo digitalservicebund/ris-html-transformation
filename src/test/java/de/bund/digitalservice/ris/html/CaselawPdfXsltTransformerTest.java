@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.html;
 
-import de.bund.digitalservice.ris.html.exception.FileTransformationException;
 import de.bund.digitalservice.ris.html.service.xslt.CaselawPdfXsltTransformer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -12,10 +11,10 @@ import java.io.InputStream;
 import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Base64;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CaselawPdfXsltTransformerTest {
 
@@ -52,10 +51,17 @@ class CaselawPdfXsltTransformerTest {
   }
 
   @Test
-  void throwsWhenImageIsMissing() {
-    assertThatThrownBy(() -> transformSample("image.xml"))
-        .isInstanceOf(FileTransformationException.class)
-        .hasMessageContaining("Could not embed image: bild1.jpg");
+  void fallsBackToPlaceholderImageWhenImageIsMissing() throws IOException {
+    Document document = Jsoup.parse(transformSample("image.xml"));
+
+    Element image = document.selectFirst("img");
+    assertThat(image).isNotNull();
+
+    byte[] placeholderImage =
+        readResourceAsBytes("/de/bund/digitalservice/ris/html/xslt/placeholder.png");
+    String expectedDataUri =
+        "data:image/png;base64," + Base64.getEncoder().encodeToString(placeholderImage);
+    assertThat(image.attr("src")).isEqualTo(expectedDataUri);
   }
 
   @Test
