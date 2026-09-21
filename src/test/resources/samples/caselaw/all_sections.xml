@@ -310,7 +310,7 @@
           <akn:implicitReference
             ris:domainTerm="Referenz Unselbständige Literatur"
           >
-            <ris:referenzUnselbstaendigeLiteratur
+            <ris:referenzUnselbststaendigeLiteratur
               domainTerm="Referenz Unselbständige Literatur"
             >
               <ris:richtung
@@ -344,12 +344,12 @@
                   domainTerm="Zitatstelle"
                 >2003, 166-177</ris:zitatstelle>
               </ris:fundstelle>
-            </ris:referenzUnselbstaendigeLiteratur>
+            </ris:referenzUnselbststaendigeLiteratur>
           </akn:implicitReference>
           <akn:implicitReference
             ris:domainTerm="Referenz Selbständige Literatur"
           >
-            <ris:referenzSelbstaendigeLiteratur
+            <ris:referenzSelbststaendigeLiteratur
               domainTerm="Referenz Selbständige Literatur"
             >
               <ris:richtung
@@ -371,7 +371,7 @@
               <ris:veroeffentlichungsjahr
                 domainTerm="Veröffentlichungsjahr"
               >2002</ris:veroeffentlichungsjahr>
-            </ris:referenzSelbstaendigeLiteratur>
+            </ris:referenzSelbststaendigeLiteratur>
           </akn:implicitReference>
         </akn:otherReferences>
         <akn:otherAnalysis source="#ris">

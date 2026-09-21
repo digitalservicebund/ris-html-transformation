@@ -65,15 +65,15 @@
         <xsl:sequence select="local:join-non-empty(($reference/ris:jurisAbkuerzung, local:format-fundstelle($reference/ris:fundstelle)), ', ')" />
     </xsl:function>
 
-    <!-- Formats a referenzUnselbstaendigeLiteratur reference as "<autor>, <fundstelle>". -->
-    <xsl:function name="local:format-unselbstaendige-literatur-reference" as="xs:string">
+    <!-- Formats a referenzUnselbststaendigeLiteratur reference as "<autor>, <fundstelle>". -->
+    <xsl:function name="local:format-unselbststaendige-literatur-reference" as="xs:string">
         <xsl:param name="reference" as="element()" />
 
         <xsl:sequence select="local:join-non-empty(($reference/ris:autor, local:format-fundstelle($reference/ris:fundstelle)), ', ')" />
     </xsl:function>
 
-    <!-- Formats a referenzSelbstaendigeLiteratur reference as "<autor>, <titel>, <veroeffentlichungsjahr>". -->
-    <xsl:function name="local:format-selbstaendige-literatur-reference" as="xs:string">
+    <!-- Formats a referenzSelbststaendigeLiteratur reference as "<autor>, <titel>, <veroeffentlichungsjahr>". -->
+    <xsl:function name="local:format-selbststaendige-literatur-reference" as="xs:string">
         <xsl:param name="reference" as="element()" />
 
         <xsl:sequence select="local:join-non-empty(($reference/ris:autor, $reference/ris:titel, $reference/ris:veroeffentlichungsjahr), ', ')" />
@@ -140,10 +140,10 @@
                                         <xsl:sequence select="local:format-verwaltungsvorschrift-reference(.)" />
                                     </xsl:when>
                                     <xsl:when test="$format = 'uli'">
-                                        <xsl:sequence select="local:format-unselbstaendige-literatur-reference(.)" />
+                                        <xsl:sequence select="local:format-unselbststaendige-literatur-reference(.)" />
                                     </xsl:when>
                                     <xsl:when test="$format = 'sli'">
-                                        <xsl:sequence select="local:format-selbstaendige-literatur-reference(.)" />
+                                        <xsl:sequence select="local:format-selbststaendige-literatur-reference(.)" />
                                     </xsl:when>
                                     <xsl:when test="$format = 'normenkette'">
                                         <xsl:sequence select="local:format-norm-reference(.)" />

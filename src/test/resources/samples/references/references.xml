@@ -150,9 +150,9 @@
                             <ris:jurisAbkuerzung domainTerm="juris-Abkürzung">VV DEU BMF 2011-02-02 2</ris:jurisAbkuerzung>
                         </ris:referenzVerwaltungsvorschrift>
                     </akn:implicitReference>
-                    <!-- referenzUnselbstaendigeLiteratur: aktiv, referenzURI present -> linked; periodikum has no abkuerzung -> falls back to titel -->
+                    <!-- referenzUnselbststaendigeLiteratur: aktiv, referenzURI present -> linked; periodikum has no abkuerzung -> falls back to titel -->
                     <akn:implicitReference ris:domainTerm="Referenz Unselbständige Literatur">
-                        <ris:referenzUnselbstaendigeLiteratur domainTerm="Referenz Unselbständige Literatur">
+                        <ris:referenzUnselbststaendigeLiteratur domainTerm="Referenz Unselbständige Literatur">
                             <ris:richtung domainTerm="Richtung der Referenzierung">aktiv</ris:richtung>
                             <ris:referenzArt domainTerm="Art der Referenz">uli</ris:referenzArt>
                             <ris:referenzURI domainTerm="URI der Referenz">ris:/literatur/XYTestDoc0005</ris:referenzURI>
@@ -165,11 +165,11 @@
                                 </ris:periodikum>
                                 <ris:zitatstelle domainTerm="Zitatstelle">2019, 42</ris:zitatstelle>
                             </ris:fundstelle>
-                        </ris:referenzUnselbstaendigeLiteratur>
+                        </ris:referenzUnselbststaendigeLiteratur>
                     </akn:implicitReference>
-                    <!-- referenzUnselbstaendigeLiteratur: passiv, no autor, no referenzURI -> not linked -->
+                    <!-- referenzUnselbststaendigeLiteratur: passiv, no autor, no referenzURI -> not linked -->
                     <akn:implicitReference ris:domainTerm="Referenz Unselbständige Literatur">
-                        <ris:referenzUnselbstaendigeLiteratur domainTerm="Referenz Unselbständige Literatur">
+                        <ris:referenzUnselbststaendigeLiteratur domainTerm="Referenz Unselbständige Literatur">
                             <ris:richtung domainTerm="Richtung der Referenzierung">passiv</ris:richtung>
                             <ris:referenzArt domainTerm="Art der Referenz">uli</ris:referenzArt>
                             <ris:fundstelle domainTerm="Fundstelle">
@@ -178,11 +178,11 @@
                                 </ris:periodikum>
                                 <ris:zitatstelle domainTerm="Zitatstelle">2020, 7</ris:zitatstelle>
                             </ris:fundstelle>
-                        </ris:referenzUnselbstaendigeLiteratur>
+                        </ris:referenzUnselbststaendigeLiteratur>
                     </akn:implicitReference>
-                    <!-- referenzSelbstaendigeLiteratur: passiv, referenzURI present -> linked; full data -->
+                    <!-- referenzSelbststaendigeLiteratur: passiv, referenzURI present -> linked; full data -->
                     <akn:implicitReference ris:domainTerm="Referenz Selbständige Literatur">
-                        <ris:referenzSelbstaendigeLiteratur domainTerm="Referenz Selbständige Literatur">
+                        <ris:referenzSelbststaendigeLiteratur domainTerm="Referenz Selbständige Literatur">
                             <ris:richtung domainTerm="Richtung der Referenzierung">passiv</ris:richtung>
                             <ris:referenzArt domainTerm="Art der Referenz">sli</ris:referenzArt>
                             <ris:referenzURI domainTerm="URI der Referenz">ris:/literatur/XYTestDoc0006</ris:referenzURI>
@@ -190,15 +190,15 @@
                             <ris:autor domainTerm="Autor(en)">Schmidt, Peter</ris:autor>
                             <ris:titel domainTerm="Titel">Grundzüge des Verwaltungsrechts</ris:titel>
                             <ris:veroeffentlichungsjahr domainTerm="Veröffentlichungsjahr">2011</ris:veroeffentlichungsjahr>
-                        </ris:referenzSelbstaendigeLiteratur>
+                        </ris:referenzSelbststaendigeLiteratur>
                     </akn:implicitReference>
-                    <!-- referenzSelbstaendigeLiteratur: aktiv, only autor present -->
+                    <!-- referenzSelbststaendigeLiteratur: aktiv, only autor present -->
                     <akn:implicitReference ris:domainTerm="Referenz Selbständige Literatur">
-                        <ris:referenzSelbstaendigeLiteratur domainTerm="Referenz Selbständige Literatur">
+                        <ris:referenzSelbststaendigeLiteratur domainTerm="Referenz Selbständige Literatur">
                             <ris:richtung domainTerm="Richtung der Referenzierung">aktiv</ris:richtung>
                             <ris:referenzArt domainTerm="Art der Referenz">sli</ris:referenzArt>
                             <ris:autor domainTerm="Autor(en)">Weber</ris:autor>
-                        </ris:referenzSelbstaendigeLiteratur>
+                        </ris:referenzSelbststaendigeLiteratur>
                     </akn:implicitReference>
                     <!-- vorgehendeEntscheidung: full data, no referenzURI -> not linked -->
                     <akn:implicitReference ris:domainTerm="Rechtszug">
