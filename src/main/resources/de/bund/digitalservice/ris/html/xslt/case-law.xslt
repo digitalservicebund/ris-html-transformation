@@ -50,26 +50,26 @@
                     <xsl:with-param name="format" select="'verwaltungsvorschrift'" />
                 </xsl:call-template>
                 <xsl:call-template name="reference-list">
-                    <xsl:with-param name="id" select="'referenzUnselbstaendigeLiteraturAktiv'" />
-                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzUnselbstaendigeLiteratur[ris:richtung = 'aktiv']" />
+                    <xsl:with-param name="id" select="'referenzUnselbststaendigeLiteraturAktiv'" />
+                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzUnselbststaendigeLiteratur[ris:richtung = 'aktiv']" />
                     <xsl:with-param name="linkBasePath" select="'/literaturnachweise/'" />
                     <xsl:with-param name="format" select="'uli'" />
                 </xsl:call-template>
                 <xsl:call-template name="reference-list">
-                    <xsl:with-param name="id" select="'referenzUnselbstaendigeLiteraturPassiv'" />
-                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzUnselbstaendigeLiteratur[ris:richtung = 'passiv']" />
+                    <xsl:with-param name="id" select="'referenzUnselbststaendigeLiteraturPassiv'" />
+                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzUnselbststaendigeLiteratur[ris:richtung = 'passiv']" />
                     <xsl:with-param name="linkBasePath" select="'/literaturnachweise/'" />
                     <xsl:with-param name="format" select="'uli'" />
                 </xsl:call-template>
                 <xsl:call-template name="reference-list">
-                    <xsl:with-param name="id" select="'referenzSelbstaendigeLiteraturAktiv'" />
-                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzSelbstaendigeLiteratur[ris:richtung = 'aktiv']" />
+                    <xsl:with-param name="id" select="'referenzSelbststaendigeLiteraturAktiv'" />
+                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzSelbststaendigeLiteratur[ris:richtung = 'aktiv']" />
                     <xsl:with-param name="linkBasePath" select="'/literaturnachweise/'" />
                     <xsl:with-param name="format" select="'sli'" />
                 </xsl:call-template>
                 <xsl:call-template name="reference-list">
-                    <xsl:with-param name="id" select="'referenzSelbstaendigeLiteraturPassiv'" />
-                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzSelbstaendigeLiteratur[ris:richtung = 'passiv']" />
+                    <xsl:with-param name="id" select="'referenzSelbststaendigeLiteraturPassiv'" />
+                    <xsl:with-param name="references" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzSelbststaendigeLiteratur[ris:richtung = 'passiv']" />
                     <xsl:with-param name="linkBasePath" select="'/literaturnachweise/'" />
                     <xsl:with-param name="format" select="'sli'" />
                 </xsl:call-template>
