@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:akn="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
                 xmlns:ris="http://ldml.neuris.de/adm/bzst/meta/"
-                exclude-result-prefixes="akn ris">
+                exclude-result-prefixes="xs akn ris">
 
 	<xsl:output method="html" version="5.0" encoding="UTF-8" indent="yes"/>
 
@@ -42,12 +43,7 @@
 			<xsl:when test="starts-with($date, '+999999999')">unbefristet</xsl:when>
 			<xsl:when test="$date = ''"/>
 			<xsl:otherwise>
-				<!-- extract last 10 chars to handle any leading +/- era prefix -->
-				<xsl:variable name="d" select="substring($date, string-length($date) - 9)"/>
-				<xsl:value-of select="concat(
-          substring($d, 9, 2), '.',
-          substring($d, 6, 2), '.',
-          substring($d, 1, 4))"/>
+				<xsl:value-of select="format-date(xs:date($date), '[D01].[M01].[Y0001]')"/>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
