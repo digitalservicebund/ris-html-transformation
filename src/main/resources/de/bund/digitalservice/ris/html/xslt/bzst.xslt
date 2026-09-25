@@ -204,14 +204,14 @@
 					<dd>
 						<xsl:for-each select="$prop/ris:normgeberListe/ris:normgeber">
 							<xsl:if test="position() > 1">, </xsl:if>
-							<abbr title="{ris:langbezeichnung}">
+							<abbr>
+								<xsl:if test="normalize-space(ris:langbezeichnung)">
+									<xsl:attribute name="title">
+										<xsl:value-of select="ris:langbezeichnung"/>
+									</xsl:attribute>
+								</xsl:if>
 								<xsl:value-of select="ris:kurzbezeichnung"/>
 							</abbr>
-							<xsl:if test="normalize-space(ris:langbezeichnung)">
-								<xsl:text> (</xsl:text>
-								<xsl:value-of select="ris:langbezeichnung"/>
-								<xsl:text>)</xsl:text>
-							</xsl:if>
 						</xsl:for-each>
 					</dd>
 				</div>

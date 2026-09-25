@@ -1,36 +1,62 @@
 package de.bund.digitalservice.ris.html;
 
 import de.bund.digitalservice.ris.html.service.xslt.BzstPdfXsltTransformer;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import org.junit.jupiter.api.Test;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class BzstPdfXsltTransformerTest {
 
-  private static final BzstPdfXsltTransformer XSLT_TRANSFORMER = new BzstPdfXsltTransformer();
+  private static final BzstPdfXsltTransformer TRANSFORMER = new BzstPdfXsltTransformer();
   private static final String SAMPLE_PATH = "/samples/bzst/full.xml";
-  private static final Path OUTPUT_PATH = Paths.get("src/test/resources/samples/bzst/full-pdf.html");
 
-  @Test
-  void testTransform_placeholder_writesHtmlToDisk() throws IOException {
-    byte[] ldmlBytes;
-    try (InputStream is = getClass().getResourceAsStream(SAMPLE_PATH)) {
+  private static Document transform() throws IOException {
+    try (InputStream is = BzstPdfXsltTransformerTest.class.getResourceAsStream(SAMPLE_PATH)) {
       assertThat(is).withFailMessage("Could not find: " + SAMPLE_PATH).isNotNull();
-      ldmlBytes = is.readAllBytes();
+      return Jsoup.parse(TRANSFORMER.transform(is.readAllBytes()));
     }
+  }
 
-    String html = XSLT_TRANSFORMER.transform(ldmlBytes);
+  static Stream<Arguments> sectionTests() {
+    return Stream.of(
+        Arguments.of("hides Normen (show-aktivverweisung=false)",
+            (Consumer<Document>) doc ->
+                assertThat(doc.select("#referenzen h3").eachText()).doesNotContain("Normen")),
 
-    assertThat(html).isNotNull().isNotEmpty();
-    String page = "<!DOCTYPE html>\n<html lang=\"de\"><head><meta charset=\"UTF-8\"><title>BZST PDF Preview</title></head><body>\n"
-        + html
-        + "\n</body></html>";
-    Files.writeString(OUTPUT_PATH, page, StandardCharsets.UTF_8);
+        Arguments.of("hides Verwaltungsvorschriften (show-aktivverweisung=false)",
+            (Consumer<Document>) doc ->
+                assertThat(doc.select("#referenzen h3").eachText()).doesNotContain("Verwaltungsvorschriften")),
+
+        Arguments.of("hides Rechtsprechung (show-aktivzitierung-rechtsprechung=false)",
+            (Consumer<Document>) doc ->
+                assertThat(doc.select("#referenzen h3").eachText()).doesNotContain("Rechtsprechung")),
+
+        Arguments.of("renders Normenkette (not overridden in PDF variant)",
+            (Consumer<Document>) doc -> {
+              assertThat(doc.select("#referenzen h3").eachText()).contains("Normenkette");
+              assertThat(doc.select("#referenzen").text()).contains("AStG");
+            }),
+
+        Arguments.of("renders Fundstelle (not overridden in PDF variant)",
+            (Consumer<Document>) doc -> {
+              assertThat(doc.select("#referenzen h3").eachText()).contains("Fundstelle");
+              assertThat(doc.select("#referenzen").text()).contains("BStBl I");
+            })
+    );
+  }
+
+  @ParameterizedTest(name = "{0}")
+  @MethodSource("sectionTests")
+  void testTransform_section(String description, Consumer<Document> assertions) throws IOException {
+    assertions.accept(transform());
   }
 }
