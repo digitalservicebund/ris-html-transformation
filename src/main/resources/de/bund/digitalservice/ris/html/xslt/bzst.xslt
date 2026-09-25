@@ -231,7 +231,7 @@
 					<dd>
 						<ul>
 							<xsl:for-each select="$prop/ris:sachgebiete/ris:sachgebiet">
-								<li data-sachgebiet-id="{@sachgebiet-id}">
+								<li>
 									<xsl:value-of select="."/>
 								</li>
 							</xsl:for-each>
