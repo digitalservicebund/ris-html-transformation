@@ -127,7 +127,7 @@
 		<xsl:param name="prop"/>
 
 		<xsl:if test="$show-amtliche-langueberschrift or $show-zitierdatum or $show-risAbkuerzung or $show-dokumentnummer">
-			<header>
+			<header id="header">
 
 				<xsl:if test="$titel != '' and $show-amtliche-langueberschrift">
 					<h1>
@@ -185,7 +185,7 @@
 	<xsl:template name="render-metadata">
 		<xsl:param name="prop"/>
 
-		<dl>
+		<dl id="metadaten">
 			<xsl:if test="$show-aktenzeichen and $prop/ris:aktenzeichenListe">
 				<div>
 					<dt>Aktenzeichen</dt>
@@ -286,7 +286,7 @@
 		<xsl:param name="prop"/>
 
 		<xsl:if test="$show-definitionen and $prop/ris:definitionen/ris:definition/ris:definierterBegriff">
-			<section>
+			<section id="definitionen">
 				<h2>Definitionen</h2>
 				<ul>
 					<xsl:for-each select="$prop/ris:definitionen/ris:definition/ris:definierterBegriff">
@@ -304,7 +304,7 @@
 		<xsl:param name="meta"/>
 
 		<xsl:if test="$show-schlagwoerter and $meta/akn:classification/akn:keyword">
-			<section>
+			<section id="schlagwoerter">
 				<h2>Schlagwörter</h2>
 				<ul>
 					<xsl:for-each select="$meta/akn:classification/akn:keyword">
@@ -330,7 +330,7 @@
 		           or ($show-aktivverweisung               and $verweisNormen)
 		           or ($show-aktivverweisung               and $verweisVwv)
 		           or ($show-aktivzitierung-rechtsprechung and $rspr)">
-			<section>
+			<section id="referenzen">
 				<h2>Referenzen</h2>
 
 				<xsl:call-template name="render-fundstelle">
