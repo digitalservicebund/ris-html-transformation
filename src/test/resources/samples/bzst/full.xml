@@ -71,7 +71,7 @@
                     </akn:implicitReference>
                     <akn:implicitReference ris:domainTerm="Verweis Verwaltungsvorschrift">
                         <ris:verweisVerwaltungsvorschrift domainTerm="Verweis Verwaltungsvorschrift">
-                            <ris:abkuerzung domainTerm="Abkürzung">VWG VP 2023</ris:abkuerzung>
+                            <ris:abkuerzung domainTerm="Abkürzung">VV Fantasie 2019</ris:abkuerzung>
                             <ris:einzelnorm domainTerm="Einzelnorm">
                                 <ris:bezeichnung domainTerm="Bezeichnung">Abschn 3</ris:bezeichnung>
                                 <ris:normtext domainTerm="Normtext">Abs 2</ris:normtext>
@@ -150,18 +150,18 @@
                         <ris:dokumenttyp domainTerm="Dokumenttyp">Verwaltungsanweisung</ris:dokumenttyp>
                     </ris:dokumenttypen>
                     <ris:aktenzeichenListe domainTerm="Liste der Aktenzeichen">
-                        <ris:aktenzeichen domainTerm="Aktenzeichen">IV B 4 - S 1341/07/10017</ris:aktenzeichen>
-                        <ris:aktenzeichen domainTerm="Aktenzeichen">IV B 4 - S 1341/07/10018</ris:aktenzeichen>
+                        <ris:aktenzeichen domainTerm="Aktenzeichen">XYZ 123/7</ris:aktenzeichen>
+                        <ris:aktenzeichen domainTerm="Aktenzeichen">XYZ 123/8</ris:aktenzeichen>
                     </ris:aktenzeichenListe>
                     <ris:sachgebiete domainTerm="Sachgebiete">
-                        <ris:sachgebiet domainTerm="Sachgebiet" sachgebiet-id="ST-04-01">Außensteuerrecht</ris:sachgebiet>
-                        <ris:sachgebiet domainTerm="Sachgebiet" sachgebiet-id="ST-04-02">Verrechnungspreise</ris:sachgebiet>
+                        <ris:sachgebiet domainTerm="Sachgebiet" sachgebiet-id="AA-01-01">Außensteuerrecht</ris:sachgebiet>
+                        <ris:sachgebiet domainTerm="Sachgebiet" sachgebiet-id="AA-01-02">Verrechnungspreise</ris:sachgebiet>
                     </ris:sachgebiete>
                     <ris:zitierdaten domainTerm="Zitierdaten">
                         <ris:zitierdatum refersTo="#zitierdatum" domainTerm="Zitierdatum">2003-04-01</ris:zitierdatum>
                         <ris:zitierdatum domainTerm="Zitierdatum">2000-01-01</ris:zitierdatum>
                     </ris:zitierdaten>
-                    <ris:risAbkuerzung domainTerm="RIS-Abkürzung">VV BMF 2003-04-01 IV B 4 - S 1341/07/10017</ris:risAbkuerzung>
+                    <ris:risAbkuerzung domainTerm="RIS-Abkürzung">VV Fantasie 2003-04-01 XYZ 123/7</ris:risAbkuerzung>
                 </ris:meta>
             </akn:proprietary>
         </akn:meta>
