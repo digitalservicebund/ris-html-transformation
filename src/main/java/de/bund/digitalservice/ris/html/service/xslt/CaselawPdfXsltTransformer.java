@@ -105,7 +105,7 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
 
       return imageResolver.resolveImage(imageReference);
     } catch (IllegalArgumentException | ImageResolver.ImageNotFoundException e) {
-      logger.error("Could not embed image '{}', using placeholder image instead.", imageReference, e);
+      logger.info("Could not embed image '{}', using placeholder image instead.", imageReference, e);
       return getPlaceholderImage();
     }
   }
