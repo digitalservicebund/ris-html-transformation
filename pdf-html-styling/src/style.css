@@ -9,6 +9,8 @@
     --font-mono:
             ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
             "DejaVu Sans Mono", monospace;
+    --font-sans: BundesSansOffice;
+    --font-serif: BundesSerifOffice;
 }
 
 html {
