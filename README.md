@@ -12,6 +12,7 @@ The transformation is implemented using XSLT stylesheets, applied via Saxon, for
 - Caselaw documents (`CaselawXsltTransformer` for portal HTML, `CaselawPdfXsltTransformer` for PDF HTML)
 - ULI documents (`LiteratureXsltTransformer` for portal HTML)
 - SLI documents (`SliLiteratureXsltTransformer` for portal HTML)
+- VVBund documents (`VvBundXsltTransformer` for portal HTML)
 
 ## Usage in a Java project
 
