@@ -61,8 +61,7 @@ class CaselawPortalCompatibilityTest {
       "id=\"tatbestand\"",
       "id=\"entscheidungsgruende\"",
       "id=\"gruende\"",
-      "id=\"sonstigerLangtext\"",
-      "id=\"abweichendeMeinung\""
+      "id=\"sonstigerLangtext\"", "id=\"abweichendeMeinung\""
     };
 
     for (String id : expectedOrder) {
