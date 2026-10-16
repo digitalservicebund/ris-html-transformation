@@ -12,11 +12,11 @@ public class BzstXsltTransformer extends XsltTransformer {
 
   /**
    * Transforms XML bytes to HTML
+   *
    * @param source XML byte source
    * @return String representing transformed HTML
    */
   public String transform(byte[] source) {
     return transformLegalDocMlFromBytes(source, Collections.emptyMap());
   }
-
 }

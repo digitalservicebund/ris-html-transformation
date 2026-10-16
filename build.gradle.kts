@@ -4,6 +4,7 @@ plugins {
     `java-library`
     `maven-publish`
     id("com.github.node-gradle.node") version "7.1.0"
+    alias(libs.plugins.spotless)
 }
 
 group = "de.bund.digitalservice"
@@ -38,6 +39,17 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+spotless {
+    java {
+        removeUnusedImports()
+        target("src/**/*.java")
+        googleJavaFormat()
+    }
+    kotlinGradle {
+        ktlint()
+    }
 }
 
 val buildCss by tasks.registering(NpmTask::class) {

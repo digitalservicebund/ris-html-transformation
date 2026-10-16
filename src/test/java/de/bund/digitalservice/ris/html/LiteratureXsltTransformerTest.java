@@ -1,17 +1,16 @@
 package de.bund.digitalservice.ris.html;
 
-import de.bund.digitalservice.ris.html.service.xslt.LiteratureXsltTransformer;
-import org.jsoup.Jsoup;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.html.service.xslt.LiteratureXsltTransformer;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.jsoup.Jsoup;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class LiteratureXsltTransformerTest {
   private final LiteratureXsltTransformer transformer = new LiteratureXsltTransformer();
@@ -36,7 +35,8 @@ class LiteratureXsltTransformerTest {
         "uli/example10 | transforms active and passive citations",
       },
       delimiter = '|')
-  void testTransform_literatureXmlSample_producesExpectedHtml(String testfileDir, String testName) throws IOException {
+  void testTransform_literatureXmlSample_producesExpectedHtml(String testfileDir, String testName)
+      throws IOException {
     Path inputFilePath = Paths.get(resourcesBasePath, testfileDir, "literature.xml");
     Path expectedFilePath = Paths.get(resourcesBasePath, testfileDir, "literature.html");
 

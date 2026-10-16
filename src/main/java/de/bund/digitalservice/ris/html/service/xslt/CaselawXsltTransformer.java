@@ -14,7 +14,6 @@ public class CaselawXsltTransformer extends XsltTransformer {
    *
    * @param source the content of the xml file to be transformed
    * @param resourcesBasePath the base path of the xml file to be transformed
-   *
    * @return the transformed HTML as a String
    */
   public String transform(byte[] source, String resourcesBasePath) {
