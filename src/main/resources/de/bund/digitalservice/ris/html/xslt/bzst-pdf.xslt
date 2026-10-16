@@ -2,7 +2,7 @@
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:akn="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
-                xmlns:ris="http://ldml.neuris.de/adm/bzst/meta/"
+                xmlns:ris="http://rechtsinformationen.bund.de/schema/ris/0.1"
                 exclude-result-prefixes="akn ris">
 
 	<xsl:import href="bzst.xslt"/>

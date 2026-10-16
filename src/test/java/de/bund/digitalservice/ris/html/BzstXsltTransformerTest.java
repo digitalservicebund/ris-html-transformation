@@ -8,7 +8,10 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -22,7 +25,13 @@ class BzstXsltTransformerTest {
   static void transform() throws IOException {
     try (InputStream is = BzstXsltTransformerTest.class.getResourceAsStream(SAMPLE_PATH)) {
       assertThat(is).withFailMessage("Could not find: " + SAMPLE_PATH).isNotNull();
-      doc = Jsoup.parse(TRANSFORMER.transform(is.readAllBytes()));
+      byte[] xml = is.readAllBytes();
+      String html = TRANSFORMER.transform(xml);
+      doc = Jsoup.parse(html);
+      doc.outputSettings().prettyPrint(true);
+      Path out = Path.of("build/test-output/bzst.html");
+      Files.createDirectories(out.getParent());
+      Files.writeString(out, doc.outerHtml());
     }
   }
 
@@ -83,14 +92,14 @@ class BzstXsltTransformerTest {
 
   @Test
   void rendersNormenkette() {
-    assertThat(doc.select("#referenzen h3").eachText()).contains("Normenkette");
-    assertThat(doc.select("#referenzen").text()).contains("AStG").contains("EStG");
+    assertThat(doc.select("template#normenKette li").eachText())
+        .contains("AStG § 1 Abs 1")
+        .contains("EStG § 15 Abs 1");
   }
 
   @Test
   void rendersNormen() {
-    assertThat(doc.select("#referenzen h3").eachText()).contains("Normen");
-    assertThat(doc.select("#referenzen").text())
+    assertThat(Objects.requireNonNull(doc.select("template#verweisNormen li").first()).text())
         .contains("KStG")
         .contains("§ 8a")
         .contains("Durchführungsvorschrift");
@@ -98,22 +107,20 @@ class BzstXsltTransformerTest {
 
   @Test
   void rendersVerwaltungsvorschriften() {
-    assertThat(doc.select("#referenzen h3").eachText()).contains("Verwaltungsvorschriften");
-    assertThat(doc.select("#referenzen").text()).contains("VV Fantasie 2019");
+    assertThat(Objects.requireNonNull(doc.select("template#verweisVwv li").first()).text())
+        .contains("VV Fantasie 2019");
   }
 
   @Test
   void rendersRechtsprechung() {
-    assertThat(doc.select("#referenzen h3").eachText()).contains("Rechtsprechung");
-    assertThat(doc.select("#referenzen").text())
+    assertThat(Objects.requireNonNull(doc.select("template#rspr li").first()).text())
         .contains("BFH München")
         .contains("I R 45/01");
   }
 
   @Test
   void rendersFundstelle() {
-    assertThat(doc.select("#referenzen h3").eachText()).contains("Fundstelle");
-    assertThat(doc.select("#referenzen").text())
+    assertThat(Objects.requireNonNull(doc.select("template#fundstelle li").first()).text())
         .contains("BStBl I")
         .contains("Ausgabe A")
         .contains("2042, 42");

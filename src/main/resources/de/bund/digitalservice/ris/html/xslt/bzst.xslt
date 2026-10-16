@@ -3,10 +3,16 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:akn="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
-                xmlns:ris="http://ldml.neuris.de/adm/bzst/meta/"
-                exclude-result-prefixes="xs akn ris">
+                xmlns:ris="http://rechtsinformationen.bund.de/schema/ris/0.1"
+                exclude-result-prefixes="xs akn ris xsi"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://docs.oasis-open.org/legaldocml/ns/akn/3.0 https://docs.oasis-open.org/legaldocml/akn-core/v2.0/cs01/part2-specs/schemas/akomantoso30.xsd">
 
-	<xsl:output method="html" version="5.0" encoding="UTF-8" indent="yes"/>
+	<xsl:output method="html" encoding="UTF-8" indent="yes" />
+
+	<xsl:include href="references.xslt" />
+
+	<xsl:param name="ressourcenpfad" as="xs:string" select="''"/>
 
 	<!-- ================================================================
 	     Section visibility parameters — set to false() to hide a section.
@@ -17,7 +23,6 @@
 	<xsl:param name="show-anwendungszeitraum"            select="true()"/>
 	<xsl:param name="show-amtliche-langueberschrift"     select="true()"/>
 	<xsl:param name="show-ausserkrafttretedatum"         select="true()"/>
-	<xsl:param name="show-body"                          select="false()"/><!-- preface + mainBody -->
 	<xsl:param name="show-definitionen"                  select="false()"/>
 	<xsl:param name="show-dokumentnummer"                select="false()"/>
 	<xsl:param name="show-dokumenttyp"                   select="true()"/>
@@ -52,85 +57,125 @@
 	     Root
 	     ================================================================ -->
 	<xsl:template match="/">
-		<xsl:apply-templates select="akn:akomaNtoso/akn:doc"/>
+		<xsl:apply-templates select="akn:akomaNtoso/akn:doc/akn:meta"/>
 	</xsl:template>
 
-	<xsl:template match="akn:doc">
-		<xsl:variable name="meta"  select="akn:meta"/>
+	<xsl:template match="akn:doc/akn:meta">
 		<!-- FRBR -->
-		<xsl:variable name="frbr"                 select="$meta/akn:identification"/>
+		<xsl:variable name="frbr"                 select="akn:identification"/>
 		<xsl:variable name="doknr"                select="$frbr/akn:FRBRWork/akn:FRBRalias[@name='dokumentnummer']/@value"/>
 		<xsl:variable name="titel"                select="$frbr/akn:FRBRWork/akn:FRBRalias[@name='langueberschrift']/@value"/>
 		<xsl:variable name="zitierdatum"           select="$frbr/akn:FRBRExpression/akn:FRBRdate[@name='zitierdatum']/@date"/>
 		<xsl:variable name="letzteVeroeffentlichung" select="$frbr/akn:FRBRManifestation/akn:FRBRdate[@name='letzteVeroeffentlichung']/@date"/>
 		<xsl:variable name="erstveroeffentlichung" select="$frbr/akn:FRBRManifestation/akn:FRBRdate[@name='erstveroeffentlichung']/@date"/>
 		<!-- Metadata -->
-		<xsl:variable name="prop"  select="$meta/akn:proprietary/ris:meta"/>
+		<xsl:variable name="risMeta"  select="akn:proprietary/ris:meta"/>
 		<!-- References -->
-		<xsl:variable name="refs"          select="$meta/akn:analysis/akn:otherReferences"/>
+		<xsl:variable name="refs"          select="akn:analysis/akn:otherReferences"/>
 		<xsl:variable name="fundstelle"    select="$refs/akn:implicitReference[@ris:domainTerm='Fundstelle']"/>
 		<xsl:variable name="normenKette"   select="$refs/akn:implicitReference[@ris:domainTerm='Norm']"/>
 		<xsl:variable name="verweisNormen" select="$refs/akn:implicitReference[@ris:domainTerm='Normverweis']"/>
 		<xsl:variable name="verweisVwv"    select="$refs/akn:implicitReference[@ris:domainTerm='Verweis Verwaltungsvorschrift']"/>
 		<xsl:variable name="rspr"          select="$refs/akn:implicitReference[@ris:domainTerm='Referenz Rechtsprechung']"/>
 
-		<div>
-			<xsl:call-template name="render-header">
-				<xsl:with-param name="titel"                   select="$titel"/>
-				<xsl:with-param name="doknr"                   select="$doknr"/>
-				<xsl:with-param name="zitierdatum"             select="$zitierdatum"/>
-				<xsl:with-param name="letzteVeroeffentlichung" select="$letzteVeroeffentlichung"/>
-				<xsl:with-param name="erstveroeffentlichung"   select="$erstveroeffentlichung"/>
-				<xsl:with-param name="prop"                    select="$prop"/>
-			</xsl:call-template>
+		<html lang="de">
+			<head>
+				<meta charset="utf-8"/>
+				<xsl:call-template name="render-title-header">
+					<xsl:with-param name="titel" select="$titel"/>
+				</xsl:call-template>
 
-			<xsl:call-template name="render-metadata">
-				<xsl:with-param name="prop" select="$prop"/>
-			</xsl:call-template>
+				<xsl:if test="$show-fundstelle">
+					<xsl:call-template name="reference-list">
+						<xsl:with-param name="id" select="'fundstelle'"/>
+						<xsl:with-param name="references" select="$fundstelle/ris:fundstelle"/>
+						<xsl:with-param name="format" select="'fundstelle'"/>
+					</xsl:call-template>
+				</xsl:if>
 
-			<xsl:call-template name="render-definitionen">
-				<xsl:with-param name="prop" select="$prop"/>
-			</xsl:call-template>
+				<xsl:if test="$show-aktivverweisung">
+					<xsl:call-template name="reference-list">
+						<xsl:with-param name="id" select="'verweisNormen'"/>
+						<xsl:with-param name="references" select="$verweisNormen/ris:verweisNorm"/>
+						<xsl:with-param name="format" select="'verweis'"/>
+					</xsl:call-template>
+				</xsl:if>
 
-			<xsl:call-template name="render-schlagwoerter">
-				<xsl:with-param name="meta" select="$meta"/>
-			</xsl:call-template>
+				<xsl:if test="$show-normenkette">
+					<xsl:call-template name="reference-list">
+						<xsl:with-param name="id" select="'normenKette'"/>
+						<xsl:with-param name="references" select="$normenKette/ris:referenzNorm"/>
+						<xsl:with-param name="format" select="'normenkette'"/>
+					</xsl:call-template>
+				</xsl:if>
 
-			<xsl:call-template name="render-referenzen">
-				<xsl:with-param name="fundstelle"    select="$fundstelle"/>
-				<xsl:with-param name="normenKette"   select="$normenKette"/>
-				<xsl:with-param name="verweisNormen" select="$verweisNormen"/>
-				<xsl:with-param name="verweisVwv"    select="$verweisVwv"/>
-				<xsl:with-param name="rspr"          select="$rspr"/>
-			</xsl:call-template>
+				<xsl:if test="$show-aktivverweisung">
+					<xsl:call-template name="reference-list">
+						<xsl:with-param name="id" select="'verweisVwv'"/>
+						<xsl:with-param name="references" select="$verweisVwv/ris:verweisVerwaltungsvorschrift"/>
+						<xsl:with-param name="format" select="'verweis'"/>
+					</xsl:call-template>
+				</xsl:if>
 
-			<xsl:if test="$show-body">
-				<xsl:apply-templates select="akn:preface"/>
-				<xsl:apply-templates select="akn:mainBody"/>
-			</xsl:if>
-		</div>
+				<xsl:if test="$show-aktivzitierung-rechtsprechung">
+					<xsl:call-template name="reference-list">
+						<xsl:with-param name="id" select="'rspr'"/>
+						<xsl:with-param name="references" select="$rspr/ris:referenzRechtsprechung"/>
+						<xsl:with-param name="format" select="'rechtsprechung'"/>
+					</xsl:call-template>
+				</xsl:if>
+			</head>
+			<body>
+				<xsl:call-template name="render-header">
+					<xsl:with-param name="titel"                   select="$titel"/>
+					<xsl:with-param name="doknr"                   select="$doknr"/>
+					<xsl:with-param name="zitierdatum"             select="$zitierdatum"/>
+					<xsl:with-param name="letzteVeroeffentlichung" select="$letzteVeroeffentlichung"/>
+					<xsl:with-param name="erstveroeffentlichung"   select="$erstveroeffentlichung"/>
+					<xsl:with-param name="risMeta"                 select="$risMeta"/>
+				</xsl:call-template>
+
+				<xsl:call-template name="render-metadata">
+					<xsl:with-param name="risMeta" select="$risMeta"/>
+				</xsl:call-template>
+
+				<xsl:call-template name="render-definitionen">
+					<xsl:with-param name="risMeta" select="$risMeta"/>
+				</xsl:call-template>
+
+				<xsl:call-template name="render-schlagwoerter">
+					<xsl:with-param name="risMeta" select="$risMeta"/>
+				</xsl:call-template>
+			</body>
+		</html>
 	</xsl:template>
 
 	<!-- ================================================================
 	     Header: Langtitel + FRBR date fields
 	     ================================================================ -->
+	<xsl:template name="render-title-header">
+		<xsl:param name="titel"/>
+		<xsl:if test="$titel != '' and $show-amtliche-langueberschrift">
+			<title>
+				<xsl:value-of select="$titel"/>
+			</title>
+		</xsl:if>
+	</xsl:template>
+
+
 	<xsl:template name="render-header">
 		<xsl:param name="titel"/>
 		<xsl:param name="doknr"/>
 		<xsl:param name="zitierdatum"/>
 		<xsl:param name="letzteVeroeffentlichung"/>
 		<xsl:param name="erstveroeffentlichung"/>
-		<xsl:param name="prop"/>
+		<xsl:param name="risMeta"/>
 
 		<xsl:if test="$show-amtliche-langueberschrift or $show-zitierdatum or $show-risAbkuerzung or $show-dokumentnummer">
 			<header id="header">
-
 				<xsl:if test="$titel != '' and $show-amtliche-langueberschrift">
-					<h1>
-						<xsl:value-of select="$titel"/>
-					</h1>
+					<h1><xsl:value-of select="$titel"/></h1>
 				</xsl:if>
-
 				<dl>
 					<xsl:if test="$show-dokumentnummer and $doknr != ''">
 						<div>
@@ -153,10 +198,10 @@
 						</div>
 					</xsl:if>
 
-					<xsl:if test="$show-risAbkuerzung and $prop/ris:risAbkuerzung != ''">
+					<xsl:if test="$show-risAbkuerzung and $risMeta/ris:risAbkuerzung != ''">
 						<div>
 							<dt>RIS-Abkürzung</dt>
-							<dd><xsl:value-of select="$prop/ris:risAbkuerzung"/></dd>
+							<dd><xsl:value-of select="$risMeta/ris:risAbkuerzung"/></dd>
 						</div>
 					</xsl:if>
 
@@ -179,14 +224,14 @@
 	     Metadata <dl>
 	     ================================================================ -->
 	<xsl:template name="render-metadata">
-		<xsl:param name="prop"/>
+		<xsl:param name="risMeta"/>
 
 		<dl id="metadaten">
-			<xsl:if test="$show-aktenzeichen and $prop/ris:aktenzeichenListe">
+			<xsl:if test="$show-aktenzeichen and $risMeta/ris:aktenzeichenListe">
 				<div>
 					<dt>Aktenzeichen</dt>
 					<dd>
-						<xsl:for-each select="$prop/ris:aktenzeichenListe/ris:aktenzeichen">
+						<xsl:for-each select="$risMeta/ris:aktenzeichenListe/ris:aktenzeichen">
 							<xsl:if test="position() > 1"><br/></xsl:if>
 							<xsl:value-of select="."/>
 						</xsl:for-each>
@@ -194,11 +239,11 @@
 				</div>
 			</xsl:if>
 
-			<xsl:if test="$show-normgeber and $prop/ris:normgeberListe/ris:normgeber">
+			<xsl:if test="$show-normgeber and $risMeta/ris:normgeberListe/ris:normgeber">
 				<div>
 					<dt>Normgeber</dt>
 					<dd>
-						<xsl:for-each select="$prop/ris:normgeberListe/ris:normgeber">
+						<xsl:for-each select="$risMeta/ris:normgeberListe/ris:normgeber">
 							<xsl:if test="position() > 1">, </xsl:if>
 							<abbr>
 								<xsl:if test="normalize-space(ris:langbezeichnung)">
@@ -213,11 +258,11 @@
 				</div>
 			</xsl:if>
 
-			<xsl:if test="$show-dokumenttyp and $prop/ris:dokumenttypen/ris:dokumenttyp">
+			<xsl:if test="$show-dokumenttyp and $risMeta/ris:dokumenttypen/ris:dokumenttyp">
 				<div>
 					<dt>Dokumenttyp</dt>
 					<dd>
-						<xsl:for-each select="$prop/ris:dokumenttypen/ris:dokumenttyp">
+						<xsl:for-each select="$risMeta/ris:dokumenttypen/ris:dokumenttyp">
 							<xsl:if test="position() > 1">, </xsl:if>
 							<xsl:value-of select="."/>
 						</xsl:for-each>
@@ -225,12 +270,12 @@
 				</div>
 			</xsl:if>
 
-			<xsl:if test="$show-sachgebiete and $prop/ris:sachgebiete/ris:sachgebiet">
+			<xsl:if test="$show-sachgebiete and $risMeta/ris:sachgebiete/ris:sachgebiet">
 				<div>
 					<dt>Sachgebiete</dt>
 					<dd>
 						<ul>
-							<xsl:for-each select="$prop/ris:sachgebiete/ris:sachgebiet">
+							<xsl:for-each select="$risMeta/ris:sachgebiete/ris:sachgebiet">
 								<li>
 									<xsl:value-of select="."/>
 								</li>
@@ -240,36 +285,38 @@
 				</div>
 			</xsl:if>
 
-			<xsl:if test="$show-inkrafttretedatum and $prop/ris:inkrafttretedatum != ''">
+			<xsl:if test="$show-inkrafttretedatum and $risMeta/ris:inkrafttretedatum != ''">
 				<div>
 					<dt>Inkrafttreten</dt>
 					<dd>
 					<xsl:call-template name="format-date">
-						<xsl:with-param name="date" select="$prop/ris:inkrafttretedatum"/>
+						<xsl:with-param name="date" select="$risMeta/ris:inkrafttretedatum"/>
 					</xsl:call-template>
 				</dd>
 				</div>
 			</xsl:if>
 
-			<xsl:if test="$show-ausserkrafttretedatum and $prop/ris:ausserkrafttretedatum != ''">
+			<xsl:if test="$show-ausserkrafttretedatum and $risMeta/ris:ausserkrafttretedatum != ''">
 				<div>
 					<dt>Außerkrafttreten</dt>
 					<dd>
 					<xsl:call-template name="format-date">
-						<xsl:with-param name="date" select="$prop/ris:ausserkrafttretedatum"/>
+						<xsl:with-param name="date" select="$risMeta/ris:ausserkrafttretedatum"/>
 					</xsl:call-template>
 				</dd>
 				</div>
 			</xsl:if>
 
-			<xsl:if test="$show-anwendungszeitraum and $prop/ris:anwendungszeitraum">
+			<xsl:if test="$show-anwendungszeitraum and $risMeta/ris:anwendungszeitraum/ris:anwendungsbeginn != ''">
 				<div>
 					<dt>Anwendungsbeginn</dt>
-					<dd><xsl:value-of select="$prop/ris:anwendungszeitraum/ris:anwendungsbeginn"/></dd>
+					<dd><xsl:value-of select="$risMeta/ris:anwendungszeitraum/ris:anwendungsbeginn"/></dd>
 				</div>
+			</xsl:if>
+			<xsl:if test="$show-anwendungszeitraum and $risMeta/ris:anwendungszeitraum/ris:anwendungsende != ''">
 				<div>
 					<dt>Anwendungsende</dt>
-					<dd><xsl:value-of select="$prop/ris:anwendungszeitraum/ris:anwendungsende"/></dd>
+					<dd><xsl:value-of select="$risMeta/ris:anwendungszeitraum/ris:anwendungsende"/></dd>
 				</div>
 			</xsl:if>
 		</dl>
@@ -279,13 +326,13 @@
 	     Definitionen
 	     ================================================================ -->
 	<xsl:template name="render-definitionen">
-		<xsl:param name="prop"/>
+		<xsl:param name="risMeta"/>
 
-		<xsl:if test="$show-definitionen and $prop/ris:definitionen/ris:definition/ris:definierterBegriff">
+		<xsl:if test="$show-definitionen and $risMeta/ris:definitionen/ris:definition/ris:definierterBegriff">
 			<section id="definitionen">
 				<h2>Definitionen</h2>
 				<ul>
-					<xsl:for-each select="$prop/ris:definitionen/ris:definition/ris:definierterBegriff">
+					<xsl:for-each select="$risMeta/ris:definitionen/ris:definition/ris:definierterBegriff">
 						<li><xsl:value-of select="."/></li>
 					</xsl:for-each>
 				</ul>
@@ -297,249 +344,19 @@
 	     Schlagwörter
 	     ================================================================ -->
 	<xsl:template name="render-schlagwoerter">
-		<xsl:param name="meta"/>
+		<xsl:param name="risMeta"/>
 
-		<xsl:if test="$show-schlagwoerter and $meta/akn:classification/akn:keyword">
+		<xsl:if test="$show-schlagwoerter and $risMeta/akn:classification/akn:keyword">
 			<section id="schlagwoerter">
 				<h2>Schlagwörter</h2>
 				<ul>
-					<xsl:for-each select="$meta/akn:classification/akn:keyword">
+					<xsl:for-each select="$risMeta/akn:classification/akn:keyword">
 						<li><xsl:value-of select="@showAs"/></li>
 					</xsl:for-each>
 				</ul>
 			</section>
 		</xsl:if>
 	</xsl:template>
-
-	<!-- ================================================================
-	     Referenzen section
-	     ================================================================ -->
-	<xsl:template name="render-referenzen">
-		<xsl:param name="fundstelle"/>
-		<xsl:param name="normenKette"/>
-		<xsl:param name="verweisNormen"/>
-		<xsl:param name="verweisVwv"/>
-		<xsl:param name="rspr"/>
-
-		<xsl:if test="($show-fundstelle                    and $fundstelle)
-		           or ($show-normenkette                   and $normenKette)
-		           or ($show-aktivverweisung               and $verweisNormen)
-		           or ($show-aktivverweisung               and $verweisVwv)
-		           or ($show-aktivzitierung-rechtsprechung and $rspr)">
-			<section id="referenzen">
-				<h2>Referenzen</h2>
-
-				<xsl:call-template name="render-fundstelle">
-					<xsl:with-param name="fundstelle" select="$fundstelle"/>
-				</xsl:call-template>
-
-				<xsl:call-template name="render-normen">
-					<xsl:with-param name="verweisNormen" select="$verweisNormen"/>
-				</xsl:call-template>
-
-				<xsl:call-template name="render-normenkette">
-					<xsl:with-param name="normenKette" select="$normenKette"/>
-				</xsl:call-template>
-
-				<xsl:call-template name="render-vwv">
-					<xsl:with-param name="verweisVwv" select="$verweisVwv"/>
-				</xsl:call-template>
-
-				<xsl:call-template name="render-rechtsprechung">
-					<xsl:with-param name="rspr" select="$rspr"/>
-				</xsl:call-template>
-			</section>
-		</xsl:if>
-	</xsl:template>
-
-	<xsl:template name="render-fundstelle">
-		<xsl:param name="fundstelle"/>
-		<xsl:if test="$show-fundstelle and $fundstelle">
-			<div>
-				<h3>Fundstelle</h3>
-				<ul>
-					<xsl:for-each select="$fundstelle">
-						<xsl:variable name="fu" select="ris:fundstelle"/>
-						<li>
-							<span><xsl:value-of select="$fu/ris:periodikum/ris:abkuerzung"/></span>
-							<xsl:if test="$fu/ris:periodikum/ris:untertitel != ''">
-								<xsl:text>, </xsl:text>
-								<span><xsl:value-of select="$fu/ris:periodikum/ris:untertitel"/></span>
-							</xsl:if>
-							<xsl:if test="$fu/ris:zitatstelle != ''">
-								<xsl:text>, </xsl:text>
-								<span><xsl:value-of select="$fu/ris:zitatstelle"/></span>
-							</xsl:if>
-						</li>
-					</xsl:for-each>
-				</ul>
-			</div>
-		</xsl:if>
-	</xsl:template>
-
-	<xsl:template name="render-normen">
-		<xsl:param name="verweisNormen"/>
-		<xsl:if test="$show-aktivverweisung and $verweisNormen">
-			<div>
-				<h3>Normen</h3>
-				<ul>
-					<xsl:for-each select="$verweisNormen">
-						<xsl:variable name="vn" select="ris:verweisNorm"/>
-						<li>
-							<span><xsl:value-of select="$vn/ris:abkuerzung"/></span>
-							<xsl:if test="$vn/ris:einzelnorm/ris:bezeichnung != ''">
-								<xsl:text> </xsl:text>
-								<span><xsl:value-of select="$vn/ris:einzelnorm/ris:bezeichnung"/></span>
-							</xsl:if>
-							<xsl:if test="$vn/ris:einzelnorm/ris:normtext != ''">
-								<xsl:text> </xsl:text>
-								<span><xsl:value-of select="$vn/ris:einzelnorm/ris:normtext"/></span>
-							</xsl:if>
-							<xsl:if test="$vn/ris:verweistyp != ''">
-								<span>(<xsl:value-of select="$vn/ris:verweistyp"/>)</span>
-							</xsl:if>
-							<xsl:if test="$vn/ris:einzelnorm/ris:fassungsdatum != ''">
-								<span>
-									<xsl:text>, </xsl:text>
-									<xsl:call-template name="format-date">
-										<xsl:with-param name="date" select="$vn/ris:einzelnorm/ris:fassungsdatum"/>
-									</xsl:call-template>
-								</span>
-							</xsl:if>
-							<xsl:if test="$vn/ris:einzelnorm/ris:ausserkrafttretedatum != ''">
-								<span>
-									<xsl:text>. Außerkrafttreten: </xsl:text>
-									<xsl:call-template name="format-date">
-										<xsl:with-param name="date" select="$vn/ris:einzelnorm/ris:ausserkrafttretedatum"/>
-									</xsl:call-template>
-								</span>
-							</xsl:if>
-						</li>
-					</xsl:for-each>
-				</ul>
-			</div>
-		</xsl:if>
-	</xsl:template>
-
-	<xsl:template name="render-normenkette">
-		<xsl:param name="normenKette"/>
-		<xsl:if test="$show-normenkette and $normenKette">
-			<div>
-				<h3>Normenkette</h3>
-				<ul>
-					<xsl:for-each select="$normenKette">
-						<xsl:variable name="norm" select="ris:referenzNorm"/>
-						<li>
-							<span><xsl:value-of select="$norm/ris:abkuerzung"/></span>
-							<xsl:if test="$norm/ris:einzelnorm/ris:bezeichnung != ''">
-								<xsl:text> </xsl:text>
-								<span><xsl:value-of select="$norm/ris:einzelnorm/ris:bezeichnung"/></span>
-							</xsl:if>
-						</li>
-					</xsl:for-each>
-				</ul>
-			</div>
-		</xsl:if>
-	</xsl:template>
-
-	<xsl:template name="render-vwv">
-		<xsl:param name="verweisVwv"/>
-		<xsl:if test="$show-aktivverweisung and $verweisVwv">
-			<div>
-				<h3>Verwaltungsvorschriften</h3>
-				<ul>
-					<xsl:for-each select="$verweisVwv">
-						<xsl:variable name="vwv" select="ris:verweisVerwaltungsvorschrift"/>
-						<li>
-							<span><xsl:value-of select="$vwv/ris:abkuerzung"/></span>
-							<xsl:if test="$vwv/ris:einzelnorm/ris:bezeichnung != ''">
-								<xsl:text> </xsl:text>
-								<span><xsl:value-of select="$vwv/ris:einzelnorm/ris:bezeichnung"/></span>
-							</xsl:if>
-							<xsl:if test="$vwv/ris:einzelnorm/ris:normtext != ''">
-								<xsl:text> </xsl:text>
-								<span><xsl:value-of select="$vwv/ris:einzelnorm/ris:normtext"/></span>
-							</xsl:if>
-							<xsl:if test="$vwv/ris:verweistyp != ''">
-								<span>(<xsl:value-of select="$vwv/ris:verweistyp"/>)</span>
-							</xsl:if>
-						</li>
-					</xsl:for-each>
-				</ul>
-			</div>
-		</xsl:if>
-	</xsl:template>
-
-	<xsl:template name="render-rechtsprechung">
-		<xsl:param name="rspr"/>
-		<xsl:if test="$show-aktivzitierung-rechtsprechung and $rspr">
-			<div>
-				<h3>Rechtsprechung</h3>
-				<ul>
-					<xsl:for-each select="$rspr">
-						<xsl:variable name="r" select="ris:referenzRechtsprechung"/>
-						<li>
-							<xsl:if test="$r/ris:gericht/ris:gerichtsort != '' and $r/ris:gericht/ris:gerichtstyp != ''">
-								<span>
-									<xsl:value-of select="$r/ris:gericht/ris:gerichtstyp"/>
-									<xsl:text> </xsl:text>
-									<xsl:value-of select="$r/ris:gericht/ris:gerichtsort"/>
-									<xsl:text>, </xsl:text>
-								</span>
-							</xsl:if>
-							<xsl:if test="$r/ris:entscheidungsdatum != ''">
-								<span>
-									<xsl:text> </xsl:text>
-									<xsl:call-template name="format-date">
-										<xsl:with-param name="date" select="$r/ris:entscheidungsdatum"/>
-									</xsl:call-template>
-								</span>
-							</xsl:if>
-							<xsl:if test="$r/ris:aktenzeichen != ''">
-								<span>
-									<xsl:text> - </xsl:text>
-									<xsl:value-of select="$r/ris:aktenzeichen"/>
-								</span>
-							</xsl:if>
-							<xsl:if test="$r/ris:artDerZitierung != ''">
-								<span>(<xsl:value-of select="$r/ris:artDerZitierung"/>)</span>
-							</xsl:if>
-							<xsl:if test="$r/ris:fundstelle/ris:periodikum/ris:abkuerzung != ''
-							           or $r/ris:fundstelle/ris:zitatstelle != ''">
-								<span>
-									<xsl:text>, </xsl:text>
-									<xsl:value-of select="$r/ris:fundstelle/ris:periodikum/ris:abkuerzung"/>
-									<xsl:if test="$r/ris:fundstelle/ris:zitatstelle != ''">
-										<xsl:text> </xsl:text>
-										<xsl:value-of select="$r/ris:fundstelle/ris:zitatstelle"/>
-									</xsl:if>
-								</span>
-							</xsl:if>
-						</li>
-					</xsl:for-each>
-				</ul>
-			</div>
-		</xsl:if>
-	</xsl:template>
-
-	<!-- ================================================================
-	     Preface / MainBody
-	     ================================================================ -->
-	<xsl:template match="akn:preface[node()]">
-		<div>
-			<xsl:apply-templates/>
-		</div>
-	</xsl:template>
-
-	<xsl:template match="akn:preface[not(node())]"/>
-
-	<xsl:template match="akn:mainBody[node()]">
-		<div>
-			<xsl:apply-templates/>
-		</div>
-	</xsl:template>
-
-	<xsl:template match="akn:mainBody[not(node())]"/>
 
 	<!-- ================================================================
 	     AkomaNtoso inline elements — passthrough with semantic HTML
