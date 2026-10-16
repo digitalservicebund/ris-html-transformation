@@ -31,14 +31,14 @@ class VvBundXsltTransformerTest {
     }
 
     @Test
-    void renders_Langueberschrift() {
+    void testTransform_allDataSample_rendersLangueberschrift() {
       var title = "Bekanntmachung der Verfahrensordnung für die Vergabe öffentlicher ...";
 
       assertThat(doc.select("h1#title").text()).isEqualTo(title);
     }
 
     @Test
-    void matches_expectedHtmlFile() throws IOException {
+    void testTransform_allDataSample_producesExpectedHtml() throws IOException {
       String expectedRawHtml = readResourceToString("vvbund_all_data.html");
 
       assertThat(Jsoup.parse(rawTransformedHtml).html())
@@ -59,14 +59,14 @@ class VvBundXsltTransformerTest {
     }
 
     @Test
-    void renders_withoutLangueberschrift() {
-      var placeholderLongtitle = "Placeholder für die Amtliche Langüberschrift";
+    void testTransform_minimalDataSample_rendersWithoutLangueberschrift() {
+      var placeholderLangueberschrift = "Placeholder für die Amtliche Langüberschrift";
 
-      assertThat(doc.select("h1#title").text()).isEqualTo(placeholderLongtitle);
+      assertThat(doc.select("h1#title").text()).isEqualTo(placeholderLangueberschrift);
     }
 
     @Test
-    void matches_expectedHtmlFile() throws IOException {
+    void testTransform_minimalDataSample_producesExpectedHtml() throws IOException {
       String expectedRawHtml = readResourceToString("vvbund_minimal_data.html");
 
       assertThat(Jsoup.parse(rawTransformedHtml).html())
@@ -78,7 +78,7 @@ class VvBundXsltTransformerTest {
   private static String transformResourceToString(String filename) throws IOException {
     String path = SAMPLE_BASE_PATH + filename;
 
-    try (InputStream inputStream = VvBundXsltTransformer.class.getResourceAsStream(path)) {
+    try (InputStream inputStream = VvBundXsltTransformerTest.class.getResourceAsStream(path)) {
       assertThat(inputStream).withFailMessage("Could not find: " + path).isNotNull();
       return TRANSFORMER.transform(inputStream.readAllBytes());
     }
@@ -88,7 +88,7 @@ class VvBundXsltTransformerTest {
   private static String readResourceToString(String filename) throws IOException {
     String path = SAMPLE_BASE_PATH + filename;
 
-    try (InputStream inputStream = VvBundXsltTransformer.class.getResourceAsStream(path)) {
+    try (InputStream inputStream = VvBundXsltTransformerTest.class.getResourceAsStream(path)) {
       assertThat(inputStream).withFailMessage("Could not find: " + path).isNotNull();
       return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
     }
