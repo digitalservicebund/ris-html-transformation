@@ -47,8 +47,10 @@ spotless {
         target("src/**/*.java")
         googleJavaFormat()
     }
+    kotlinGradle {
+        ktlint()
+    }
 }
-
 
 val buildCss by tasks.registering(NpmTask::class) {
     dependsOn(tasks.npmInstall)
