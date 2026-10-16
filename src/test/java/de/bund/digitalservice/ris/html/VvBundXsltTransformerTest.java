@@ -33,6 +33,7 @@ class VvBundXsltTransformerTest {
     @Test
     void renders_Langueberschrift() {
       var title = "Bekanntmachung der Verfahrensordnung für die Vergabe öffentlicher ...";
+
       assertThat(doc.select("h1#title").text()).isEqualTo(title);
     }
 
@@ -60,6 +61,7 @@ class VvBundXsltTransformerTest {
     @Test
     void renders_withoutLangueberschrift() {
       var placeholderLongtitle = "Placeholder für die Amtliche Langüberschrift";
+
       assertThat(doc.select("h1#title").text()).isEqualTo(placeholderLongtitle);
     }
 
@@ -75,6 +77,7 @@ class VvBundXsltTransformerTest {
   /** Reads an XML file from the classpath resources and applies the XSLT transformation. */
   private static String transformResourceToString(String filename) throws IOException {
     String path = SAMPLE_BASE_PATH + filename;
+
     try (InputStream inputStream = VvBundXsltTransformer.class.getResourceAsStream(path)) {
       assertThat(inputStream).withFailMessage("Could not find: " + path).isNotNull();
       return TRANSFORMER.transform(inputStream.readAllBytes());
@@ -84,6 +87,7 @@ class VvBundXsltTransformerTest {
   /** Reads a reference file from the classpath resources into a UTF-8 string. */
   private static String readResourceToString(String filename) throws IOException {
     String path = SAMPLE_BASE_PATH + filename;
+
     try (InputStream inputStream = VvBundXsltTransformer.class.getResourceAsStream(path)) {
       assertThat(inputStream).withFailMessage("Could not find: " + path).isNotNull();
       return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
