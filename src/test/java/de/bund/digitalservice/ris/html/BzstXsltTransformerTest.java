@@ -1,16 +1,15 @@
 package de.bund.digitalservice.ris.html;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import de.bund.digitalservice.ris.html.service.xslt.BzstXsltTransformer;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class BzstXsltTransformerTest {
 
@@ -29,7 +28,8 @@ class BzstXsltTransformerTest {
   @Test
   void rendersLangtitel() {
     assertThat(doc.select("#header h1").text())
-        .isEqualTo("Anwendung des § 1 Abs. 1 AStG bei Verrechnungspreisen mit nahestehenden Personen");
+        .isEqualTo(
+            "Anwendung des § 1 Abs. 1 AStG bei Verrechnungspreisen mit nahestehenden Personen");
   }
 
   @Test
@@ -41,9 +41,7 @@ class BzstXsltTransformerTest {
   @Test
   void rendersAktenzeichen() {
     assertThat(doc.select("#metadaten dt").eachText()).contains("Aktenzeichen");
-    assertThat(doc.select("#metadaten").text())
-        .contains("XYZ 123/7")
-        .contains("XYZ 123/8");
+    assertThat(doc.select("#metadaten").text()).contains("XYZ 123/7").contains("XYZ 123/8");
   }
 
   @Test
@@ -105,9 +103,7 @@ class BzstXsltTransformerTest {
   @Test
   void rendersRechtsprechung() {
     assertThat(doc.select("#referenzen h3").eachText()).contains("Rechtsprechung");
-    assertThat(doc.select("#referenzen").text())
-        .contains("BFH München")
-        .contains("I R 45/01");
+    assertThat(doc.select("#referenzen").text()).contains("BFH München").contains("I R 45/01");
   }
 
   @Test

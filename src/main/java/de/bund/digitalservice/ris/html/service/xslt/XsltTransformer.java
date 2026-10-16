@@ -53,20 +53,20 @@ public abstract class XsltTransformer {
 
       Transformer transformer = transformerFactory.newTransformer(xsltSource);
       ((TransformerImpl) transformer)
-              .getUnderlyingXsltTransformer()
-              .setMessageHandler(
-                      message -> {
-                        if (message.isTerminate()) {
-                          terminationMessage.set(message.toString());
-                        } else {
-                          logger.debug(message.getStringValue());
-                        }
-                      });
+          .getUnderlyingXsltTransformer()
+          .setMessageHandler(
+              message -> {
+                if (message.isTerminate()) {
+                  terminationMessage.set(message.toString());
+                } else {
+                  logger.debug(message.getStringValue());
+                }
+              });
       transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
       parameters.forEach(transformer::setParameter);
       transformer.setParameter("outputMode", "HTML_ALL");
       try (ByteArrayInputStream in = new ByteArrayInputStream(source);
-           StringWriter output = new StringWriter()) {
+          StringWriter output = new StringWriter()) {
 
         transformer.transform(new StreamSource(in), new StreamResult(output));
         return output.toString();

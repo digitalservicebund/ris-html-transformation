@@ -12,5 +12,4 @@ public class LiteratureXsltTransformer extends XsltTransformer {
   public String transform(byte[] source) {
     return transformLegalDocMlFromBytes(source, Collections.emptyMap());
   }
-
 }

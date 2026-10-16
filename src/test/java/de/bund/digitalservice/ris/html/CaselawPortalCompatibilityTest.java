@@ -1,5 +1,7 @@
 package de.bund.digitalservice.ris.html;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import de.bund.digitalservice.ris.html.service.xslt.CaselawXsltTransformer;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,20 +10,21 @@ import java.util.Objects;
 import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 class CaselawPortalCompatibilityTest {
 
   private static final CaselawXsltTransformer XSLT_TRANSFORMER = new CaselawXsltTransformer();
   private static final String SAMPLE_BASE_PATH = "/samples/caselaw/";
   private static final String API_RESOURCE_BASE_PATH = "api/v1/";
-  private static final String RESOURCE_NOT_FOUND_MESSAGE = "Could not find local sample file at classpath: ";
+  private static final String RESOURCE_NOT_FOUND_MESSAGE =
+      "Could not find local sample file at classpath: ";
 
   @Test
   void testTransform_allSectionsSample_headingHasCorrectTitleId() throws IOException {
-    /** The id is used to extract the title from the HTML.
-     * If the transformation of the heading in the xslt transformation
-     * changes unexpectedly and thus breaks the frontend rendering, this test will fail. **/
+    /**
+     * The id is used to extract the title from the HTML. If the transformation of the heading in
+     * the xslt transformation changes unexpectedly and thus breaks the frontend rendering, this
+     * test will fail. *
+     */
     String sampleLDMLPath = SAMPLE_BASE_PATH + "all_sections.xml";
     String sampleHTMLPath = SAMPLE_BASE_PATH + "all_sections.html";
 
@@ -36,9 +39,11 @@ class CaselawPortalCompatibilityTest {
 
   @Test
   void testTransform_allSectionsSample_sectionsHaveCorrectIdsAndOrder() throws IOException {
-    /** The generation of the TabledOfContents relies on the headings having specific ids.
-     * If the transformation of the headings in the xslt transformation changes unexpectedly
-     * and thus breaks the frontend rendering, this test will fail. **/
+    /**
+     * The generation of the TabledOfContents relies on the headings having specific ids. If the
+     * transformation of the headings in the xslt transformation changes unexpectedly and thus
+     * breaks the frontend rendering, this test will fail. *
+     */
     String sampleLDMLPath = SAMPLE_BASE_PATH + "all_sections.xml";
     String sampleHTMLPath = SAMPLE_BASE_PATH + "all_sections.html";
 
@@ -49,21 +54,19 @@ class CaselawPortalCompatibilityTest {
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
 
     String[] expectedOrder = {
-            "id=\"leitsatz\"",
-            "id=\"orientierungssatz\"",
-            "id=\"sonstigerOrientierungssatz\"",
-            "id=\"gliederung\"",
-            "id=\"tatbestand\"",
-            "id=\"entscheidungsgruende\"",
-            "id=\"gruende\"",
-            "id=\"sonstigerLangtext\"",
-            "id=\"abweichendeMeinung\""
+      "id=\"leitsatz\"",
+      "id=\"orientierungssatz\"",
+      "id=\"sonstigerOrientierungssatz\"",
+      "id=\"gliederung\"",
+      "id=\"tatbestand\"",
+      "id=\"entscheidungsgruende\"",
+      "id=\"gruende\"",
+      "id=\"sonstigerLangtext\"",
+      "id=\"abweichendeMeinung\""
     };
 
     for (String id : expectedOrder) {
-      assertThat(actualHtml)
-              .withFailMessage("Missing expected heading ID: %s", id)
-              .contains(id);
+      assertThat(actualHtml).withFailMessage("Missing expected heading ID: %s", id).contains(id);
     }
 
     for (int i = 0; i < expectedOrder.length - 1; i++) {
@@ -74,19 +77,22 @@ class CaselawPortalCompatibilityTest {
       int nextIndex = actualHtml.indexOf(nextId);
 
       assertThat(nextIndex)
-              .withFailMessage("Order violation: '%s' (index %d) should appear before '%s' (index %d)",
-                      currentId, currentIndex, nextId, nextIndex)
-              .isGreaterThan(currentIndex);
+          .withFailMessage(
+              "Order violation: '%s' (index %d) should appear before '%s' (index %d)",
+              currentId, currentIndex, nextId, nextIndex)
+          .isGreaterThan(currentIndex);
     }
   }
 
   @Test
-  void testTransform_borderNumbersSample_transformsCaselawBorderNumbersCorrectly() throws IOException {
+  void testTransform_borderNumbersSample_transformsCaselawBorderNumbersCorrectly()
+      throws IOException {
     /**
      * If the rendering of the broder numbers changes, the portal would have to adapt the CSS in the
-     * frontend to display the border numbers correctly. This test ensures that the
-     * transformation of the border numbers in the xslt transformation does not change
-     * unexpectedly and thus break the frontend rendering. **/
+     * frontend to display the border numbers correctly. This test ensures that the transformation
+     * of the border numbers in the xslt transformation does not change unexpectedly and thus break
+     * the frontend rendering. *
+     */
     String sampleLDMLPath = SAMPLE_BASE_PATH + "bordernumbers.xml";
     String sampleHTMLPath = SAMPLE_BASE_PATH + "bordernumbers.html";
 
@@ -98,12 +104,13 @@ class CaselawPortalCompatibilityTest {
     assertThat(actualHtml).isNotNull();
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
 
-    SoftAssertions.assertSoftly(softly -> {
-      softly.assertThat(actualHtml).contains("id=\"randnummer-1\"");
-      softly.assertThat(actualHtml).contains("id=\"randnummer-2\"");
-      softly.assertThat(actualHtml).contains("Example Tatbestand/CaseFacts. More background");
-      softly.assertThat(actualHtml).contains("even more background");
-    });
+    SoftAssertions.assertSoftly(
+        softly -> {
+          softly.assertThat(actualHtml).contains("id=\"randnummer-1\"");
+          softly.assertThat(actualHtml).contains("id=\"randnummer-2\"");
+          softly.assertThat(actualHtml).contains("Example Tatbestand/CaseFacts. More background");
+          softly.assertThat(actualHtml).contains("even more background");
+        });
   }
 
   @Test
@@ -122,9 +129,10 @@ class CaselawPortalCompatibilityTest {
 
   @Test
   void testTransform_tableSample_tablesAreTransferredCorrectly() throws IOException {
-    /** The current structure is needed for styling, especially for setting the table
-     * width to allow horizontal scrolling when the table is too wide for our layout. **/
-
+    /**
+     * The current structure is needed for styling, especially for setting the table width to allow
+     * horizontal scrolling when the table is too wide for our layout. *
+     */
     String sampleLDMLPath = SAMPLE_BASE_PATH + "table.xml";
     String sampleHTMLPath = SAMPLE_BASE_PATH + "table.html";
 
@@ -139,8 +147,10 @@ class CaselawPortalCompatibilityTest {
 
   @Test
   void testTransform_imageSample_imageTagsAreTransferredCorrectly() throws IOException {
-    /** Important here is that the src attribute is correctly set,
-     * so that the backend can provide the right image from the bucket. **/
+    /**
+     * Important here is that the src attribute is correctly set, so that the backend can provide
+     * the right image from the bucket. *
+     */
     String sampleLDMLPath = SAMPLE_BASE_PATH + "image.xml";
     String sampleHTMLPath = SAMPLE_BASE_PATH + "image.html";
 
@@ -165,7 +175,6 @@ class CaselawPortalCompatibilityTest {
 
     assertThat(actualHtml).isNotNull();
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
-
   }
 
   @Test
@@ -180,7 +189,6 @@ class CaselawPortalCompatibilityTest {
 
     assertThat(actualHtml).isNotNull();
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
-
   }
 
   @Test
@@ -213,9 +221,7 @@ class CaselawPortalCompatibilityTest {
 
   private byte[] readResourceAsBytes(String classpath) throws IOException {
     try (InputStream inputStream = getClass().getResourceAsStream(classpath)) {
-      assertThat(inputStream)
-              .withFailMessage(RESOURCE_NOT_FOUND_MESSAGE + classpath)
-              .isNotNull();
+      assertThat(inputStream).withFailMessage(RESOURCE_NOT_FOUND_MESSAGE + classpath).isNotNull();
       return inputStream.readAllBytes();
     }
   }
