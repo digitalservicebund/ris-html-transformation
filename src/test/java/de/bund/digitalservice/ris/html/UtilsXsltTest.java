@@ -33,21 +33,24 @@ class UtilsXsltTest {
 
   @ParameterizedTest
   @CsvSource({
-      "2021-02-05, 5. Februar 2021",
-      "2013-06-10, 10. Juni 2013",
-      "2020-01-01, 1. Januar 2020",
-      "2020-12-31, 31. Dezember 2020",
-      "'', ''",
-      "not-a-date, not-a-date",
-      "'2020-13-40', '2020-13-40'"
+    "2021-02-05, 5. Februar 2021",
+    "2013-06-10, 10. Juni 2013",
+    "2020-01-01, 1. Januar 2020",
+    "2020-12-31, 31. Dezember 2020",
+    "'', ''",
+    "not-a-date, not-a-date",
+    "'2020-13-40', '2020-13-40'"
   })
-  void testFormatDateLong_isoDate_returnsGermanLongDateFormat(String input, String expected) throws Exception {
+  void testFormatDateLong_isoDate_returnsGermanLongDateFormat(String input, String expected)
+      throws Exception {
     assertThat(formatDateLong(input)).isEqualTo(expected);
   }
 
   private String formatDateLong(String date) throws Exception {
     URL basePathUrl = getClass().getClassLoader().getResource(XSLT_BASE_PATH);
-    assertThat(basePathUrl).withFailMessage("XSLT base path not found: " + XSLT_BASE_PATH).isNotNull();
+    assertThat(basePathUrl)
+        .withFailMessage("XSLT base path not found: " + XSLT_BASE_PATH)
+        .isNotNull();
 
     TransformerFactory transformerFactory = TransformerFactory.newInstance();
     Transformer transformer =
@@ -56,8 +59,7 @@ class UtilsXsltTest {
     transformer.setParameter("date", date);
 
     StringWriter output = new StringWriter();
-    transformer.transform(
-        new StreamSource(new StringReader("<root/>")), new StreamResult(output));
+    transformer.transform(new StreamSource(new StringReader("<root/>")), new StreamResult(output));
     return output.toString();
   }
 }

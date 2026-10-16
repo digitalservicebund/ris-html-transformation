@@ -12,11 +12,11 @@ public class BzstPdfXsltTransformer extends XsltTransformer {
 
   /**
    * Transforms XML bytes to PDF
+   *
    * @param source XML byte source
    * @return String representing transformed HTML
    */
   public String transform(byte[] source) {
     return transformLegalDocMlFromBytes(source, Collections.emptyMap());
   }
-
 }

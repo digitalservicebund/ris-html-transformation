@@ -1,15 +1,14 @@
 package de.bund.digitalservice.ris.html;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import de.bund.digitalservice.ris.html.service.xslt.BzstPdfXsltTransformer;
+import java.io.IOException;
+import java.io.InputStream;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.io.InputStream;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class BzstPdfXsltTransformerTest {
 
