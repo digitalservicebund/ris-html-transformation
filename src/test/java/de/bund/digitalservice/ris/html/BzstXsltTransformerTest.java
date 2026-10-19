@@ -10,8 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
-import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -36,93 +34,96 @@ class BzstXsltTransformerTest {
   }
 
   @Test
+  void rendersHtmlTitle() {
+    assertThat(doc.title())
+        .isEqualTo("Anwendung des § 1 Abs. 1 AStG bei Verrechnungspreisen mit nahestehenden Personen");
+  }
+
+  @Test
   void rendersLangtitel() {
-    assertThat(doc.select("#header h1").text())
+    assertThat(doc.select("meta[name=amtliche-langueberschrift]").attr("content"))
         .isEqualTo("Anwendung des § 1 Abs. 1 AStG bei Verrechnungspreisen mit nahestehenden Personen");
   }
 
   @Test
   void rendersZitierdatum() {
-    assertThat(doc.select("#header dt").eachText()).contains("Zitierdatum");
-    assertThat(doc.select("#header dd").eachText()).contains("01.04.2003");
+    assertThat(doc.select("meta[name=zitierdatum]").attr("content"))
+        .isEqualTo("01.04.2003");
   }
 
   @Test
   void rendersAktenzeichen() {
-    assertThat(doc.select("#metadaten dt").eachText()).contains("Aktenzeichen");
-    assertThat(doc.select("#metadaten").text())
-        .contains("XYZ 123/7")
-        .contains("XYZ 123/8");
+    assertThat(doc.select("template#aktenzeichen li").eachText())
+        .contains("XYZ 123/7", "XYZ 123/8");
   }
 
   @Test
   void rendersNormgeber() {
-    assertThat(doc.select("#metadaten dt").eachText()).contains("Normgeber");
-    assertThat(doc.select("#metadaten abbr").eachText()).contains("BMG");
-    assertThat(doc.select("#metadaten abbr[title]").attr("title"))
+    assertThat(doc.select("template#normgeber abbr").eachText()).contains("BMG");
+    assertThat(doc.select("template#normgeber abbr[title]").attr("title"))
         .isEqualTo("Bundesministerium des Geldes");
   }
 
   @Test
   void rendersDokumenttyp() {
-    assertThat(doc.select("#metadaten dt").eachText()).contains("Dokumenttyp");
-    assertThat(doc.select("#metadaten").text())
-        .contains("BMF-Schreiben")
-        .contains("Verwaltungsanweisung");
+    assertThat(doc.select("template#dokumenttypen li").eachText())
+        .contains("BMF-Schreiben", "Verwaltungsanweisung");
   }
 
   @Test
   void rendersInkrafttreten() {
-    assertThat(doc.select("#metadaten dt").eachText()).contains("Inkrafttreten");
-    assertThat(doc.select("#metadaten").text()).contains("01.04.2003");
+    assertThat(doc.select("meta[name=inkrafttretedatum]").attr("content"))
+        .isEqualTo("01.04.2003");
   }
 
   @Test
   void rendersAusserkrafttreten() {
-    assertThat(doc.select("#metadaten dt").eachText()).contains("Außerkrafttreten");
-    assertThat(doc.select("#metadaten").text()).contains("unbefristet");
+    assertThat(doc.select("meta[name=ausserkrafttretedatum]").attr("content"))
+        .isEqualTo("unbefristet");
   }
 
   @Test
   void rendersAnwendungszeitraum() {
-    assertThat(doc.select("#metadaten dt").eachText())
-        .containsAll(List.of("Anwendungsbeginn", "Anwendungsende"));
-    assertThat(doc.select("#metadaten").text()).contains("2003").contains("2023");
+    assertThat(doc.select("meta[name=anwendungsbeginn]").attr("content")).contains("2003");
+    assertThat(doc.select("meta[name=anwendungsende]").attr("content")).contains("2023");
   }
 
   @Test
   void rendersNormenkette() {
-    assertThat(doc.select("template#normenKette li").eachText())
-        .contains("AStG § 1 Abs 1")
-        .contains("EStG § 15 Abs 1");
+    assertThat(doc.select("template#referenzNormen li").eachText())
+        .anyMatch(t -> t.contains("AStG § 1 Abs 1"))
+        .anyMatch(t -> t.contains("EStG § 15 Abs 1"));
   }
 
   @Test
   void rendersNormen() {
-    assertThat(Objects.requireNonNull(doc.select("template#verweisNormen li").first()).text())
-        .contains("KStG")
-        .contains("§ 8a")
-        .contains("Durchführungsvorschrift");
+    assertThat(doc.select("template#verweisNormen li").eachText())
+        .anyMatch(t -> t.contains("KStG") && t.contains("§ 8a") && t.contains("Durchführungsvorschrift"));
   }
 
   @Test
   void rendersVerwaltungsvorschriften() {
-    assertThat(Objects.requireNonNull(doc.select("template#verweisVwv li").first()).text())
-        .contains("VV Fantasie 2019");
+    assertThat(doc.select("template#verweisVerwaltungsvorschriften li").eachText())
+        .anyMatch(t -> t.contains("VV Fantasie 2019"));
   }
 
   @Test
   void rendersRechtsprechung() {
-    assertThat(Objects.requireNonNull(doc.select("template#rspr li").first()).text())
-        .contains("BFH München")
-        .contains("I R 45/01");
+    assertThat(doc.select("template#referenzRechtsprechungen li").eachText())
+        .anyMatch(t -> t.contains("BFH München") && t.contains("I R 45/01"));
   }
 
   @Test
   void rendersFundstelle() {
-    assertThat(Objects.requireNonNull(doc.select("template#fundstelle li").first()).text())
-        .contains("BStBl I")
-        .contains("Ausgabe A")
-        .contains("2042, 42");
+    assertThat(doc.select("template#fundstellen li").eachText())
+        .anyMatch(t -> t.contains("BStBl I") && t.contains("Ausgabe A") && t.contains("2042, 42"));
+  }
+
+  @Test
+  void doesNotRenderHiddenByDefaultSections() {
+    assertThat(doc.select("template#schlagwoerter")).isEmpty();
+    assertThat(doc.select("template#definierteBegriffe")).isEmpty();
+    assertThat(doc.select("template#sachgebiete")).isEmpty();
+    assertThat(doc.select("meta[name=dokumentnummer]")).isEmpty();
   }
 }
