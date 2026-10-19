@@ -55,7 +55,7 @@
 
         <xsl:variable name="periodikum" select="($fundstelle/ris:periodikum/ris:abkuerzung, $fundstelle/ris:periodikum/ris:titel)[1]" />
 
-        <xsl:sequence select="local:join-non-empty(($periodikum, $fundstelle/ris:periodikum/ris:untertitel, $fundstelle/ris:zitatstelle), ', ')" />
+        <xsl:sequence select="local:join-non-empty(($periodikum, $fundstelle/ris:periodikum/ris:untertitel, $fundstelle/ris:zitatstelle), ' ')" />
     </xsl:function>
 
     <!-- Formats a referenzVerwaltungsvorschrift reference as "<jurisAbkuerzung>, <fundstelle>". -->

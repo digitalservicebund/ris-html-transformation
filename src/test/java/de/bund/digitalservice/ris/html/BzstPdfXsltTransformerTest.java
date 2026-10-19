@@ -26,28 +26,28 @@ class BzstPdfXsltTransformerTest {
 
   @Test
   void hidesNormen() {
-    assertThat(doc.select("#referenzen h3").eachText()).doesNotContain("Normen");
+    assertThat(doc.select("template#verweisNormen")).isEmpty();
   }
 
   @Test
   void hidesVerwaltungsvorschriften() {
-    assertThat(doc.select("#referenzen h3").eachText()).doesNotContain("Verwaltungsvorschriften");
+    assertThat(doc.select("template#verweisVerwaltungsvorschriften")).isEmpty();
   }
 
   @Test
   void hidesRechtsprechung() {
-    assertThat(doc.select("#referenzen h3").eachText()).doesNotContain("Rechtsprechung");
+    assertThat(doc.select("template#referenzRechtsprechungen")).isEmpty();
   }
 
   @Test
   void rendersNormenkette() {
-    assertThat(doc.select("#referenzen h3").eachText()).contains("Normenkette");
-    assertThat(doc.select("#referenzen").text()).contains("AStG");
+    assertThat(doc.select("template#referenzNormen li").eachText())
+        .anyMatch(t -> t.contains("AStG"));
   }
 
   @Test
   void rendersFundstelle() {
-    assertThat(doc.select("#referenzen h3").eachText()).contains("Fundstelle");
-    assertThat(doc.select("#referenzen").text()).contains("BStBl I");
+    assertThat(doc.select("template#fundstellen li").eachText())
+        .anyMatch(t -> t.contains("BStBl I"));
   }
 }
