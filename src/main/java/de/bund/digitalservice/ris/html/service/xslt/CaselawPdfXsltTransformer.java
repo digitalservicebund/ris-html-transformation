@@ -1,11 +1,6 @@
 package de.bund.digitalservice.ris.html.service.xslt;
 
 import de.bund.digitalservice.ris.html.exception.FileTransformationException;
-import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.jspecify.annotations.NonNull;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
@@ -14,13 +9,19 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jspecify.annotations.NonNull;
 
 /** Class for transforming LegalDocML case law documents to the HTML-for-PDF using XSLT. */
 public class CaselawPdfXsltTransformer extends XsltTransformer {
   private static final Logger logger = LogManager.getLogger(CaselawPdfXsltTransformer.class);
   private static final String DATA_URI_PREFIX = "data:";
-  private static final Pattern IMAGE_SRC = Pattern.compile(
-      "(<akn:img\\b[^>]*?\\bsrc\\s*=\\s*)([\\\"'])(?<imagesrc>[^\\\"']+)(\\2)", Pattern.CASE_INSENSITIVE);
+  private static final Pattern IMAGE_SRC =
+      Pattern.compile(
+          "(<akn:img\\b[^>]*?\\bsrc\\s*=\\s*)([\\\"'])(?<imagesrc>[^\\\"']+)(\\2)",
+          Pattern.CASE_INSENSITIVE);
   private static final String PLACEHOLDER_IMAGE_RESOURCE =
       "de/bund/digitalservice/ris/html/xslt/placeholder.png";
   private static final String PLACEHOLDER_IMAGE_MEDIA_TYPE = "image/png";
@@ -29,24 +30,22 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
     super("de/bund/digitalservice/ris/html/xslt/", "case-law-pdf.xslt");
   }
 
-  /**
-   * The resolved image content and its media type.
-   */
+  /** The resolved image content and its media type. */
   public record ResolvedImage(byte @NonNull [] content, @NonNull String mediaType) {}
 
   /** Resolver for image references in the content of the LegalDocML */
   public interface ImageResolver {
     /**
      * Resolves an image reference
+     *
      * @param imageReference the reference of the image
      * @return the data about the image
      * @throws ImageNotFoundException when the image could not be resolved
      */
-    @NonNull ResolvedImage resolveImage(@NonNull String imageReference) throws ImageNotFoundException;
+    @NonNull ResolvedImage resolveImage(@NonNull String imageReference)
+        throws ImageNotFoundException;
 
-    /**
-     * The image could not be found
-     */
+    /** The image could not be found */
     class ImageNotFoundException extends Exception {
       public ImageNotFoundException(String message) {
         super(message);
@@ -66,12 +65,9 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
    * @return the transformed HTML as a String
    */
   public String transform(byte @NonNull [] source, @NonNull ImageResolver imageResolver) {
-    Map<String, String> parameters = Map.of(
-        RESOURCE_PATH_KEY, "",
-        "css", getCss());
+    Map<String, String> parameters = Map.of(RESOURCE_PATH_KEY, "", "css", getCss());
     return transformLegalDocMlFromBytes(embedLocalImages(source, imageResolver), parameters);
   }
-
 
   private byte[] embedLocalImages(byte[] source, ImageResolver imageResolver) {
     String xml = new String(source, StandardCharsets.UTF_8);
@@ -86,8 +82,13 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
         continue;
       }
 
-      matcher.appendReplacement(transformed, Matcher.quoteReplacement(
-          matcher.group(1) + matcher.group(2) + toDataUri(loadImage(imageResolver, imageReference)) + matcher.group(4)));
+      matcher.appendReplacement(
+          transformed,
+          Matcher.quoteReplacement(
+              matcher.group(1)
+                  + matcher.group(2)
+                  + toDataUri(loadImage(imageResolver, imageReference))
+                  + matcher.group(4)));
     }
     matcher.appendTail(transformed);
     return transformed.toString().getBytes(StandardCharsets.UTF_8);
@@ -100,21 +101,24 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
       }
 
       if (Path.of(imageReference).normalize().startsWith("..")) {
-        throw new IllegalArgumentException("Image reference is traversing outside of current directory");
+        throw new IllegalArgumentException(
+            "Image reference is traversing outside of current directory");
       }
 
       return imageResolver.resolveImage(imageReference);
     } catch (IllegalArgumentException | ImageResolver.ImageNotFoundException e) {
-      logger.info("Could not embed image '{}', using placeholder image instead.", imageReference, e);
+      logger.info(
+          "Could not embed image '{}', using placeholder image instead.", imageReference, e);
       return getPlaceholderImage();
     }
   }
 
   private static ResolvedImage getPlaceholderImage() {
     try (InputStream inputStream =
-             XsltTransformer.class.getClassLoader().getResourceAsStream(PLACEHOLDER_IMAGE_RESOURCE)) {
+        XsltTransformer.class.getClassLoader().getResourceAsStream(PLACEHOLDER_IMAGE_RESOURCE)) {
       if (inputStream == null) {
-        throw new FileTransformationException("Placeholder image not found: " + PLACEHOLDER_IMAGE_RESOURCE);
+        throw new FileTransformationException(
+            "Placeholder image not found: " + PLACEHOLDER_IMAGE_RESOURCE);
       }
       return new ResolvedImage(IOUtils.toByteArray(inputStream), PLACEHOLDER_IMAGE_MEDIA_TYPE);
     } catch (IOException e) {
@@ -127,7 +131,9 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
       throw new IllegalArgumentException("Could not determine media type for image");
     }
 
-    return DATA_URI_PREFIX + image.mediaType() + ";base64,"
+    return DATA_URI_PREFIX
+        + image.mediaType()
+        + ";base64,"
         + Base64.getEncoder().encodeToString(image.content());
   }
 
@@ -139,7 +145,7 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
    */
   private static String getCss() {
     try (InputStream inputStream =
-             XsltTransformer.class.getClassLoader().getResourceAsStream("style.css")) {
+        XsltTransformer.class.getClassLoader().getResourceAsStream("style.css")) {
       if (inputStream == null) {
         throw new FileTransformationException("CSS file not found: style.css");
       }
