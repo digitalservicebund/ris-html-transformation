@@ -5,18 +5,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.html.service.xslt.BzstXsltTransformer;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class BzstXsltTransformerTest {
 
@@ -41,19 +35,20 @@ class BzstXsltTransformerTest {
   @Test
   void rendersHtmlTitle() {
     assertThat(doc.title())
-        .isEqualTo("Anwendung des § 1 Abs. 1 AStG bei Verrechnungspreisen mit nahestehenden Personen");
+        .isEqualTo(
+            "Anwendung des § 1 Abs. 1 AStG bei Verrechnungspreisen mit nahestehenden Personen");
   }
 
   @Test
   void rendersLangtitel() {
     assertThat(doc.select("meta[name=amtliche-langueberschrift]").attr("content"))
-        .isEqualTo("Anwendung des § 1 Abs. 1 AStG bei Verrechnungspreisen mit nahestehenden Personen");
+        .isEqualTo(
+            "Anwendung des § 1 Abs. 1 AStG bei Verrechnungspreisen mit nahestehenden Personen");
   }
 
   @Test
   void rendersZitierdatum() {
-    assertThat(doc.select("meta[name=zitierdatum]").attr("content"))
-        .isEqualTo("01.04.2003");
+    assertThat(doc.select("meta[name=zitierdatum]").attr("content")).isEqualTo("01.04.2003");
   }
 
   @Test
@@ -77,8 +72,7 @@ class BzstXsltTransformerTest {
 
   @Test
   void rendersInkrafttreten() {
-    assertThat(doc.select("meta[name=inkrafttretedatum]").attr("content"))
-        .isEqualTo("01.04.2003");
+    assertThat(doc.select("meta[name=inkrafttretedatum]").attr("content")).isEqualTo("01.04.2003");
   }
 
   @Test
@@ -103,7 +97,8 @@ class BzstXsltTransformerTest {
   @Test
   void rendersNormen() {
     assertThat(doc.select("template#verweisNormen li").eachText())
-        .anyMatch(t -> t.contains("KStG") && t.contains("§ 8a") && t.contains("Durchführungsvorschrift"));
+        .anyMatch(
+            t -> t.contains("KStG") && t.contains("§ 8a") && t.contains("Durchführungsvorschrift"));
   }
 
   @Test
