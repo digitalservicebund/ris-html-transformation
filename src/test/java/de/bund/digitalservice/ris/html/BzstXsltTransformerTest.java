@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.html.service.xslt.BzstXsltTransformer;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import org.jsoup.Jsoup;
@@ -117,6 +118,21 @@ class BzstXsltTransformerTest {
   void rendersFundstelle() {
     assertThat(doc.select("template#fundstellen li").eachText())
         .anyMatch(t -> t.contains("BStBl I") && t.contains("Ausgabe A") && t.contains("2042, 42"));
+  }
+
+  @Test
+  void doesNotRenderAnwendungsende_whenMissingInInput() throws IOException {
+    try (InputStream is = BzstXsltTransformerTest.class.getResourceAsStream(SAMPLE_PATH)) {
+      assertThat(is).withFailMessage("Could not find: " + SAMPLE_PATH).isNotNull();
+      String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+      xml = xml.replaceAll("<ris:anwendungsende[^>]*>.*?</ris:anwendungsende>", "");
+      Document result = Jsoup.parse(TRANSFORMER.transform(xml.getBytes(StandardCharsets.UTF_8)));
+      Path out = Path.of("build/test-output/bzst-missing-anwendungsende.html");
+      Files.createDirectories(out.getParent());
+      Files.writeString(out, result.outerHtml());
+      assertThat(result.select("meta[name=anwendungsende]")).isEmpty();
+      assertThat(result.select("meta[name=anwendungsbeginn]").attr("content")).isEqualTo("2003");
+    }
   }
 
   @Test
