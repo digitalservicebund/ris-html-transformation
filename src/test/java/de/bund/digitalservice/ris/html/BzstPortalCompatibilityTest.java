@@ -7,6 +7,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
+import org.jsoup.Jsoup;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,23 +18,27 @@ class BzstPortalCompatibilityTest {
   private static final BzstXsltTransformer XSLT_TRANSFORMER = new BzstXsltTransformer();
   private static final String SAMPLE_BASE_PATH = "/samples/bzst/";
   private static final String RESOURCE_NOT_FOUND_MESSAGE = "Could not find local sample file at classpath: ";
+  private static String actualHtml;
+
+  @BeforeAll
+  static void transform() throws IOException {
+    try (InputStream is = BzstPortalCompatibilityTest.class.getResourceAsStream(SAMPLE_BASE_PATH + "bzst.xml")) {
+      assertThat(is).withFailMessage(RESOURCE_NOT_FOUND_MESSAGE + SAMPLE_BASE_PATH + "bzst.xml").isNotNull();
+      actualHtml = XSLT_TRANSFORMER.transform(is.readAllBytes());
+      Path out = Path.of("build/test-output/bzst-portal-compatibility.html");
+      Files.createDirectories(out.getParent());
+      Files.writeString(out, Jsoup.parse(actualHtml).outerHtml());
+    }
+  }
 
   @Test
   void testTransform_bzstSample_matchesExpectedHtml() throws IOException {
-    String sampleLDMLPath = SAMPLE_BASE_PATH + "bzst.xml";
-    String sampleHTMLPath = SAMPLE_BASE_PATH + "bzst.html";
-
-    byte[] ldmlBytes = readResourceAsBytes(sampleLDMLPath);
-    String expectedHTML = readResourceAsString(sampleHTMLPath);
-
-    String actualHtml = XSLT_TRANSFORMER.transform(ldmlBytes);
+    String expectedHTML = readResourceAsString(SAMPLE_BASE_PATH + "bzst.html");
     assertHtmlEqualsIgnoringWhitespace(expectedHTML, actualHtml);
   }
 
   @Test
-  void testTransform_bzstSample_templateIdsArePresent() throws IOException {
-    byte[] ldmlBytes = readResourceAsBytes(SAMPLE_BASE_PATH + "bzst.xml");
-    String actualHtml = XSLT_TRANSFORMER.transform(ldmlBytes);
+  void testTransform_bzstSample_templateIdsArePresent() {
 
     String[] expectedTemplateIds = {
         "id=\"aktenzeichen\"",

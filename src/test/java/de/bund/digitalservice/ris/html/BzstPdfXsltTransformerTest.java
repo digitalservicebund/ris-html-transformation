@@ -1,14 +1,17 @@
 package de.bund.digitalservice.ris.html;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import de.bund.digitalservice.ris.html.service.xslt.BzstPdfXsltTransformer;
-import java.io.IOException;
-import java.io.InputStream;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class BzstPdfXsltTransformerTest {
 
@@ -21,6 +24,10 @@ class BzstPdfXsltTransformerTest {
     try (InputStream is = BzstPdfXsltTransformerTest.class.getResourceAsStream(SAMPLE_PATH)) {
       assertThat(is).withFailMessage("Could not find: " + SAMPLE_PATH).isNotNull();
       doc = Jsoup.parse(TRANSFORMER.transform(is.readAllBytes()));
+      doc.outputSettings().prettyPrint(true);
+      Path out = Path.of("build/test-output/bzst-pdf.html");
+      Files.createDirectories(out.getParent());
+      Files.writeString(out, doc.outerHtml());
     }
   }
 
