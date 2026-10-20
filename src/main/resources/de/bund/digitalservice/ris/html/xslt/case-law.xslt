@@ -131,6 +131,8 @@
 
         <xsl:apply-templates select=".//akn:motivation[@ris:domainTerm = 'Rechtsfrage (gesamt)']" />
 
+        <xsl:apply-templates select=".//ris:erledigungsvermerk" />
+
         <!-- After all authorialNotes within the texts have been transformed to markers,
         in a second run we create the dedicated footnotes section -->
         <xsl:if test="$include-footnotes and .//akn:authorialNote">
@@ -251,6 +253,13 @@
     <xsl:template match="akn:motivation[@ris:domainTerm = 'Rechtsfrage (gesamt)']">
         <section id="rechtsfrage">
             <h2>Rechtsfrage</h2>
+            <xsl:apply-templates/>
+        </section>
+    </xsl:template>
+
+    <xsl:template match="ris:erledigungsvermerk">
+        <section id="erledigungsvermerk">
+            <h2>Erledigungsvermerk</h2>
             <xsl:apply-templates/>
         </section>
     </xsl:template>
