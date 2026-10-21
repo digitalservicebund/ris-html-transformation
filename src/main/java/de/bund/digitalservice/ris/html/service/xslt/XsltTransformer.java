@@ -93,10 +93,6 @@ public abstract class XsltTransformer {
     return transformLegalDocMl(new StreamSource(new ByteArrayInputStream(source)), parameters);
   }
 
-  String transformLegalDocMlFromDocument(Document document, Map<String, String> parameters) {
-    return transformLegalDocMl(new DOMSource(document), parameters);
-  }
-
   String getXslt() {
     // PURE JAVA ALTERNATIVE FOR READING STREAM:
     String fullPath = xsltBasePath + xsltFilename;
