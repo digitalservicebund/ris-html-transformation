@@ -184,8 +184,15 @@
     </xsl:template>
 
     <xsl:template name="streitjahre-metadata">
+        <xsl:variable name="items" select="akn:meta/akn:proprietary/ris:meta/ris:streitjahre/ris:streitjahr" />
+        <xsl:variable name="label">
+            <xsl:choose>
+                <xsl:when test="count($items) = 1">Streitjahr</xsl:when>
+                <xsl:otherwise>Streitjahre</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
         <xsl:call-template name="metadata-row">
-            <xsl:with-param name="label" select="'Streitjahr:'" />
+            <xsl:with-param name="label" select="concat('', $label, ':')" />
             <xsl:with-param name="value"><xsl:call-template name="streitjahre-value" /></xsl:with-param>
         </xsl:call-template>
     </xsl:template>
@@ -198,33 +205,63 @@
     </xsl:template>
 
     <xsl:template name="vorgehende-entscheidungen-metadata">
+        <xsl:variable name="items" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:vorgehendeEntscheidung" />
+        <xsl:variable name="label">
+            <xsl:choose>
+                <xsl:when test="count($items) = 1">Vorgehende Entscheidung</xsl:when>
+                <xsl:otherwise>Vorgehende Entscheidungen</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
         <xsl:call-template name="metadata-row">
-            <xsl:with-param name="label" select="'Vorgehende Entscheidungen:'" />
+            <xsl:with-param name="label" select="concat('', $label, ':')" />
             <xsl:with-param name="label-lines">2</xsl:with-param>
             <xsl:with-param name="value"><xsl:call-template name="vorgehende-entscheidungen-value" /></xsl:with-param>
         </xsl:call-template>
     </xsl:template>
 
     <xsl:template name="nachgehende-entscheidungen-metadata">
+        <xsl:variable name="items" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:nachgehendeEntscheidung[@art='nachgehend']" />
+        <xsl:variable name="label">
+            <xsl:choose>
+                <xsl:when test="count($items) = 1">Nachgehende Entscheidung</xsl:when>
+                <xsl:otherwise>Nachgehende Entscheidungen</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
         <xsl:call-template name="metadata-row">
-            <xsl:with-param name="label" select="'Nachgehende Entscheidungen:'" />
+            <xsl:with-param name="label" select="concat('', $label, ':')" />
             <xsl:with-param name="label-lines">2</xsl:with-param>
             <xsl:with-param name="value"><xsl:call-template name="nachgehende-entscheidungen-value" /></xsl:with-param>
         </xsl:call-template>
     </xsl:template>
 
     <xsl:template name="nachgehende-entscheidungen-anhaengig-metadata">
+        <xsl:variable name="items" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:nachgehendeEntscheidung[@art='anhängig']" />
+        <xsl:variable name="label">
+            <xsl:choose>
+                <xsl:when test="count($items) = 1">Nachgehende Entscheidung (anhängig)</xsl:when>
+                <xsl:otherwise>Nachgehende Entscheidungen (anhängig)</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
         <xsl:call-template name="metadata-row">
-            <xsl:with-param name="label" select="'Nachgehende Entscheidungen (anhängig):'" />
+            <xsl:with-param name="label" select="concat('', $label, ':')" />
             <xsl:with-param name="label-lines">2</xsl:with-param>
             <xsl:with-param name="value"><xsl:call-template name="nachgehende-entscheidungen-anhaengig-value" /></xsl:with-param>
         </xsl:call-template>
     </xsl:template>
 
     <xsl:template name="normen-metadata">
+        <xsl:variable name="items" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzNorm" />
+        <xsl:variable name="label">
+            <xsl:choose>
+                <xsl:when test="count($items) = 1">Norm</xsl:when>
+                <xsl:otherwise>Normen</xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
         <xsl:call-template name="metadata-row">
-            <xsl:with-param name="label" select="'Norm:'" />
-            <xsl:with-param name="value"><xsl:call-template name="normen-value" /></xsl:with-param>
+            <xsl:with-param name="label" select="concat('', $label, ':')"/>
+            <xsl:with-param name="value">
+                <xsl:call-template name="normen-value" />
+            </xsl:with-param>
         </xsl:call-template>
     </xsl:template>
 

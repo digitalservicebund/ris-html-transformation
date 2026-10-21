@@ -3,16 +3,23 @@ package de.bund.digitalservice.ris.html.service.xslt;
 import de.bund.digitalservice.ris.html.exception.FileTransformationException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Base64;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jspecify.annotations.NonNull;
+import org.w3c.dom.Document;
 
 /** Class for transforming LegalDocML case law documents to the HTML-for-PDF using XSLT. */
 public class CaselawPdfXsltTransformer extends XsltTransformer {
@@ -66,11 +73,32 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
    */
   public String transform(byte @NonNull [] source, @NonNull ImageResolver imageResolver) {
     Map<String, String> parameters = Map.of(RESOURCE_PATH_KEY, "", "css", getCss());
-    return transformLegalDocMlFromBytes(embedLocalImages(source, imageResolver), parameters);
+    return transformLegalDocMlFromBytes(embedLocalImages(new String(source, StandardCharsets.UTF_8), imageResolver), parameters);
   }
 
-  private byte[] embedLocalImages(byte[] source, ImageResolver imageResolver) {
-    String xml = new String(source, StandardCharsets.UTF_8);
+  public String transform(Document source, @NonNull ImageResolver imageResolver) {
+    Map<String, String> parameters = Map.of(RESOURCE_PATH_KEY, "", "css", getCss());
+    return transformLegalDocMlFromBytes(embedLocalImages(toString(source), imageResolver), parameters);
+  }
+
+  public static String toString(Document doc) {
+    try {
+      StringWriter sw = new StringWriter();
+      TransformerFactory tf = TransformerFactory.newInstance();
+      Transformer transformer = tf.newTransformer();
+      transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+      transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+      transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+
+      transformer.transform(new DOMSource(doc), new StreamResult(sw));
+      return sw.toString();
+    } catch (Exception ex) {
+      throw new RuntimeException("Error converting to String", ex);
+    }
+  }
+
+  private byte[] embedLocalImages(String xml, ImageResolver imageResolver) {
     Matcher matcher = IMAGE_SRC.matcher(xml);
     StringBuilder transformed = new StringBuilder();
     while (matcher.find()) {

@@ -16,12 +16,15 @@ import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import net.sf.saxon.jaxp.TransformerImpl;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 /** Abstract base class for XSLT transformers for LegalDocML documents. */
 public abstract class XsltTransformer {
@@ -38,7 +41,7 @@ public abstract class XsltTransformer {
     this.xsltFilename = xsltFilename;
   }
 
-  String transformLegalDocMlFromBytes(byte[] source, Map<String, String> parameters) {
+  private String transformLegalDocMl(Source in, Map<String, String> parameters) {
 
     AtomicReference<String> terminationMessage = new AtomicReference<>();
     try {
@@ -65,10 +68,8 @@ public abstract class XsltTransformer {
       transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
       parameters.forEach(transformer::setParameter);
       transformer.setParameter("outputMode", "HTML_ALL");
-      try (ByteArrayInputStream in = new ByteArrayInputStream(source);
-          StringWriter output = new StringWriter()) {
-
-        transformer.transform(new StreamSource(in), new StreamResult(output));
+      try (StringWriter output = new StringWriter()) {
+        transformer.transform(in, new StreamResult(output));
         return output.toString();
       }
     } catch (TransformerException | IOException e) {
@@ -86,6 +87,14 @@ public abstract class XsltTransformer {
 
       throw new FileTransformationException(e.getMessage(), e);
     }
+  }
+
+  String transformLegalDocMlFromBytes(byte[] source, Map<String, String> parameters) {
+    return transformLegalDocMl(new StreamSource(new ByteArrayInputStream(source)), parameters);
+  }
+
+  String transformLegalDocMlFromDocument(Document document, Map<String, String> parameters) {
+    return transformLegalDocMl(new DOMSource(document), parameters);
   }
 
   String getXslt() {
