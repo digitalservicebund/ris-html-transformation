@@ -73,12 +73,14 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
    */
   public String transform(byte @NonNull [] source, @NonNull ImageResolver imageResolver) {
     Map<String, String> parameters = Map.of(RESOURCE_PATH_KEY, "", "css", getCss());
-    return transformLegalDocMlFromBytes(embedLocalImages(new String(source, StandardCharsets.UTF_8), imageResolver), parameters);
+    return transformLegalDocMlFromBytes(
+        embedLocalImages(new String(source, StandardCharsets.UTF_8), imageResolver), parameters);
   }
 
   public String transform(Document source, @NonNull ImageResolver imageResolver) {
     Map<String, String> parameters = Map.of(RESOURCE_PATH_KEY, "", "css", getCss());
-    return transformLegalDocMlFromBytes(embedLocalImages(toString(source), imageResolver), parameters);
+    return transformLegalDocMlFromBytes(
+        embedLocalImages(toString(source), imageResolver), parameters);
   }
 
   public static String toString(Document doc) {

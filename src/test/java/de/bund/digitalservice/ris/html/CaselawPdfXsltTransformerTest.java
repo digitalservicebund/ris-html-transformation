@@ -9,25 +9,11 @@ import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Objects;
-import javax.xml.namespace.NamespaceContext;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-import org.assertj.core.api.SoftAssertions;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.Test;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 class CaselawPdfXsltTransformerTest {
 
@@ -133,9 +119,7 @@ class CaselawPdfXsltTransformerTest {
 
     var metadataDivs = document.select("dl.metadata > div");
     var norms =
-        metadataDivs.stream()
-            .filter(row -> row.select("dt").text().equals("Norm:"))
-            .findFirst();
+        metadataDivs.stream().filter(row -> row.select("dt").text().equals("Norm:")).findFirst();
     var previousDecisions =
         metadataDivs.stream()
             .filter(row -> row.select("dt").text().equals("Vorgehende Entscheidung:"))
@@ -159,11 +143,13 @@ class CaselawPdfXsltTransformerTest {
 
     assertThat(previousDecisions).isPresent();
     assertThat(previousDecisions.get().select("li")).hasSize(1);
-    assertThat(previousDecisions.get().text()).contains("LG Köln, Urteil vom 1. Januar 2020 - AZ-V-1");
+    assertThat(previousDecisions.get().text())
+        .contains("LG Köln, Urteil vom 1. Januar 2020 - AZ-V-1");
 
     assertThat(ensuringDecisions).isPresent();
     assertThat(ensuringDecisions.get().select("li")).hasSize(1);
-    assertThat(ensuringDecisions.get().text()).contains("BVerfG, Beschluss vom 1. Oktober 2022 - AZ-N-1");
+    assertThat(ensuringDecisions.get().text())
+        .contains("BVerfG, Beschluss vom 1. Oktober 2022 - AZ-N-1");
 
     assertThat(pendingDecisions).isPresent();
     assertThat(pendingDecisions.get().select("li")).hasSize(1);
@@ -180,9 +166,7 @@ class CaselawPdfXsltTransformerTest {
 
     var metadataDivs = document.select("dl.metadata > div");
     var norms =
-        metadataDivs.stream()
-            .filter(row -> row.select("dt").text().equals("Normen:"))
-            .findFirst();
+        metadataDivs.stream().filter(row -> row.select("dt").text().equals("Normen:")).findFirst();
     var previousDecisions =
         metadataDivs.stream()
             .filter(row -> row.select("dt").text().equals("Vorgehende Entscheidungen:"))
@@ -206,15 +190,23 @@ class CaselawPdfXsltTransformerTest {
 
     assertThat(previousDecisions).isPresent();
     assertThat(previousDecisions.get().select("li")).hasSize(2);
-    assertThat(previousDecisions.get().text()).contains("LG Köln, Urteil vom 1. Januar 2020 - AZ-V-1", "OLG Köln, Urteil vom 4. März 2021");
+    assertThat(previousDecisions.get().text())
+        .contains(
+            "LG Köln, Urteil vom 1. Januar 2020 - AZ-V-1", "OLG Köln, Urteil vom 4. März 2021");
 
     assertThat(ensuringDecisions).isPresent();
     assertThat(ensuringDecisions.get().select("li")).hasSize(2);
-    assertThat(ensuringDecisions.get().text()).contains("BGH, Urteil vom 17. September 2020 - AZ-N-1", "BVerfG, Beschluss vom 1. Oktober 2022 - AZ-N-2");
+    assertThat(ensuringDecisions.get().text())
+        .contains(
+            "BGH, Urteil vom 17. September 2020 - AZ-N-1",
+            "BVerfG, Beschluss vom 1. Oktober 2022 - AZ-N-2");
 
     assertThat(pendingDecisions).isPresent();
     assertThat(pendingDecisions.get().select("li")).hasSize(2);
-    assertThat(pendingDecisions.get().text()).contains("BGH, Beschluss vom 3. April 2023 - AZ-A-1", "BSG, Beschluss vom 28. Juni 2017 - AZ-A-2");
+    assertThat(pendingDecisions.get().text())
+        .contains(
+            "BGH, Beschluss vom 3. April 2023 - AZ-A-1",
+            "BSG, Beschluss vom 28. Juni 2017 - AZ-A-2");
 
     assertThat(yearsOfDispute).isPresent();
     assertThat(yearsOfDispute.get().select("li")).hasSize(2);
