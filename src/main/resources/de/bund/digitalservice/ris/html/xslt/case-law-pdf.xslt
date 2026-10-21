@@ -193,7 +193,11 @@
         </xsl:variable>
         <xsl:call-template name="metadata-row">
             <xsl:with-param name="label" select="concat('', $label, ':')" />
-            <xsl:with-param name="value"><xsl:call-template name="streitjahre-value" /></xsl:with-param>
+            <xsl:with-param name="value">
+                <xsl:call-template name="streitjahre-value">
+                    <xsl:with-param name="items" select="$items" />
+                </xsl:call-template>
+            </xsl:with-param>
         </xsl:call-template>
     </xsl:template>
 
@@ -215,7 +219,11 @@
         <xsl:call-template name="metadata-row">
             <xsl:with-param name="label" select="concat('', $label, ':')" />
             <xsl:with-param name="label-lines">2</xsl:with-param>
-            <xsl:with-param name="value"><xsl:call-template name="vorgehende-entscheidungen-value" /></xsl:with-param>
+            <xsl:with-param name="value">
+                <xsl:call-template name="vorgehende-entscheidungen-value">
+                    <xsl:with-param name="items" select="$items" />
+                </xsl:call-template>
+            </xsl:with-param>
         </xsl:call-template>
     </xsl:template>
 
@@ -230,7 +238,11 @@
         <xsl:call-template name="metadata-row">
             <xsl:with-param name="label" select="concat('', $label, ':')" />
             <xsl:with-param name="label-lines">2</xsl:with-param>
-            <xsl:with-param name="value"><xsl:call-template name="nachgehende-entscheidungen-value" /></xsl:with-param>
+            <xsl:with-param name="value">
+                <xsl:call-template name="nachgehende-entscheidungen-value">
+                    <xsl:with-param name="items" select="$items" />
+                </xsl:call-template>
+            </xsl:with-param>
         </xsl:call-template>
     </xsl:template>
 
@@ -245,7 +257,11 @@
         <xsl:call-template name="metadata-row">
             <xsl:with-param name="label" select="concat('', $label, ':')" />
             <xsl:with-param name="label-lines">2</xsl:with-param>
-            <xsl:with-param name="value"><xsl:call-template name="nachgehende-entscheidungen-anhaengig-value" /></xsl:with-param>
+            <xsl:with-param name="value">
+                <xsl:call-template name="nachgehende-entscheidungen-anhaengig-value">
+                    <xsl:with-param name="items" select="$items" />
+                </xsl:call-template>
+            </xsl:with-param>
         </xsl:call-template>
     </xsl:template>
 
@@ -260,7 +276,9 @@
         <xsl:call-template name="metadata-row">
             <xsl:with-param name="label" select="concat('', $label, ':')"/>
             <xsl:with-param name="value">
-                <xsl:call-template name="normen-value" />
+                <xsl:call-template name="normen-value">
+                    <xsl:with-param name="items" select="$items" />
+                </xsl:call-template>
             </xsl:with-param>
         </xsl:call-template>
     </xsl:template>
@@ -332,7 +350,7 @@
     </xsl:template>
 
     <xsl:template name="streitjahre-value">
-        <xsl:variable name="items" select="akn:meta/akn:proprietary/ris:meta/ris:streitjahre/ris:streitjahr" />
+        <xsl:param name="items" />
         <xsl:choose>
             <xsl:when test="$items">
                 <ul>
@@ -358,7 +376,7 @@
     </xsl:template>
 
     <xsl:template name="vorgehende-entscheidungen-value">
-        <xsl:variable name="items" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:vorgehendeEntscheidung" />
+        <xsl:param name="items" />
         <xsl:choose>
             <xsl:when test="$items">
                 <ul>
@@ -374,7 +392,7 @@
     </xsl:template>
 
     <xsl:template name="nachgehende-entscheidungen-value">
-        <xsl:variable name="items" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:nachgehendeEntscheidung[@art='nachgehend']" />
+        <xsl:param name="items" />
         <xsl:choose>
             <xsl:when test="$items">
                 <ul>
@@ -390,7 +408,7 @@
     </xsl:template>
 
     <xsl:template name="nachgehende-entscheidungen-anhaengig-value">
-        <xsl:variable name="items" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:nachgehendeEntscheidung[@art='anhängig']" />
+        <xsl:param name="items" />
         <xsl:choose>
             <xsl:when test="$items">
                 <ul>
@@ -406,7 +424,7 @@
     </xsl:template>
 
     <xsl:template name="normen-value">
-        <xsl:variable name="items" select="akn:meta/akn:analysis/akn:otherReferences/akn:implicitReference/ris:referenzNorm" />
+        <xsl:param name="items" />
         <xsl:choose>
             <xsl:when test="$items">
                 <ul>
