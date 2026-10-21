@@ -119,7 +119,9 @@ class CaselawPdfXsltTransformerTest {
 
     assertThat(document.select("dl.metadata").text())
         .contains("Anhängiges Verfahren", "1. Januar 2020");
-    assertThat(document.select(".langtexte").text()).contains("Lorem ipsum dolor sit amet");
+    assertThat(document.select(".langtexte").text())
+        .contains("Lorem ipsum dolor sit amet")
+        .contains("Verfahren ist erledigt durch:");
   }
 
   @Test
