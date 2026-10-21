@@ -1,6 +1,17 @@
 package de.bund.digitalservice.ris.html;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import de.bund.digitalservice.ris.html.exception.FileTransformationException;
+import de.bund.digitalservice.ris.html.exception.XMLElementNotFoundException;
 import de.bund.digitalservice.ris.html.service.xslt.NormsXsltTransformer;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.Map;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.Assertions;
@@ -8,76 +19,107 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
-import java.util.function.Function;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.diff.Diff;
 
 class NormsXsltTransformerTest {
-  public static final String RESOURCES_BASE_PATH = "res://";
+  private static final String SAMPLES = "/samples/norms/";
+  private static final String RESOURCES_BASE_PATH = "res://";
+  private static final String ATTACHMENT_KEY =
+      "eli/bund/bgbl-1/0000/s1000/2000-01-01/1/deu/2000-01-01/anlage-regelungstext-1.xml";
 
-//  private final NormsBucket normsBucketMock = mock(NormsBucket.class);
+  private final String resourcesPath = getClass().getResource("/samples/norms/").getPath();
+
+  /**
+   * Previously this path was longer and was:
+   * /norm/eli/bund/bgbl-1/1991/s101/1991-01-01/1/deu/1991-01-01/ but for simplicity I changed this
+   * to a shorter path for the resources belonging to it.
+   */
+  private final String specificResourcesPath =
+      getClass().getResource("/samples/norms/specific/").getPath();
 
   private final NormsXsltTransformer transformer = new NormsXsltTransformer();
 
-  private final String resourcesPath =
-      getClass().getResource("/data/XsltTransformerServiceTest/").getPath();
+  @Test
+  void transformNorm_returnsCompleteHtmlDocument() throws IOException {
+    String html =
+        transformer.transformNorm(
+            read("simple.xml"),
+            "deu",
+            RESOURCES_BASE_PATH,
+            "regelungstext-1",
+            Map.of(ATTACHMENT_KEY, read("anlage-regelungstext-1.xml")));
 
-  final Function<String, ResponseInputStream<GetObjectResponse>> makeInputStream =
-      filename -> {
-        try {
-          final var allBytes = Files.readAllBytes(Path.of(resourcesPath, filename));
-          final var stream = new ByteArrayInputStream(allBytes);
-          return new ResponseInputStream<>(mock(GetObjectResponse.class), stream);
-        } catch (IOException e) {
-          throw new RuntimeException(e);
-        }
-      };
+    Document document = Jsoup.parse(html);
+    assertThat(document.selectFirst("html").attr("lang")).isEqualTo("de");
+    assertThat(document.title()).contains("Testgesetz");
+    assertThat(document.select("body.akn-akomaNtoso")).hasSize(1);
+    assertThat(document.select("#art-z1_bezeichnung-n1").text()).isEqualTo("§ 1");
+    assertThat(document.select("#art-z1_abs-z1_inhalt-n1_text-n1 b").text()).isEqualTo("Text");
+    assertThat(document.select("a[href=regelungstext-1/art-z1.html]")).hasSize(1);
+  }
+
+  @Test
+  void transformArticle_returnsOnlyRequestedArticle() throws IOException {
+    String html = transformer.transformArticle(read("simple.xml"), "art-z1", RESOURCES_BASE_PATH);
+
+    Document document = Jsoup.parse(html);
+    assertThat(document.selectFirst("html")).isNotNull();
+    assertThat(document.select("h2.einzelvorschrift").text()).isEqualTo("§ 1 Erster Artikel");
+    assertThat(document.select(".included-document")).isEmpty();
+  }
+
+  @Test
+  void transformArticle_unknownEId_throws() throws IOException {
+    byte[] source = read("simple.xml");
+
+    assertThatThrownBy(() -> transformer.transformArticle(source, "art-z99", RESOURCES_BASE_PATH))
+        .isInstanceOf(XMLElementNotFoundException.class)
+        .hasMessageContaining("art-z99");
+  }
 
   @ParameterizedTest(name = "{2}")
   @CsvSource({
-      "main,         twoParagraphArticle.xml, twoParagraphArticle.html,                               Should transform an article with two paragraphs",
-      "main,         list.xml, list.html,                                                             Should transform list to HTML",
-      "main,         fullDepthArticle.xml, fullDepthArticle.html,                                     Should transform full depth article to HTML",
-      "main,         nestedArticles.xml, nestedArticles.html,                                         Should transform articles at every level to HTML",
-      "main,         formatting.xml, formatting.html,                                                 Should transform an article with formatting to HTML",
-      "main,         heading.xml, heading.html,                                                       Should transform a heading with marker inside",
-      "main,         authorialNote.xml, authorialNote.html,                                           Should transform authorialNotes to HTML",
-      "main,         authorialNoteWithPlacementBase.xml, authorialNoteWithPlacementBase.html,         Should transform authorialNotes with placementBase",
-      "main,         authorialNoteInDocTitle.xml, authorialNoteInDocTitle.html,                       Should transform authorialNotes in title",
-      "attachment,   authorialNoteInDocParent.xml, authorialNoteInDoc.html,                           Should transform authorialNotes in attachment body",
-      "main,         notes.xml, notes.html,                                                           Should transform notes",
-      "main,         image.xml, image.html,                                                           Should transform img tag",
-      "main,         pdf.xml, pdf.html,                                                               Should transform links with pdf file",
-      "main,         noPdfLinks.xml, noPdfLinks.html,                                                 Should not apply any special transformation to non-pdf links",
-      "main,         container.xml, container.html,                                                   Should transform container elements in the preface",
-      "main,         preambleFormula.xml, preambleFormula.html,                                       Should transform a preamble formula",
-      "main,         preambleFormulaNotes.xml, preambleFormulaNotes.html,                             Should output notes of a preamble formula",
-      "main,         preambleFormulaAndTocNotes.xml, preambleFormulaAndTocNotes.html,                 Should output notes of a preamble formula and of the official toc in their own containers",
-      "main,         conclusionsFormula.xml, conclusionsFormula.html,                                 Should transform a conclusions formula",
-      "main,         conclusionsFormulaNotes.xml, conclusionsFormulaNotes.html,                       Should output notes of a conclusions formula",
-      "main,         blockList.xml, blockList.html,                                                   Should transform a blockList",
-      "main,         preformatted.xml, preformatted.html,                                             Should transform preformatted paragraphs",
-      "main,         proprietary.xml, proprietary.html,                                               Should transform proprietary metadata"
+    "main,         twoParagraphArticle.xml, twoParagraphArticle.html,                               Should transform an article with two paragraphs",
+    "main,         list.xml, list.html,                                                             Should transform list to HTML",
+    "main,         fullDepthArticle.xml, fullDepthArticle.html,                                     Should transform full depth article to HTML",
+    "main,         nestedArticles.xml, nestedArticles.html,                                         Should transform articles at every level to HTML",
+    "main,         formatting.xml, formatting.html,                                                 Should transform an article with formatting to HTML",
+    "main,         heading.xml, heading.html,                                                       Should transform a heading with marker inside",
+    "main,         authorialNote.xml, authorialNote.html,                                           Should transform authorialNotes to HTML",
+    "main,         authorialNoteWithPlacementBase.xml, authorialNoteWithPlacementBase.html,         Should transform authorialNotes with placementBase",
+    "main,         authorialNoteInDocTitle.xml, authorialNoteInDocTitle.html,                       Should transform authorialNotes in title",
+    "attachment,   authorialNoteInDocParent.xml, authorialNoteInDoc.html,                           Should transform authorialNotes in attachment body",
+    "main,         notes.xml, notes.html,                                                           Should transform notes",
+    "main,         image.xml, image.html,                                                           Should transform img tag",
+    "main,         pdf.xml, pdf.html,                                                               Should transform links with pdf file",
+    "main,         noPdfLinks.xml, noPdfLinks.html,                                                 Should not apply any special transformation to non-pdf links",
+    "main,         container.xml, container.html,                                                   Should transform container elements in the preface",
+    "main,         preambleFormula.xml, preambleFormula.html,                                       Should transform a preamble formula",
+    "main,         preambleFormulaNotes.xml, preambleFormulaNotes.html,                             Should output notes of a preamble formula",
+    "main,         preambleFormulaAndTocNotes.xml, preambleFormulaAndTocNotes.html,                 Should output notes of a preamble formula and of the official toc in their own containers",
+    "main,         conclusionsFormula.xml, conclusionsFormula.html,                                 Should transform a conclusions formula",
+    "main,         conclusionsFormulaNotes.xml, conclusionsFormulaNotes.html,                       Should output notes of a conclusions formula",
+    "main,         blockList.xml, blockList.html,                                                   Should transform a blockList",
+    "main,         preformatted.xml, preformatted.html,                                             Should transform preformatted paragraphs",
+    "main,         proprietary.xml, proprietary.html,                                               Should transform proprietary metadata"
   })
   void testTransformNormLegalDocMlFull(
       String type, String inputFileName, String expectedFileName, String testName)
-      throws IOException, NoSuchKeyException {
+      throws IOException {
     byte[] bytes = Files.readAllBytes(Path.of(resourcesPath, inputFileName));
 
-//    when(normsBucketMock.getStream(
-//        "eli/bund/bgbl-1/0000/s1000/2000-01-01/1/deu/2000-01-01/authorialNoteInDocAttachment.xml"))
-//        .thenReturn(makeInputStream.apply("authorialNoteInDocAttachment.xml"));
+    var references =
+        Map.of(
+            "eli/bund/bgbl-1/0000/s1000/2000-01-01/1/deu/2000-01-01/authorialNoteInDocAttachment.xml",
+            Files.readAllBytes(Path.of(resourcesPath, "authorialNoteInDocAttachment.xml")));
 
     var result =
         type.equals("attachment")
-            ? transformer.transformArticle(bytes, "anlagen-n1_anlage-n1", RESOURCES_BASE_PATH)
-            : transformer.transformNorm(bytes, "deu", RESOURCES_BASE_PATH, "regelungstext-1");
+            ? transformer.transformArticle(
+                bytes, "anlagen-n1_anlage-n1", RESOURCES_BASE_PATH, references)
+            : transformer.transformNorm(
+                bytes, "deu", RESOURCES_BASE_PATH, "regelungstext-1", references);
 
     var outputSettings =
         new Document.OutputSettings()
@@ -105,18 +147,19 @@ class NormsXsltTransformerTest {
   }
 
   @Test
-  void testTransformNormWithAttachments() throws IOException, NoSuchKeyException {
+  void testTransformNormWithAttachments() throws IOException {
     byte[] bytes = Files.readAllBytes(Path.of(resourcesPath, "attachments.xml"));
 
-    when(normsBucketMock.getStream(
-        "eli/bund/bgbl-1/0000/s1000/2000-01-01/1/deu/2000-01-01/anlage-regelungstext-1.xml"))
-        .thenReturn(makeInputStream.apply("anlage-regelungstext-1.xml"));
-    when(normsBucketMock.getStream(
-        "eli/bund/bgbl-1/0000/s1000/2000-01-01/1/deu/2000-01-01/anlage-regelungstext-2.xml"))
-        .thenReturn(makeInputStream.apply("anlage-regelungstext-2.xml"));
+    var references =
+        Map.of(
+            "eli/bund/bgbl-1/0000/s1000/2000-01-01/1/deu/2000-01-01/anlage-regelungstext-1.xml",
+            Files.readAllBytes(Path.of(resourcesPath, "anlage-regelungstext-1.xml")),
+            "eli/bund/bgbl-1/0000/s1000/2000-01-01/1/deu/2000-01-01/anlage-regelungstext-2.xml",
+            Files.readAllBytes(Path.of(resourcesPath, "anlage-regelungstext-2.xml")));
 
     var actualHtml =
-        transformer.transformNorm(bytes, "subtype", RESOURCES_BASE_PATH, "regelungstext-1");
+        transformer.transformNorm(
+            bytes, "subtype", RESOURCES_BASE_PATH, "regelungstext-1", references);
 
     var expectedHtml = Files.readString(Path.of(resourcesPath, "attachments.html"));
     var expectedDocument = Jsoup.parse(expectedHtml);
@@ -126,7 +169,6 @@ class NormsXsltTransformerTest {
 
   @Test
   void testHandlesMissingAttachment() throws IOException {
-    Mockito.reset(normsBucketMock);
     // same file as in testTransformNormWithAttachments, but normsBucketMock isn't set up to serve
     // included files
     byte[] bytes = Files.readAllBytes(Path.of(resourcesPath, "attachments.xml"));
@@ -134,7 +176,9 @@ class NormsXsltTransformerTest {
     FileTransformationException exception =
         Assertions.assertThrows(
             FileTransformationException.class,
-            () -> transformer.transformNorm(bytes, "subtype", RESOURCES_BASE_PATH, "regelungstext-1"));
+            () ->
+                transformer.transformNorm(
+                    bytes, "subtype", RESOURCES_BASE_PATH, "regelungstext-1"));
     assertThat(exception.getMessage()).endsWith("anlage-regelungstext-1.xml");
   }
 
@@ -157,9 +201,11 @@ class NormsXsltTransformerTest {
     byte[] bytes = Files.readAllBytes(Path.of(resourcesPath, "preambleFormulaNotes.xml"));
 
     var normView =
-        Jsoup.parse(transformer.transformNorm(bytes, "deu", RESOURCES_BASE_PATH, "regelungstext-1"));
+        Jsoup.parse(
+            transformer.transformNorm(bytes, "deu", RESOURCES_BASE_PATH, "regelungstext-1"));
     var articleView =
-        Jsoup.parse(transformer.transformArticle(bytes, "praeambel-n1_formel-n1", RESOURCES_BASE_PATH));
+        Jsoup.parse(
+            transformer.transformArticle(bytes, "praeambel-n1_formel-n1", RESOURCES_BASE_PATH));
 
     for (Document view : List.of(normView, articleView)) {
       assertThat(view.select("ul.nichtamtliche-fussnoten > li.fussnote").text())
@@ -195,10 +241,7 @@ class NormsXsltTransformerTest {
 
   @Test
   void testTransformsNormTocCorrectly() throws IOException {
-    var xml =
-        Files.readAllBytes(
-            Path.of(
-                "src/testFixtures/resources/data/LDML/norm/eli/bund/bgbl-1/1991/s101/1991-01-01/1/deu/1991-01-01/regelungstext-1.xml"));
+    var xml = Files.readAllBytes(Path.of(specificResourcesPath, "regelungstext-1.xml"));
     var html = transformer.transformNorm(xml, "subtype", RESOURCES_BASE_PATH, "regelungstext-1");
     var expectedToc =
         """
@@ -224,10 +267,7 @@ class NormsXsltTransformerTest {
 
   @Test
   void testTransformsNormArticleCorrectly() throws IOException {
-    var xml =
-        Files.readAllBytes(
-            Path.of(
-                "src/testFixtures/resources/data/LDML/norm/eli/bund/bgbl-1/1991/s101/1991-01-01/1/deu/1991-01-01/regelungstext-1.xml"));
+    var xml = Files.readAllBytes(Path.of(specificResourcesPath, "regelungstext-1.xml"));
     var html = transformer.transformArticle(xml, "art-z1", RESOURCES_BASE_PATH);
     var expectedArticle =
         """
@@ -252,4 +292,10 @@ class NormsXsltTransformerTest {
     assertThat(actualDocument.body().html()).isEqualTo(expectedDocument.body().html());
   }
 
+  private byte[] read(String name) throws IOException {
+    try (InputStream in = getClass().getResourceAsStream(SAMPLES + name)) {
+      assertThat(in).as(name).isNotNull();
+      return in.readAllBytes();
+    }
+  }
 }

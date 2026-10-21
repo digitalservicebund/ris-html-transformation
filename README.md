@@ -13,6 +13,7 @@ The transformation is implemented using XSLT stylesheets, applied via Saxon, for
 - ULI documents (`LiteratureXsltTransformer` for portal HTML)
 - SLI documents (`SliLiteratureXsltTransformer` for portal HTML)
 - VVBund documents (`VvBundXsltTransformer` for portal HTML)
+- Norms (`NormsXsltTransformer` for portal HTML, whole norm or a single article)
 
 ## Usage in a Java project
 
@@ -56,6 +57,21 @@ String pdfHtml = new CaselawPdfXsltTransformer().transform(ldmlBytes, imageRefer
 // Literature documents
 String uliHtml = new LiteratureXsltTransformer().transform(ldmlBytes);
 String sliHtml = new SliLiteratureXsltTransformer().transform(ldmlBytes);
+```
+
+### Norms
+
+The library never loads anything itself. Referenced XML documents (e.g. Anlagen linked via `documentRef`) must be supplied by the caller, keyed by their ELI path. A missing reference throws a `FileTransformationException`.
+
+```java
+var transformer = new NormsXsltTransformer();
+var referenced = Map.of("eli/bund/bgbl-1/2017/s1/2021-01-01/1/deu/2021-01-01/anlage-regelungstext-1.xml", anlageBytes);
+
+// complete HTML document for the whole norm
+String normHtml = transformer.transformNorm(xmlBytes, "deu", resourcesBasePath, "regelungstext-1", referenced);
+
+// complete HTML document for a single article (literal, not URL-encoded eId)
+String articleHtml = transformer.transformArticle(xmlBytes, "art-z1", resourcesBasePath, referenced);
 ```
 
 ## Running the tests

@@ -1,0 +1,41 @@
+<akn:akomaNtoso xmlns:akn="http://rechtsinformationen.bund.de/schema/norm/0.1"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://rechtsinformationen.bund.de/schema/norm-metadata/0.1
+                ../../../../../../../../../../../../Grammatiken/Norms/norm-metadata.xsd
+                 http://MetadatenRegelungstext.LegalDocML.de/1.9/
+                 ../../../../../../../../../../../../Grammatiken/Norms/legalDocML.de-metadaten-regelungstext.xsd
+                 http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.9/
+                 ../../../../../../../../../../../../Grammatiken/Norms/legalDocML.de-metadaten-rechtsetzungsdokument.xsd
+                 http://rechtsinformationen.bund.de/schema/norm/0.1
+                 ../../../../../../../../../../../../Grammatiken/Norms/norm-regelungstext.xsd">
+<akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext">
+        <akn:meta GUID="acf37551-89f7-4eeb-9229-ef0759f7d039" eId="meta-n1">
+            <akn:proprietary GUID="e044b111-434e-462c-81be-cf59d137c13a" eId="meta-n1_proprietary-n1"
+                             source="attributsemantik-noch-undefiniert">
+                <ris:legalDocML.de_metadaten xmlns:ris="http://rechtsinformationen.bund.de/schema/norm-metadata/0.1"
+                                             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                             xsi:schemaLocation="http://rechtsinformationen.bund.de/schema/norm-metadata/0.1
+                                             ../../../../../../../../../../../../Grammatiken/Norms/norm-metadata.xsd">
+                    <ris:vollzitat>
+                        Verordnung über A in der Fassung der Bekanntmachung vom 01. Januar 2000 (BGBl. I S. 123), die
+                        zuletzt durch Artikel 1337 des Gesetzes vom 07. März 2025 (BGBl. 2025 I Nr. 1) geändert worden
+                        ist
+                    </ris:vollzitat>
+                    <ris:standangabe type="neuf">Neugefasst durch Bek. v. 01.01.2000 I 123</ris:standangabe>
+                    <ris:standangabe type="stand">
+                        Zuletzt geändert durch Art. 1337 G v. 7.3.2025 I Nr. 1
+                    </ris:standangabe>
+                </ris:legalDocML.de_metadaten>
+            </akn:proprietary>
+        </akn:meta>
+        <akn:preface GUID="0fa2c6e8-5607-48ad-9bf4-f51fa5f29ba1" eId="einleitung-n1">
+            <akn:longTitle GUID="4eafb252-b5b6-47c6-9c82-e3d846a6a8d6" eId="einleitung-n1_doktitel-n1">
+                <akn:p GUID="cbff680a-1356-4217-ac93-d8e82d85f670" eId="einleitung-n1_doktitel-n1_text-n1">
+                    <akn:docTitle GUID="0cc3e9e6-dc66-41ce-bfb0-0e2eccab07c1"
+                                  eId="einleitung-n1_doktitel-n1_text-n1_doctitel-n1">docTitle
+                    </akn:docTitle>
+                </akn:p>
+            </akn:longTitle>
+        </akn:preface>
+    </akn:act>
+</akn:akomaNtoso>

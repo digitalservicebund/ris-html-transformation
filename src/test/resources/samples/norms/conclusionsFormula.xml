@@ -1,0 +1,20 @@
+<akn:akomaNtoso xmlns:akn="http://rechtsinformationen.bund.de/schema/norm/0.1"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://rechtsinformationen.bund.de/schema/norm-metadata/0.1 Grammatiken/Norms/norm-metadata.xsd
+                 http://MetadatenRegelungstext.LegalDocML.de/1.9/ Grammatiken/Norms/legalDocML.de-metadaten-regelungstext.xsd
+                 http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.9/ Grammatiken/Norms/legalDocML.de-metadaten-rechtsetzungsdokument.xsd
+                 http://rechtsinformationen.bund.de/schema/norm/0.1 Grammatiken/Norms/norm-regelungstext.xsd">
+    <akn:act name="regelungstext">
+    <akn:conclusions eId="schluss-1">
+        <akn:formula eId="schluss-1_formel-1" refersTo="schlussformel">
+            <akn:p eId="schluss-1_formel-1_text-1">
+                <akn:span class="extra_letter_spacing"
+                          eId="schluss-1_formel-1_text-1_span-1">Der Bundeskanzler</akn:span>
+                <akn:br eId="schluss-1_formel-1_text-1_br-1"/>
+                <akn:span class="extra_letter_spacing"
+                          eId="schluss-1_formel-1_text-1_span-2">Der Bundesminister der Finanzen</akn:span>
+            </akn:p>
+        </akn:formula>
+    </akn:conclusions>
+    </akn:act>
+</akn:akomaNtoso>
