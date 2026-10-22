@@ -77,29 +77,6 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
         embedLocalImages(new String(source, StandardCharsets.UTF_8), imageResolver), parameters);
   }
 
-  public String transform(Document source, @NonNull ImageResolver imageResolver) {
-    Map<String, String> parameters = Map.of(RESOURCE_PATH_KEY, "", "css", getCss());
-    return transformLegalDocMlFromBytes(
-        embedLocalImages(toString(source), imageResolver), parameters);
-  }
-
-  public static String toString(Document doc) {
-    try {
-      StringWriter sw = new StringWriter();
-      TransformerFactory tf = TransformerFactory.newInstance();
-      Transformer transformer = tf.newTransformer();
-      transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
-      transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-      transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-      transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-
-      transformer.transform(new DOMSource(doc), new StreamResult(sw));
-      return sw.toString();
-    } catch (Exception ex) {
-      throw new RuntimeException("Error converting to String", ex);
-    }
-  }
-
   private byte[] embedLocalImages(String xml, ImageResolver imageResolver) {
     Matcher matcher = IMAGE_SRC.matcher(xml);
     StringBuilder transformed = new StringBuilder();
