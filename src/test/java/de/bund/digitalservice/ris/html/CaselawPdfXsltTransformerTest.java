@@ -101,7 +101,7 @@ class CaselawPdfXsltTransformerTest {
 
     var norms =
         document.select("dl.metadata > div").stream()
-            .filter(row -> row.select("dt").text().equals("Norm:"))
+            .filter(row -> row.select("dt").text().equals("Normen:"))
             .findFirst()
             .orElseThrow();
 
@@ -111,6 +111,106 @@ class CaselawPdfXsltTransformerTest {
             "PatG, Patentgesetz § 47 Abs 1 S 1",
             "EAPatV, Verordnung über die elektronische Aktenführung bei dem Deutschen Patent- und Markenamt, dem Patentgericht und dem Bundesgerichtshof § 2",
             "ZPO, Zivilprozessordnung § 315 Abs 1");
+  }
+
+  @Test
+  void testTransform_withOneMetadataForEach_shouldRenderSingular() throws IOException {
+    Document document = Jsoup.parse(transformSample("all_sections_singular.xml"));
+
+    var metadataDivs = document.select("dl.metadata > div");
+    var norms =
+        metadataDivs.stream().filter(row -> row.select("dt").text().equals("Norm:")).findFirst();
+    var previousDecisions =
+        metadataDivs.stream()
+            .filter(row -> row.select("dt").text().equals("Vorgehende Entscheidung:"))
+            .findFirst();
+    var ensuringDecisions =
+        metadataDivs.stream()
+            .filter(row -> row.select("dt").text().equals("Nachgehende Entscheidung:"))
+            .findFirst();
+    var pendingDecisions =
+        metadataDivs.stream()
+            .filter(row -> row.select("dt").text().equals("Nachgehende Entscheidung (anhängig):"))
+            .findFirst();
+    var yearsOfDispute =
+        metadataDivs.stream()
+            .filter(row -> row.select("dt").text().equals("Streitjahr:"))
+            .findFirst();
+
+    assertThat(norms).isPresent();
+    assertThat(norms.get().select("li")).hasSize(1);
+    assertThat(norms.get().text()).contains("PatG, Patentgesetz § 1");
+
+    assertThat(previousDecisions).isPresent();
+    assertThat(previousDecisions.get().select("li")).hasSize(1);
+    assertThat(previousDecisions.get().text())
+        .contains("LG Köln, Urteil vom 1. Januar 2020 - AZ-V-1");
+
+    assertThat(ensuringDecisions).isPresent();
+    assertThat(ensuringDecisions.get().select("li")).hasSize(1);
+    assertThat(ensuringDecisions.get().text())
+        .contains("BVerfG, Beschluss vom 1. Oktober 2022 - AZ-N-1");
+
+    assertThat(pendingDecisions).isPresent();
+    assertThat(pendingDecisions.get().select("li")).hasSize(1);
+    assertThat(pendingDecisions.get().text()).contains("BGH, Urteil vom 3. April 2023 - AZ-A-1");
+
+    assertThat(yearsOfDispute).isPresent();
+    assertThat(yearsOfDispute.get().select("li")).hasSize(1);
+    assertThat(yearsOfDispute.get().text()).contains("2024");
+  }
+
+  @Test
+  void testTransform_withMultipleMetadataForEach_shouldRenderPlural() throws IOException {
+    Document document = Jsoup.parse(transformSample("all_sections_plural.xml"));
+
+    var metadataDivs = document.select("dl.metadata > div");
+    var norms =
+        metadataDivs.stream().filter(row -> row.select("dt").text().equals("Normen:")).findFirst();
+    var previousDecisions =
+        metadataDivs.stream()
+            .filter(row -> row.select("dt").text().equals("Vorgehende Entscheidungen:"))
+            .findFirst();
+    var ensuringDecisions =
+        metadataDivs.stream()
+            .filter(row -> row.select("dt").text().equals("Nachgehende Entscheidungen:"))
+            .findFirst();
+    var pendingDecisions =
+        metadataDivs.stream()
+            .filter(row -> row.select("dt").text().equals("Nachgehende Entscheidungen (anhängig):"))
+            .findFirst();
+    var yearsOfDispute =
+        metadataDivs.stream()
+            .filter(row -> row.select("dt").text().equals("Streitjahre:"))
+            .findFirst();
+
+    assertThat(norms).isPresent();
+    assertThat(norms.get().select("li")).hasSize(3);
+    assertThat(norms.get().text()).contains("PatG § 1", "BGB § 5 Abs. 1", "HGB, Handelsgesetzbuch");
+
+    assertThat(previousDecisions).isPresent();
+    assertThat(previousDecisions.get().select("li")).hasSize(2);
+    assertThat(previousDecisions.get().text())
+        .contains(
+            "LG Köln, Urteil vom 1. Januar 2020 - AZ-V-1", "OLG Köln, Urteil vom 4. März 2021");
+
+    assertThat(ensuringDecisions).isPresent();
+    assertThat(ensuringDecisions.get().select("li")).hasSize(2);
+    assertThat(ensuringDecisions.get().text())
+        .contains(
+            "BGH, Urteil vom 17. September 2020 - AZ-N-1",
+            "BVerfG, Beschluss vom 1. Oktober 2022 - AZ-N-2");
+
+    assertThat(pendingDecisions).isPresent();
+    assertThat(pendingDecisions.get().select("li")).hasSize(2);
+    assertThat(pendingDecisions.get().text())
+        .contains(
+            "BGH, Beschluss vom 3. April 2023 - AZ-A-1",
+            "BSG, Beschluss vom 28. Juni 2017 - AZ-A-2");
+
+    assertThat(yearsOfDispute).isPresent();
+    assertThat(yearsOfDispute.get().select("li")).hasSize(2);
+    assertThat(yearsOfDispute.get().text()).contains("2023", "2024");
   }
 
   @Test

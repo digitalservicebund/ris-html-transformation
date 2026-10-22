@@ -38,7 +38,7 @@ public abstract class XsltTransformer {
     this.xsltFilename = xsltFilename;
   }
 
-  String transformLegalDocMlFromBytes(byte[] source, Map<String, String> parameters) {
+  private String transformLegalDocMl(Source in, Map<String, String> parameters) {
 
     AtomicReference<String> terminationMessage = new AtomicReference<>();
     try {
@@ -65,10 +65,8 @@ public abstract class XsltTransformer {
       transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
       parameters.forEach(transformer::setParameter);
       transformer.setParameter("outputMode", "HTML_ALL");
-      try (ByteArrayInputStream in = new ByteArrayInputStream(source);
-          StringWriter output = new StringWriter()) {
-
-        transformer.transform(new StreamSource(in), new StreamResult(output));
+      try (StringWriter output = new StringWriter()) {
+        transformer.transform(in, new StreamResult(output));
         return output.toString();
       }
     } catch (TransformerException | IOException e) {
@@ -86,6 +84,10 @@ public abstract class XsltTransformer {
 
       throw new FileTransformationException(e.getMessage(), e);
     }
+  }
+
+  String transformLegalDocMlFromBytes(byte[] source, Map<String, String> parameters) {
+    return transformLegalDocMl(new StreamSource(new ByteArrayInputStream(source)), parameters);
   }
 
   String getXslt() {

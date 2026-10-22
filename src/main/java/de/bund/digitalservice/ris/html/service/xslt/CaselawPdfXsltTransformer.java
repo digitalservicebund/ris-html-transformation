@@ -66,11 +66,11 @@ public class CaselawPdfXsltTransformer extends XsltTransformer {
    */
   public String transform(byte @NonNull [] source, @NonNull ImageResolver imageResolver) {
     Map<String, String> parameters = Map.of(RESOURCE_PATH_KEY, "", "css", getCss());
-    return transformLegalDocMlFromBytes(embedLocalImages(source, imageResolver), parameters);
+    return transformLegalDocMlFromBytes(
+        embedLocalImages(new String(source, StandardCharsets.UTF_8), imageResolver), parameters);
   }
 
-  private byte[] embedLocalImages(byte[] source, ImageResolver imageResolver) {
-    String xml = new String(source, StandardCharsets.UTF_8);
+  private byte[] embedLocalImages(String xml, ImageResolver imageResolver) {
     Matcher matcher = IMAGE_SRC.matcher(xml);
     StringBuilder transformed = new StringBuilder();
     while (matcher.find()) {
