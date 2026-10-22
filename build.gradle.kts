@@ -15,7 +15,7 @@ repositories {
 }
 
 node {
-    version = "24.20.0"
+    version = "26.12.1"
     download = true
     nodeProjectDir = file("pdf-html-styling")
 }
