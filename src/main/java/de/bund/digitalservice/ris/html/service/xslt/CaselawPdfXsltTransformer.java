@@ -3,23 +3,16 @@ package de.bund.digitalservice.ris.html.service.xslt;
 import de.bund.digitalservice.ris.html.exception.FileTransformationException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Base64;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jspecify.annotations.NonNull;
-import org.w3c.dom.Document;
 
 /** Class for transforming LegalDocML case law documents to the HTML-for-PDF using XSLT. */
 public class CaselawPdfXsltTransformer extends XsltTransformer {
