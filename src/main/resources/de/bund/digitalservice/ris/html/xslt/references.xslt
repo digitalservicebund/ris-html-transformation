@@ -55,7 +55,7 @@
 
         <xsl:variable name="periodikum" select="($fundstelle/ris:periodikum/ris:abkuerzung, $fundstelle/ris:periodikum/ris:titel)[1]" />
 
-        <xsl:sequence select="local:join-non-empty(($periodikum, $fundstelle/ris:zitatstelle), ' ')" />
+        <xsl:sequence select="local:join-non-empty(($periodikum, $fundstelle/ris:periodikum/ris:untertitel, $fundstelle/ris:zitatstelle), ' ')" />
     </xsl:function>
 
     <!-- Formats a referenzVerwaltungsvorschrift reference as "<jurisAbkuerzung>, <fundstelle>". -->
@@ -77,6 +77,20 @@
         <xsl:param name="reference" as="element()" />
 
         <xsl:sequence select="local:join-non-empty(($reference/ris:autor, $reference/ris:titel, $reference/ris:veroeffentlichungsjahr), ', ')" />
+    </xsl:function>
+
+    <!-- Formats a verweisNorm or verweisVerwaltungsvorschrift reference as
+         "<abkuerzung> <bezeichnung> <normtext> (<verweistyp>), vom <fassungsdatum>, Außerkrafttreten: <ausserkrafttretedatum>". -->
+    <xsl:function name="local:format-verweis-reference" as="xs:string">
+        <xsl:param name="reference" as="element()" />
+
+        <xsl:variable name="bezeichnung" select="local:join-non-empty(($reference/ris:abkuerzung, $reference/ris:einzelnorm/ris:bezeichnung, $reference/ris:einzelnorm/ris:normtext), ' ')" />
+        <xsl:variable name="verweistyp" select="if (normalize-space($reference/ris:verweistyp)) then concat('(', $reference/ris:verweistyp, ')') else ''" />
+        <xsl:variable name="base" select="local:join-non-empty(($bezeichnung, $verweistyp), ' ')" />
+        <xsl:variable name="fassungsdatum" select="if ($reference/ris:einzelnorm/ris:fassungsdatum) then concat('vom ', local:format-date-long($reference/ris:einzelnorm/ris:fassungsdatum)) else ''" />
+        <xsl:variable name="ausserkrafttreten" select="if ($reference/ris:einzelnorm/ris:ausserkrafttretedatum) then concat('Außerkrafttreten: ', local:format-date-long($reference/ris:einzelnorm/ris:ausserkrafttretedatum)) else ''" />
+
+        <xsl:sequence select="local:join-non-empty(($base, $fassungsdatum, $ausserkrafttreten), ', ')" />
     </xsl:function>
 
     <!-- Formats one einzelnorm as "<abkuerzung> <bezeichnung>, vom <fassungsdatum>,
@@ -147,6 +161,12 @@
                                     </xsl:when>
                                     <xsl:when test="$format = 'normenkette'">
                                         <xsl:sequence select="local:format-norm-reference(.)" />
+                                    </xsl:when>
+                                    <xsl:when test="$format = 'fundstelle'">
+                                        <xsl:sequence select="local:format-fundstelle(.)" />
+                                    </xsl:when>
+                                    <xsl:when test="$format = 'verweis'">
+                                        <xsl:sequence select="local:format-verweis-reference(.)" />
                                     </xsl:when>
                                     <xsl:otherwise>
                                         <xsl:sequence select="string-join(for $value in .//text()[normalize-space(.) != '' and not(ancestor::ris:referenzURI)] return normalize-space($value), ', ')" />

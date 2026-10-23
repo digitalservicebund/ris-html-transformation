@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.html.service.xslt.BzstPdfXsltTransformer;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,33 +23,37 @@ class BzstPdfXsltTransformerTest {
     try (InputStream is = BzstPdfXsltTransformerTest.class.getResourceAsStream(SAMPLE_PATH)) {
       assertThat(is).withFailMessage("Could not find: " + SAMPLE_PATH).isNotNull();
       doc = Jsoup.parse(TRANSFORMER.transform(is.readAllBytes()));
+      doc.outputSettings().prettyPrint(true);
+      Path out = Path.of("build/test-output/bzst-pdf.html");
+      Files.createDirectories(out.getParent());
+      Files.writeString(out, doc.outerHtml());
     }
   }
 
   @Test
   void hidesNormen() {
-    assertThat(doc.select("#referenzen h3").eachText()).doesNotContain("Normen");
+    assertThat(doc.select("template#verweisNormen")).isEmpty();
   }
 
   @Test
   void hidesVerwaltungsvorschriften() {
-    assertThat(doc.select("#referenzen h3").eachText()).doesNotContain("Verwaltungsvorschriften");
+    assertThat(doc.select("template#verweisVerwaltungsvorschriften")).isEmpty();
   }
 
   @Test
   void hidesRechtsprechung() {
-    assertThat(doc.select("#referenzen h3").eachText()).doesNotContain("Rechtsprechung");
+    assertThat(doc.select("template#referenzRechtsprechungen")).isEmpty();
   }
 
   @Test
   void rendersNormenkette() {
-    assertThat(doc.select("#referenzen h3").eachText()).contains("Normenkette");
-    assertThat(doc.select("#referenzen").text()).contains("AStG");
+    assertThat(doc.select("template#referenzNormen li").eachText())
+        .anyMatch(t -> t.contains("AStG"));
   }
 
   @Test
   void rendersFundstelle() {
-    assertThat(doc.select("#referenzen h3").eachText()).contains("Fundstelle");
-    assertThat(doc.select("#referenzen").text()).contains("BStBl I");
+    assertThat(doc.select("template#fundstellen li").eachText())
+        .anyMatch(t -> t.contains("BStBl I"));
   }
 }

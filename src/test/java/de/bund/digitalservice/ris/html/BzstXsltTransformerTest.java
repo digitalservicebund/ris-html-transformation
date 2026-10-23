@@ -5,7 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.html.service.xslt.BzstXsltTransformer;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,97 +23,123 @@ class BzstXsltTransformerTest {
   static void transform() throws IOException {
     try (InputStream is = BzstXsltTransformerTest.class.getResourceAsStream(SAMPLE_PATH)) {
       assertThat(is).withFailMessage("Could not find: " + SAMPLE_PATH).isNotNull();
-      doc = Jsoup.parse(TRANSFORMER.transform(is.readAllBytes()));
+      byte[] xml = is.readAllBytes();
+      String html = TRANSFORMER.transform(xml);
+      doc = Jsoup.parse(html);
+      doc.outputSettings().prettyPrint(true);
+      Path out = Path.of("build/test-output/bzst.html");
+      Files.createDirectories(out.getParent());
+      Files.writeString(out, doc.outerHtml());
     }
   }
 
   @Test
+  void rendersHtmlTitle() {
+    assertThat(doc.title())
+        .isEqualTo(
+            "Anwendung des § 1 Abs. 1 AStG bei Verrechnungspreisen mit nahestehenden Personen");
+  }
+
+  @Test
   void rendersLangtitel() {
-    assertThat(doc.select("#header h1").text())
+    assertThat(doc.select("meta[name=amtliche-langueberschrift]").attr("content"))
         .isEqualTo(
             "Anwendung des § 1 Abs. 1 AStG bei Verrechnungspreisen mit nahestehenden Personen");
   }
 
   @Test
   void rendersZitierdatum() {
-    assertThat(doc.select("#header dt").eachText()).contains("Zitierdatum");
-    assertThat(doc.select("#header dd").eachText()).contains("01.04.2003");
+    assertThat(doc.select("meta[name=zitierdatum]").attr("content")).isEqualTo("01.04.2003");
   }
 
   @Test
   void rendersAktenzeichen() {
-    assertThat(doc.select("#metadaten dt").eachText()).contains("Aktenzeichen");
-    assertThat(doc.select("#metadaten").text()).contains("XYZ 123/7").contains("XYZ 123/8");
+    assertThat(doc.select("template#aktenzeichen li").eachText())
+        .contains("XYZ 123/7", "XYZ 123/8");
   }
 
   @Test
   void rendersNormgeber() {
-    assertThat(doc.select("#metadaten dt").eachText()).contains("Normgeber");
-    assertThat(doc.select("#metadaten abbr").eachText()).contains("BMG");
-    assertThat(doc.select("#metadaten abbr[title]").attr("title"))
+    assertThat(doc.select("template#normgeber abbr").eachText()).contains("BMG");
+    assertThat(doc.select("template#normgeber abbr[title]").attr("title"))
         .isEqualTo("Bundesministerium des Geldes");
   }
 
   @Test
   void rendersDokumenttyp() {
-    assertThat(doc.select("#metadaten dt").eachText()).contains("Dokumenttyp");
-    assertThat(doc.select("#metadaten").text())
-        .contains("BMF-Schreiben")
-        .contains("Verwaltungsanweisung");
+    assertThat(doc.select("template#dokumenttypen li").eachText())
+        .contains("BMF-Schreiben", "Verwaltungsanweisung");
   }
 
   @Test
   void rendersInkrafttreten() {
-    assertThat(doc.select("#metadaten dt").eachText()).contains("Inkrafttreten");
-    assertThat(doc.select("#metadaten").text()).contains("01.04.2003");
+    assertThat(doc.select("meta[name=inkrafttretedatum]").attr("content")).isEqualTo("01.04.2003");
   }
 
   @Test
   void rendersAusserkrafttreten() {
-    assertThat(doc.select("#metadaten dt").eachText()).contains("Außerkrafttreten");
-    assertThat(doc.select("#metadaten").text()).contains("unbefristet");
+    assertThat(doc.select("meta[name=ausserkrafttretedatum]").attr("content"))
+        .isEqualTo("unbefristet");
   }
 
   @Test
   void rendersAnwendungszeitraum() {
-    assertThat(doc.select("#metadaten dt").eachText())
-        .containsAll(List.of("Anwendungsbeginn", "Anwendungsende"));
-    assertThat(doc.select("#metadaten").text()).contains("2003").contains("2023");
+    assertThat(doc.select("meta[name=anwendungsbeginn]").attr("content")).contains("2003");
+    assertThat(doc.select("meta[name=anwendungsende]").attr("content")).contains("2023");
   }
 
   @Test
   void rendersNormenkette() {
-    assertThat(doc.select("#referenzen h3").eachText()).contains("Normenkette");
-    assertThat(doc.select("#referenzen").text()).contains("AStG").contains("EStG");
+    assertThat(doc.select("template#referenzNormen li").eachText())
+        .anyMatch(t -> t.contains("AStG § 1 Abs 1"))
+        .anyMatch(t -> t.contains("EStG § 15 Abs 1"));
   }
 
   @Test
   void rendersNormen() {
-    assertThat(doc.select("#referenzen h3").eachText()).contains("Normen");
-    assertThat(doc.select("#referenzen").text())
-        .contains("KStG")
-        .contains("§ 8a")
-        .contains("Durchführungsvorschrift");
+    assertThat(doc.select("template#verweisNormen li").eachText())
+        .anyMatch(
+            t -> t.contains("KStG") && t.contains("§ 8a") && t.contains("Durchführungsvorschrift"));
   }
 
   @Test
   void rendersVerwaltungsvorschriften() {
-    assertThat(doc.select("#referenzen h3").eachText()).contains("Verwaltungsvorschriften");
-    assertThat(doc.select("#referenzen").text()).contains("VV Fantasie 2019");
+    assertThat(doc.select("template#verweisVerwaltungsvorschriften li").eachText())
+        .anyMatch(t -> t.contains("VV Fantasie 2019"));
   }
 
   @Test
   void rendersRechtsprechung() {
-    assertThat(doc.select("#referenzen h3").eachText()).contains("Rechtsprechung");
-    assertThat(doc.select("#referenzen").text()).contains("BFH München").contains("I R 45/01");
+    assertThat(doc.select("template#referenzRechtsprechungen li").eachText())
+        .anyMatch(t -> t.contains("BFH München") && t.contains("I R 45/01"));
   }
 
   @Test
   void rendersFundstelle() {
-    assertThat(doc.select("#referenzen h3").eachText()).contains("Fundstelle");
-    assertThat(doc.select("#referenzen").text())
-        .contains("BStBl I")
-        .contains("Ausgabe A")
-        .contains("2042, 42");
+    assertThat(doc.select("template#fundstellen li").eachText())
+        .anyMatch(t -> t.contains("BStBl I") && t.contains("Ausgabe A") && t.contains("2042, 42"));
+  }
+
+  @Test
+  void doesNotRenderAnwendungsende_whenMissingInInput() throws IOException {
+    try (InputStream is = BzstXsltTransformerTest.class.getResourceAsStream(SAMPLE_PATH)) {
+      assertThat(is).withFailMessage("Could not find: " + SAMPLE_PATH).isNotNull();
+      String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+      xml = xml.replaceAll("<ris:anwendungsende[^>]*>.*?</ris:anwendungsende>", "");
+      Document result = Jsoup.parse(TRANSFORMER.transform(xml.getBytes(StandardCharsets.UTF_8)));
+      Path out = Path.of("build/test-output/bzst-missing-anwendungsende.html");
+      Files.createDirectories(out.getParent());
+      Files.writeString(out, result.outerHtml());
+      assertThat(result.select("meta[name=anwendungsende]")).isEmpty();
+      assertThat(result.select("meta[name=anwendungsbeginn]").attr("content")).isEqualTo("2003");
+    }
+  }
+
+  @Test
+  void doesNotRenderHiddenByDefaultSections() {
+    assertThat(doc.select("template#schlagwoerter")).isEmpty();
+    assertThat(doc.select("template#definierteBegriffe")).isEmpty();
+    assertThat(doc.select("template#sachgebiete")).isEmpty();
+    assertThat(doc.select("meta[name=dokumentnummer]")).isEmpty();
   }
 }

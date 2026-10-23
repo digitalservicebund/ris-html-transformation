@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <akn:akomaNtoso xmlns:akn="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
-                xmlns:ris="http://ldml.neuris.de/adm/bzst/meta/">
+                xmlns:ris="http://rechtsinformationen.bund.de/schema/ris/0.1">
     <akn:doc name="/akn/ontology/de/concept/documenttype/bund/adm/bzst">
         <akn:meta>
             <akn:identification source="attributsemantik-noch-undefiniert">

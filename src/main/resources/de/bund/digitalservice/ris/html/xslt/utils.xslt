@@ -40,4 +40,18 @@
 
         <xsl:sequence select="string($formatted)" />
     </xsl:function>
+
+    <!-- Formats an ISO date (YYYY-MM-DD) in German short form (DD.MM.YYYY).
+         The sentinel value "+999999999-..." is rendered as "unbefristet".
+         An empty or blank string passes through as an empty string. -->
+    <xsl:function name="local:format-date-short" as="xs:string">
+        <xsl:param name="date" as="xs:string" />
+        <xsl:choose>
+            <xsl:when test="starts-with($date, '+999999999')">unbefristet</xsl:when>
+            <xsl:when test="normalize-space($date) = ''"><xsl:sequence select="''" /></xsl:when>
+            <xsl:otherwise>
+                <xsl:sequence select="format-date(xs:date($date), '[D01].[M01].[Y0001]')" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:function>
 </xsl:stylesheet>
