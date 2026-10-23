@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.html.service.xslt;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.sax.SAXSource;
+import javax.xml.transform.stream.StreamSource;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -52,7 +54,7 @@ public class NormsXsltTransformer extends XsltTransformer {
       String language,
       String resourcesBasePath,
       String subtype,
-      Map<String, byte[]> referencedDocuments) {
+      Map<String, Source> referencedDocuments) {
     var parameters = standardParameters(resourcesBasePath);
     parameters.put("dokumentpfad", language);
     parameters.put("subtype", subtype);
@@ -83,10 +85,7 @@ public class NormsXsltTransformer extends XsltTransformer {
    *     invalid or a referenced document is missing from {@code referencedDocuments}
    */
   public String transformArticle(
-      Source in,
-      String eId,
-      String resourcesBasePath,
-      Map<String, byte[]> referencedDocuments) {
+      Source in, String eId, String resourcesBasePath, Map<String, Source> referencedDocuments) {
     var parameters = standardParameters(resourcesBasePath);
     parameters.put("article-eid", eId);
     return transformLegalDocMlFromBytes(
@@ -100,19 +99,19 @@ public class NormsXsltTransformer extends XsltTransformer {
   }
 
   /** Serves referenced documents only from the supplied map; never loads anything else. */
-  private record ReferencedDocumentResolver(Map<String, byte[]> documents) implements URIResolver {
+  private record ReferencedDocumentResolver(Map<String, Source> documents) implements URIResolver {
 
     @Override
     public Source resolve(String href, String base) throws TransformerException {
       String path = toEliPath(href);
-      byte[] content = documents.get(path);
+      Source content = documents.get(path);
       if (content == null) {
         throw new TransformerException("Referenced document not supplied: " + path);
       }
       return toSecureSource(content, href);
     }
 
-    private static Source toSecureSource(byte[] content, String href) throws TransformerException {
+    private static Source toSecureSource(Source content, String href) throws TransformerException {
       try {
         SAXParserFactory spf = SAXParserFactory.newInstance();
         spf.setNamespaceAware(true);
@@ -123,10 +122,12 @@ public class NormsXsltTransformer extends XsltTransformer {
         spf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
 
         XMLReader reader = spf.newSAXParser().getXMLReader();
-        InputSource input = new InputSource(new ByteArrayInputStream(content));
+        InputSource input =
+            new InputSource(
+                new ByteArrayInputStream(((StreamSource) content).getInputStream().readAllBytes()));
         input.setSystemId(href);
         return new SAXSource(reader, input);
-      } catch (ParserConfigurationException | SAXException e) {
+      } catch (ParserConfigurationException | SAXException | IOException e) {
         throw new TransformerException("Could not create secure parser for: " + href, e);
       }
     }
