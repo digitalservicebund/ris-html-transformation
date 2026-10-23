@@ -16,6 +16,7 @@ import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.URIResolver;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import net.sf.saxon.jaxp.TransformerImpl;
@@ -39,6 +40,11 @@ public abstract class XsltTransformer {
   }
 
   private String transformLegalDocMl(Source in, Map<String, String> parameters) {
+    return transformLegalDocMlFromBytes(in, parameters, null);
+  }
+
+  String transformLegalDocMlFromBytes(
+      Source in, Map<String, String> parameters, URIResolver uriResolver) {
 
     AtomicReference<String> terminationMessage = new AtomicReference<>();
     try {
@@ -52,6 +58,9 @@ public abstract class XsltTransformer {
       Source xsltSource = new StreamSource(new StringReader(getXslt()), url);
 
       Transformer transformer = transformerFactory.newTransformer(xsltSource);
+      if (uriResolver != null) {
+        transformer.setURIResolver(uriResolver);
+      }
       ((TransformerImpl) transformer)
           .getUnderlyingXsltTransformer()
           .setMessageHandler(

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<akn:akomaNtoso xmlns:akn="http://rechtsinformationen.bund.de/schema/norm/0.1">
+  <akn:act name="regelungstext">
+    <akn:meta eId="meta-n1"/>
+    <akn:preface eId="preface-n1">
+      <akn:longTitle eId="preface-n1_longtitle-n1">
+        <akn:p eId="preface-n1_longtitle-n1_text-n1">
+          <akn:docTitle eId="preface-n1_longtitle-n1_text-n1_doctitel-n1">Testgesetz</akn:docTitle>
+          <akn:shortTitle eId="preface-n1_longtitle-n1_text-n1_kurztitel-n1">(<akn:inline eId="preface-n1_longtitle-n1_text-n1_kurztitel-n1_inline-n1" name="attributsemantik-noch-undefiniert">TestG</akn:inline>)</akn:shortTitle>
+        </akn:p>
+      </akn:longTitle>
+    </akn:preface>
+    <akn:body eId="hauptteil-n1">
+      <akn:article eId="art-z1">
+        <akn:num eId="art-z1_bezeichnung-n1">§ 1</akn:num>
+        <akn:heading eId="art-z1_ueberschrift-n1">Erster Artikel</akn:heading>
+        <akn:paragraph eId="art-z1_abs-z1">
+          <akn:num eId="art-z1_abs-z1_bezeichnung-n1">(1)</akn:num>
+          <akn:content eId="art-z1_abs-z1_inhalt-n1">
+            <akn:p eId="art-z1_abs-z1_inhalt-n1_text-n1">Erster <akn:b eId="art-z1_abs-z1_inhalt-n1_text-n1_fettschrift-n1">Text</akn:b>.</akn:p>
+          </akn:content>
+        </akn:paragraph>
+      </akn:article>
+    </akn:body>
+    <akn:attachments eId="anlagen-n1">
+      <akn:attachment eId="anlagen-n1_anlage-n1">
+        <akn:documentRef eId="anlagen-n1_anlage-n1_verweis-n1" href="https://www.ris.bund.de/eli/bund/bgbl-1/0000/s1000/2000-01-01/1/deu/2000-01-01/anlage-regelungstext-1.xml"/>
+      </akn:attachment>
+    </akn:attachments>
+  </akn:act>
+</akn:akomaNtoso>

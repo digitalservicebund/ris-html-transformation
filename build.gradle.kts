@@ -31,6 +31,7 @@ dependencies {
     testImplementation(libs.junit.jupiter.params)
     testImplementation(libs.assertj.core)
     testImplementation(libs.jsoup)
+    testImplementation(libs.xmlunit.core)
 
     testRuntimeOnly(libs.junit.jupiter.engine)
 
