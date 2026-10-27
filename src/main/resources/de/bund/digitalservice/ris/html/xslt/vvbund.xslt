@@ -11,7 +11,9 @@
         <html lang="de">
             <head>
                 <meta charset="utf-8" />
-                <title><xsl:value-of select="normalize-space((//akn:longTitle)[1])" /></title>
+                <title>
+                    <xsl:value-of select="normalize-space((//akn:longTitle//akn:docTitle, //akn:longTitle//akn:shortTitle)[1])" />
+                </title>
             </head>
             <body>
                 <xsl:apply-templates select="(//akn:longTitle)[1]" />
@@ -19,7 +21,9 @@
         </html>
     </xsl:template>
 
-    <xsl:template match=" akn:longTitle">
-        <h1 id="title"><xsl:value-of select="normalize-space(.)" /></h1>
+    <xsl:template match="akn:longTitle">
+        <h1 id="title">
+            <xsl:value-of select="normalize-space((.//akn:docTitle, .//akn:shortTitle)[1])" />
+        </h1>
     </xsl:template>
 </xsl:stylesheet>

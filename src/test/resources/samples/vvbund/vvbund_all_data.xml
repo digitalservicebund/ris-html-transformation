@@ -13,53 +13,76 @@
           <akn:FRBRalias
               name="langueberschrift"
               showAs="Amtliche Langüberschrift"
-              value="Bekanntmachung der Verfahrensordnung für die Vergabe öffentlicher ..."
+              value="Siebter Erlaß über die Genehmigung der Stiftung und Verleihung von Orden und Ehrenzeichen"
           />
-          <akn:FRBRdate date="1900-01-01" name="TODO" showAs="TODO"/>
-          <akn:FRBRauthor href="#organisation-normgeber-bundesministerium-der-finanzen"/>
+          <akn:FRBRalias
+              name="kurzueberschrift"
+              showAs="Amtliche Kurzüberschrift"
+              value="Unterschwellenvergabeordnung"
+          />
+          <akn:FRBRdate date="2026-01-01" eId="zitierdatum" name="zitierdatum" showAs="Zitierdatum"/>
+          <akn:FRBRauthor href="#organisation-normgeber-bundesministerium-der-verteidigung"/>
           <akn:FRBRcountry value="TODO"/>
         </akn:FRBRWork>
         <akn:FRBRExpression>
           <akn:FRBRthis value="VVBU123456789"/>
           <akn:FRBRuri value="VVBU123456789"/>
-          <akn:FRBRdate date="1900-01-01" name="TODO" showAs="TODO"/>
-          <akn:FRBRauthor href="#organisation-normgeber-bundesministerium-der-finanzen"/>
+          <akn:FRBRdate date="2026-01-01" name="zitierdatum" showAs="Zitierdatum"/>
+          <akn:FRBRauthor href="#organisation-normgeber-bundesministerium-der-verteidigung"/>
           <akn:FRBRlanguage language="TODO"/>
         </akn:FRBRExpression>
         <akn:FRBRManifestation>
           <akn:FRBRthis value="VVBU123456789.xml"/>
           <akn:FRBRuri value="VVBU123456789.xml"/>
           <akn:FRBRdate date="1900-01-01" name="TODO" showAs="TODO"/>
-          <akn:FRBRauthor href="#organisation-normgeber-bundesministerium-der-finanzen"/>
+          <akn:FRBRauthor href="#organisation-normgeber-bundesministerium-der-verteidigung"/>
         </akn:FRBRManifestation>
       </akn:identification>
       <akn:references source="#ris">
-        <akn:TLCOrganization eId="ris" href="/akn/ontology/organizations/de/ris/rechtsinformationssystem-des-bundes"
-                             showAs="Rechtsinformationssystem des Bundes"/>
-        <akn:TLCOrganization eId="organisation-normgeber-bundesministerium-der-finanzen"
-                             href="/akn/ontology/organizations/de/ris/normgeber/bundesministerium-der-finanzen"
-                             showAs="Bundesministerium der Finanzen"/>
+        <akn:TLCOrganization
+            eId="ris"
+            href="/akn/ontology/organizations/de/ris/rechtsinformationssystem-des-bundes"
+            showAs="Rechtsinformationssystem des Bundes"
+        />
+        <akn:TLCOrganization
+            eId="organisation-normgeber-bundesministerium-der-verteidigung"
+            href="/akn/ontology/organizations/de/ris/normgeber/bundesministerium-der-verteidigung"
+            showAs="Bundesministerium der Verteidigung"
+        />
       </akn:references>
       <akn:proprietary source="#ris">
         <ris:meta>
-          <ris:langueberschrift domainTerm="Amtliche Langüberschrift">Bekanntmachung der Verfahrensordnung für die
-            Vergabe öffentlicher ...
-          </ris:langueberschrift>
           <ris:normgeberListe domainTerm="Liste der Normgeber">
             <ris:normgeber domainTerm="Normgeber">
-              <ris:langbezeichnung domainTerm="Langbezeichnung">Bundesministerium der Finanzen</ris:langbezeichnung>
+              <ris:langbezeichnung domainTerm="Langbezeichnung">Bundesministerium der Verteidigung
+              </ris:langbezeichnung>
             </ris:normgeber>
           </ris:normgeberListe>
+          <ris:zitierdaten domainTerm="Zitierdaten">
+            <ris:zitierdatum refersTo="#zitierdatum" domainTerm="Zitierdatum">2026-01-01</ris:zitierdatum>
+          </ris:zitierdaten>
           <ris:aktenzeichenListe domainTerm="Liste der Aktenzeichen">
             <ris:aktenzeichen domainTerm="Aktenzeichen" refersTo="#aktenzeichen">AB 123/45</ris:aktenzeichen>
             <ris:aktenzeichen domainTerm="Aktenzeichen">CD 678/9</ris:aktenzeichen>
           </ris:aktenzeichenListe>
+          <ris:langueberschrift
+              domainTerm="Amtliche Langüberschrift"
+          >Siebter Erlaß über die Genehmigung der Stiftung und Verleihung von Orden und Ehrenzeichen
+          </ris:langueberschrift>
+          <ris:kurzueberschrift
+              domainTerm="Amtliche Kurzüberschrift"
+          >Unterschwellenvergabeordnung
+          </ris:kurzueberschrift>
+          <ris:fassungsdatum domainTerm="Fassungsdatum">2025-12-25</ris:fassungsdatum>
         </ris:meta>
       </akn:proprietary>
     </akn:meta>
     <akn:preface>
       <akn:longTitle>
-        <akn:block name="longTitle">Bekanntmachung der Verfahrensordnung für die Vergabe öffentlicher ...</akn:block>
+        <akn:p>
+          <akn:docTitle>Siebter Erlaß über die Genehmigung der Stiftung und Verleihung von Orden und Ehrenzeichen</akn:docTitle>
+          <akn:shortTitle>Bundesministerium der Verteidigung, 02.05.1996, 01-70-25</akn:shortTitle>
+        </akn:p>
       </akn:longTitle>
     </akn:preface>
     <akn:mainBody>
