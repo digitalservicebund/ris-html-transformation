@@ -8,7 +8,7 @@
           <akn:FRBRthis value="VVBU123456789"/>
           <akn:FRBRuri value="VVBU123456789"/>
           <akn:FRBRalias name="dokumentnummer" showAs="Dokumentnummer" value="VVBU123456789"/>
-          <akn:FRBRalias eId="aktenzeichen" name="aktenzeichen" showAs="Aktenzeichen" value="AB 123/45"/>
+          <akn:FRBRalias eId="aktenzeichen" name="aktenzeichen" showAs="Aktenzeichen" value="01-70-25"/>
           <akn:FRBRalias name="aktenzeichen" showAs="Aktenzeichen" value="CD 678/9"/>
           <akn:FRBRalias
               name="langueberschrift"
