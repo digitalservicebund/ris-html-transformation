@@ -60,7 +60,7 @@ class VvBundXsltTransformerTest {
     }
 
     @Test
-    void testTransform_minimalDataSample_rendersWithoutLangueberschrift() {
+    void testTransform_minimalDataSample_rendersGeneratedShortTitle() {
       var generatedShortTitle = "Bundesministerium der Verteidigung";
 
       assertThat(doc.select("h1#title").text()).isEqualTo(generatedShortTitle);
