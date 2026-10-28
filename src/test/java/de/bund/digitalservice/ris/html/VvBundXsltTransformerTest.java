@@ -32,7 +32,8 @@ class VvBundXsltTransformerTest {
 
     @Test
     void testTransform_allDataSample_rendersLangueberschrift() {
-      var title = "Bekanntmachung der Verfahrensordnung für die Vergabe öffentlicher ...";
+      var title =
+          "Siebter Erlaß über die Genehmigung der Stiftung und Verleihung von Orden und Ehrenzeichen";
 
       assertThat(doc.select("h1#title").text()).isEqualTo(title);
     }
@@ -59,10 +60,10 @@ class VvBundXsltTransformerTest {
     }
 
     @Test
-    void testTransform_minimalDataSample_rendersWithoutLangueberschrift() {
-      var placeholderLangueberschrift = "Placeholder für die Amtliche Langüberschrift";
+    void testTransform_minimalDataSample_rendersGeneratedShortTitle() {
+      var generatedShortTitle = "Bundesministerium der Verteidigung";
 
-      assertThat(doc.select("h1#title").text()).isEqualTo(placeholderLangueberschrift);
+      assertThat(doc.select("h1#title").text()).isEqualTo(generatedShortTitle);
     }
 
     @Test
