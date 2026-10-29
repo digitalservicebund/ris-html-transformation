@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
+import javax.xml.transform.Templates;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -29,14 +30,21 @@ public abstract class XsltTransformer {
   static final String RESOURCE_PATH_KEY = "ressourcenpfad";
 
   private final Logger logger = LogManager.getLogger(XsltTransformer.class);
-  private final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
   private final String xsltBasePath;
   private final String xsltFilename;
 
-  public XsltTransformer(String xsltBasePath, String xsltFilename) {
+  private final Templates templates;
+
+  protected XsltTransformer(String xsltBasePath, String xsltFilename) {
     this.xsltBasePath = xsltBasePath;
     this.xsltFilename = xsltFilename;
+    try {
+      TransformerFactory transformerFactory = TransformerFactory.newInstance();
+      this.templates = transformerFactory.newTemplates(xsltSource());
+    } catch (TransformerException e) {
+      throw new FileTransformationException("Could not compile XSLT: " + e.getMessage(), e);
+    }
   }
 
   private String transformLegalDocMl(Source in, Map<String, String> parameters) {
@@ -48,16 +56,7 @@ public abstract class XsltTransformer {
 
     AtomicReference<String> terminationMessage = new AtomicReference<>();
     try {
-      // PURE JAVA ALTERNATIVE FOR BASE PATH URL:
-      URL basePathUrl = getClass().getClassLoader().getResource(xsltBasePath);
-      if (basePathUrl == null) {
-        throw new FileTransformationException("XSLT Base path not found: " + xsltBasePath);
-      }
-      String url = basePathUrl.toString();
-
-      Source xsltSource = new StreamSource(new StringReader(getXslt()), url);
-
-      Transformer transformer = transformerFactory.newTransformer(xsltSource);
+      Transformer transformer = templates.newTransformer();
       if (uriResolver != null) {
         transformer.setURIResolver(uriResolver);
       }
@@ -111,5 +110,13 @@ public abstract class XsltTransformer {
       logger.error("XSLT transformation error.", e);
       throw new FileTransformationException(e.getMessage(), e);
     }
+  }
+
+  private Source xsltSource() {
+    URL basePathUrl = getClass().getClassLoader().getResource(xsltBasePath);
+    if (basePathUrl == null) {
+      throw new FileTransformationException("XSLT Base path not found: " + xsltBasePath);
+    }
+    return new StreamSource(new StringReader(getXslt()), basePathUrl.toString());
   }
 }

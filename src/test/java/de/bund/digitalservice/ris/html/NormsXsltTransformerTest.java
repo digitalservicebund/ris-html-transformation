@@ -11,9 +11,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import org.jsoup.Jsoup;
@@ -319,11 +326,67 @@ class NormsXsltTransformerTest {
     assertThat(actualDocument.body().html()).isEqualTo(expectedDocument.body().html());
   }
 
+  @Test
+  void transformNorm_sameInputTwice_returnsIdenticalHtml() throws IOException {
+    String first = normHtml();
+    String second = normHtml();
+
+    assertThat(bodyOf(second)).isEqualTo(bodyOf(first));
+  }
+
+  @Test
+  void transform_concurrentCalls_returnSameResultAsSingleThreaded() throws Exception {
+    String expectedNorm = bodyOf(normHtml());
+    String expectedArticle = bodyOf(articleHtml());
+
+    int threads = 8;
+    int calls = 80;
+    ExecutorService executor = Executors.newFixedThreadPool(threads);
+    CountDownLatch start = new CountDownLatch(1);
+    try {
+      List<Future<String>> futures = new ArrayList<>();
+      for (int i = 0; i < calls; i++) {
+        boolean norm = i % 2 == 0;
+        Callable<String> task =
+            () -> {
+              start.await();
+              return norm ? normHtml() : articleHtml();
+            };
+        futures.add(executor.submit(task));
+      }
+      start.countDown();
+
+      for (int i = 0; i < calls; i++) {
+        String actual = futures.get(i).get(30, TimeUnit.SECONDS);
+        assertThat(bodyOf(actual)).isEqualTo(i % 2 == 0 ? expectedNorm : expectedArticle);
+      }
+    } finally {
+      executor.shutdownNow();
+    }
+  }
+
   private Source read(String name) throws IOException {
     try (InputStream in = getClass().getResourceAsStream(SAMPLES + name)) {
       assertThat(in).as(name).isNotNull();
       return new StreamSource(new ByteArrayInputStream(in.readAllBytes()));
     }
+  }
+
+  private String normHtml() throws IOException {
+    return transformer.transformNorm(
+        read("simple.xml"),
+        "deu",
+        RESOURCES_BASE_PATH,
+        "regelungstext-1",
+        Map.of(ATTACHMENT_KEY, read("anlage-regelungstext-1.xml")));
+  }
+
+  private String articleHtml() throws IOException {
+    return transformer.transformArticle(read("simple.xml"), "art-z1", RESOURCES_BASE_PATH);
+  }
+
+  private static String bodyOf(String html) {
+    return Jsoup.parse(html).body().html();
   }
 
   private static Source sourceOf(Path path) throws IOException {
