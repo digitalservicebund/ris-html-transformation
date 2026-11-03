@@ -38,8 +38,7 @@ class XsltTransformerTest {
     PrintStream originalErr = System.err;
     ByteArrayOutputStream diagnostics = new ByteArrayOutputStream();
 
-    try (PrintStream capturedErr =
-             new PrintStream(diagnostics, true, StandardCharsets.UTF_8)) {
+    try (PrintStream capturedErr = new PrintStream(diagnostics, true, StandardCharsets.UTF_8)) {
       System.setErr(capturedErr);
 
       var defaultTransformer =
@@ -47,11 +46,9 @@ class XsltTransformerTest {
               .newTransformer(new StreamSource(new StringReader(AMBIGUOUS_STYLESHEET)));
       StringWriter defaultOutput = new StringWriter();
       defaultTransformer.transform(
-          new StreamSource(new StringReader("<item/>")),
-          new StreamResult(defaultOutput));
+          new StreamSource(new StringReader("<item/>")), new StreamResult(defaultOutput));
 
-      assertThat(diagnostics.toString(StandardCharsets.UTF_8))
-          .contains("XTDE0540");
+      assertThat(diagnostics.toString(StandardCharsets.UTF_8)).contains("XTDE0540");
       assertThat(defaultOutput.toString()).isEqualTo("<result>second</result>");
 
       diagnostics.reset();
@@ -118,7 +115,6 @@ class XsltTransformerTest {
           }
         };
 
-    return transformer.transformLegalDocMlFromBytes(
-        xml.getBytes(StandardCharsets.UTF_8), Map.of());
+    return transformer.transformLegalDocMlFromBytes(xml.getBytes(StandardCharsets.UTF_8), Map.of());
   }
 }
