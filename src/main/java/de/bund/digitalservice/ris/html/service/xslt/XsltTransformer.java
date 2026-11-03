@@ -11,6 +11,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+import javax.xml.transform.ErrorListener;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -37,6 +38,7 @@ public abstract class XsltTransformer {
   public XsltTransformer(String xsltBasePath, String xsltFilename) {
     this.xsltBasePath = xsltBasePath;
     this.xsltFilename = xsltFilename;
+    this.transformerFactory.setErrorListener(ERRORS_ONLY_LISTENER);
   }
 
   private String transformLegalDocMl(Source in, Map<String, String> parameters) {
@@ -58,6 +60,7 @@ public abstract class XsltTransformer {
       Source xsltSource = new StreamSource(new StringReader(getXslt()), url);
 
       Transformer transformer = transformerFactory.newTransformer(xsltSource);
+      transformer.setErrorListener(ERRORS_ONLY_LISTENER);
       if (uriResolver != null) {
         transformer.setURIResolver(uriResolver);
       }
@@ -112,4 +115,22 @@ public abstract class XsltTransformer {
       throw new FileTransformationException(e.getMessage(), e);
     }
   }
+
+  private static final ErrorListener ERRORS_ONLY_LISTENER =
+      new ErrorListener() {
+        @Override
+        public void warning(TransformerException exception) throws TransformerException {
+          // suppress warnings
+        }
+
+        @Override
+        public void error(TransformerException exception) throws TransformerException {
+          throw exception;
+        }
+
+        @Override
+        public void fatalError(TransformerException exception) throws TransformerException {
+          throw exception;
+        }
+      };
 }
