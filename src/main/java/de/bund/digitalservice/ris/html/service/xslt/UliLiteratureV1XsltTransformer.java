@@ -7,10 +7,10 @@ import java.util.Collections;
  * http://rechtsinformationen.bund.de/schema/ris/0.1}, as produced by ris-literature) to HTML using
  * XSLT. Documents in the previous format are handled by {@link LiteratureXsltTransformer}.
  */
-public class LiteratureV1XsltTransformer extends XsltTransformer {
+public class UliLiteratureV1XsltTransformer extends XsltTransformer {
 
-  public LiteratureV1XsltTransformer() {
-    super("de/bund/digitalservice/ris/html/xslt/v1/", "literature.xslt");
+  public UliLiteratureV1XsltTransformer() {
+    super("de/bund/digitalservice/ris/html/xslt/v1/", "uli-literature.xslt");
   }
 
   public String transform(byte[] source) {

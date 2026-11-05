@@ -10,7 +10,7 @@ This repository provides a Java library that converts LegalDocML documents into 
 The transformation is implemented using XSLT stylesheets, applied via Saxon, for the following document types:
 
 - Caselaw documents (`CaselawXsltTransformer` for portal HTML, `CaselawPdfXsltTransformer` for PDF HTML)
-- ULI documents (`LiteratureXsltTransformer` for portal HTML; `LiteratureV1XsltTransformer` for the V1 format)
+- ULI documents (`LiteratureXsltTransformer` for portal HTML; `UliLiteratureV1XsltTransformer` for the V1 format)
 - SLI documents (`SliLiteratureXsltTransformer` for portal HTML; `SliLiteratureV1XsltTransformer` for the V1 format)
 - VVBund documents (`VvBundXsltTransformer` for portal HTML)
 - Norms (`NormsXsltTransformer` for portal HTML, whole norm or a single article)
@@ -59,7 +59,7 @@ String uliHtml = new LiteratureXsltTransformer().transform(ldmlBytes);
 String sliHtml = new SliLiteratureXsltTransformer().transform(ldmlBytes);
 
 // Literature documents in the V1 format
-String uliV1Html = new LiteratureV1XsltTransformer().transform(ldmlBytes);
+String uliV1Html = new UliLiteratureV1XsltTransformer().transform(ldmlBytes);
 String sliV1Html = new SliLiteratureV1XsltTransformer().transform(ldmlBytes);
 ```
 

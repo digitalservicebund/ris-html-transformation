@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.html;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.html.service.xslt.LiteratureV1XsltTransformer;
+import de.bund.digitalservice.ris.html.service.xslt.UliLiteratureV1XsltTransformer;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,8 +12,8 @@ import org.jsoup.Jsoup;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-class LiteratureV1XsltTransformerTest {
-  private final LiteratureV1XsltTransformer transformer = new LiteratureV1XsltTransformer();
+class UliLiteratureV1XsltTransformerTest {
+  private final UliLiteratureV1XsltTransformer transformer = new UliLiteratureV1XsltTransformer();
 
   private final String resourcesBasePath =
       Objects.requireNonNull(getClass().getResource("/samples/literature/v1")).getPath();
