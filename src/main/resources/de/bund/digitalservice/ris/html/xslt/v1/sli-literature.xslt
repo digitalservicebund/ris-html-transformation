@@ -14,7 +14,8 @@
 	<xsl:variable name="title" select="$work/akn:FRBRalias[@name='haupttitel']/@value"/>
 
 	<xsl:template match="/">
-		<html>
+		<html lang="de">
+		    <meta charset="utf-8"/>
 			<head>
 				<title><xsl:value-of select="$title"/></title>
 			</head>
