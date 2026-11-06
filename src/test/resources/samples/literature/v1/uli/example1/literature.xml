@@ -7,7 +7,7 @@
           <akn:FRBRthis value="ris:/literatur/KSLU000000001"/>
           <akn:FRBRuri value="ris:/literatur/KSLU000000001"/>
           <akn:FRBRalias name="dokumentnummer" showAs="Dokumentnummer" value="KSLU000000001"/>
-          <akn:FRBRalias name="haupttitel" showAs="Haupttitel" value="Warnstreik und &quot;Neue Beweglichkeit&quot;"/>
+          <akn:FRBRalias name="haupttitel" showAs="Haupttitel" value="Test Titel mit &quot;Anführungszeichen&quot;"/>
           <akn:FRBRcountry value="de"/>
         </akn:FRBRWork>
       </akn:identification>

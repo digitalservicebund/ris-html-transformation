@@ -7,7 +7,7 @@
           <akn:FRBRthis value="ris:/literatur/KALS000000001"/>
           <akn:FRBRuri value="ris:/literatur/KALS000000001"/>
           <akn:FRBRalias name="dokumentnummer" showAs="Dokumentnummer" value="KALS000000001"/>
-          <akn:FRBRalias name="haupttitel" showAs="Haupttitel" value="Handbuch des Arbeitszeitrechts 1989"/>
+          <akn:FRBRalias name="haupttitel" showAs="Haupttitel" value="Test Titel"/>
           <akn:FRBRcountry value="de"/>
         </akn:FRBRWork>
       </akn:identification>
