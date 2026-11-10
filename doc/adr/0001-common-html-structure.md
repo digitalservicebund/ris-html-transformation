@@ -1,0 +1,133 @@
+# 1. Common structure for generated HTML
+
+Date: 2026-11-09
+
+## Status
+
+Proposed
+
+## Context
+
+This library turns LegalDocML documents into HTML with one XSLT stylesheet per
+document type: case law, literature (ULI and SLI), VV-Bund and BZSt. The HTML has
+two purposes:
+
+1. **Portal.** The portal frontend only needs rich text from it: text that
+   keeps the structure and formatting from the LDML, such as paragraphs, lists,
+   tables, headings and bold or italic text, so none of it gets lost when the
+   text is displayed. Mostly this is the document text itself, for example the
+   Leitsatz and Gründe of a decision. Sometimes it is rich text that the portal
+   shows elsewhere on the document page, for example in a list of details or of
+   citations. It fetches all other metadata of a document from the JSON API,
+   for example `/v1/rechtsprechung/{documentNumber}`.
+2. **Public API.** API users download it from the `.html` endpoints, for example
+   `/v1/rechtsprechung/{documentNumber}.html`. For them it can be convenient if
+   the HTML also contains some metadata, so they can work with a document
+   without also calling the JSON API.
+
+Each stylesheet was written separately, so each produces a differently
+structured document:
+
+| | Case law | Literature (ULI/SLI) | VV-Bund | BZSt |
+|---|---|---|---|---|
+| `<html lang="de">` | yes | no | yes | yes |
+| `<meta charset>` | yes | no | yes | yes |
+| Title in `<body>` | `<h1 id="title">` | `<h1>` without id | `<h1 id="title">` | none |
+| Metadata and references | `<template id>` in `<head>` | `<section>` in `<body>` | not in HTML | `<meta name>` and `<template id>` in `<head>` |
+| Naming of ids | camelCase | kebab-case | – | kebab-case |
+
+As a result, the frontend needs code for each document type, API users can't
+process documents of different types the same way, and every new document type
+invents its own structure.
+
+## Decision
+
+All stylesheets produce HTML with the same structure. Which metadata and which
+text a document contains is up to the team responsible for the document type.
+
+```html
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Document title</title>
+
+    <!-- Metadata: one entry per value, named after its type in the XSD -->
+    <meta name="entscheidungsdatum" content="2026-01-15" />
+    <template id="aktenzeichenListe">
+      <ul>
+        <li>1 BvR 123/24</li>
+      </ul>
+    </template>
+  </head>
+  <body>
+    <!-- Only the title and the document text -->
+    <h1 id="title">Document title</h1>
+    <section id="leitsatz">
+      <h2>Leitsatz</h2>
+      …
+    </section>
+  </body>
+</html>
+```
+
+### `<head>`: metadata
+
+- Every document has `<html lang="de">`, `<meta charset="utf-8" />` and a
+  `<title>`.
+- All metadata goes into `<head>`. That includes references to other
+  documents.
+- Each team defines which metadata of its document type goes into `<head>`.
+  Not every metadata field of the LDML has to be there; the team picks what is
+  useful for API users who work with the HTML on its own.
+- Every metadata entry is identified by the name of its type in the XSD of
+  [ris-xml-schema](https://github.com/digitalservicebund/ris-xml-schema), without
+  the `ris:` prefix. For example, the entry for `ris:aktenzeichenListe` is
+  identified by `aktenzeichenListe`.
+- A single plain value is a `<meta name="…" content="…" />`, identified by its
+  `name`.
+- A list, or a value that is rich text, is a `<template id="…">`, identified by
+  its `id`, with HTML inside, for example a `<ul>` with one `<li>` per entry.
+- Rich text that the portal shows elsewhere on the document page, not as part
+  of the document text, is also a `<template id="…">` in `<head>`, never part
+  of `<body>`.
+
+### `<body>`: the document text
+
+- The portal renders the content of `<body>` unchanged as the document text.
+  Therefore `<body>` contains only the document title and text that is meant to
+  be displayed there, and nothing else: no metadata and no references.
+- Anything else that should not appear in the document text goes into
+  `<head>`, even if it is shown elsewhere on the page.
+- `<body>` may start with one `<h1 id="title">` that holds the document title.
+- After the title, the text is split into `<section>` elements that are direct
+  children of `<body>`. Each section has an `id` and starts with exactly one
+  `<h2>`. Subheadings inside a section use `<h3>` and lower.
+- Section ids follow the same rule as metadata entries: the name of the
+  corresponding type in the XSD, for example `tatbestand`.
+
+### Consumers
+
+- The **portal** displays the `<body>` as the document text and builds its table
+  of contents from the sections. It shows the title at the top of the page
+  itself, so it hides the `<h1 id="title">`. When it needs rich text somewhere
+  else, it reads the matching `<template>` from `<head>` by `id`. Case law
+  citations already work this way. Plain values, such as dates or file numbers,
+  come from the JSON API.
+- The **public API** returns the complete HTML, including `<head>`. The metadata
+  in `<head>` is mainly there for API users, so the HTML is complete on its own.
+
+### Out of scope
+
+- **Norms.** Their HTML follows the hierarchy of LegalDocML.de and is split into
+  several files per norm. Norms can only adopt the `<head>` rules.
+
+## Consequences
+
+- The portal can display the text of every document type the same way, straight
+  from `<body>`, and find any other rich text by `id` in `<head>` instead
+  of searching the document for it.
+- API users can read every document type the same way: metadata by type name
+  from `<head>`, text from `<body>`.
+- Teams stay free to decide which metadata and sections their document type
+  has, and a new document type gets a known structure from the start.
