@@ -141,14 +141,6 @@
         </li>
     </xsl:template>
 
-    <!-- Das akn:longtitle/akn:p nicht in die Zielstruktur übernehmen
-         (weil in HTML p nicht mehr geschachtelt werden darf) -->
-    <xsl:template match="akn:p[parent::akn:longTitle]">
-        <!-- hier kein <p> -->
-        <xsl:apply-templates select="node() | @*"/>
-        <!-- hier kein </p> -->
-    </xsl:template>
-
     <!--
         Attribute
         ###################
