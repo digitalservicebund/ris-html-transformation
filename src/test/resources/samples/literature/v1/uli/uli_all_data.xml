@@ -7,7 +7,9 @@
           <akn:FRBRthis value="ris:/literatur/KSLU000000001"/>
           <akn:FRBRuri value="ris:/literatur/KSLU000000001"/>
           <akn:FRBRalias name="dokumentnummer" showAs="Dokumentnummer" value="KSLU000000001"/>
-          <akn:FRBRalias name="haupttitel" showAs="Haupttitel" value="Test Titel mit &quot;Anführungszeichen&quot;"/>
+          <akn:FRBRalias name="haupttitel" showAs="Haupttitel" value="Haupttitel mit &quot;Anführungszeichen&quot;"/>
+          <akn:FRBRalias name="dokumentarischerTitel" showAs="Dokumentarischer Titel" value="Dokumentarischer Titel"/>
+          <akn:FRBRalias name="haupttitelzusatz" showAs="Haupttitelzusatz" value="Haupttitelzusatz"/>
           <akn:FRBRcountry value="de"/>
         </akn:FRBRWork>
       </akn:identification>

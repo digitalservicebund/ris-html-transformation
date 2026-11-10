@@ -10,6 +10,12 @@
 
 	<xsl:strip-space elements="*"/>
 
+	<!-- ================================================================
+	     Section visibility parameters — set to false() to hide a section.
+	     ================================================================ -->
+	<xsl:param name="show-haupttitel"         select="true()"/>
+	<xsl:param name="show-zusaetzliche-titel" select="true()"/>
+
 	<xsl:variable name="work" select="/akn:akomaNtoso/akn:doc/akn:meta/akn:identification/akn:FRBRWork"/>
 
 	<!-- Titles in order of priority: the first one is the main title, the others are
@@ -32,10 +38,10 @@
 
 	<!-- render titles -->
 	<xsl:template name="titles">
-		<xsl:if test="$titles[1]">
+		<xsl:if test="$show-haupttitel and $titles[1]">
 			<h1><xsl:value-of select="$titles[1]"/></h1>
 		</xsl:if>
-		<xsl:if test="$titles[2]">
+		<xsl:if test="$show-zusaetzliche-titel and $titles[2]">
 			<section id="zusaetzliche-titel">
 				<h2>Zusätzliche Titel</h2>
 				<xsl:for-each select="$titles[position() > 1]">
