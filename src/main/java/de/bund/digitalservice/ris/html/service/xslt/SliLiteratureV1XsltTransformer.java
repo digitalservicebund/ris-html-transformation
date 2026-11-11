@@ -9,10 +9,17 @@ import java.util.Collections;
  */
 public class SliLiteratureV1XsltTransformer extends XsltTransformer {
 
+  /** Transformer XML -> HTML */
   public SliLiteratureV1XsltTransformer() {
     super("de/bund/digitalservice/ris/html/xslt/v1/", "sli-literature.xslt");
   }
 
+  /**
+   * Transforms XML bytes to HTML
+   *
+   * @param source XML byte source
+   * @return String representing transformed HTML
+   */
   public String transform(byte[] source) {
     return transformLegalDocMlFromBytes(source, Collections.emptyMap());
   }
