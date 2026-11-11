@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SLI literature documents in the V1 format (as produced by ris-literature).
      Renders the titles, the Gliederung, the Dokumenttypen, the Bearbeiter, the Begründer, the
-     Herausgeber (Institutionen), the Ausgabe, the Gesamtfußnoten and the Aktivzitierungen
+     Herausgeber (Personen and Institutionen), the Ausgabe, the Gesamtfußnoten and the Aktivzitierungen
      Rechtsprechung, unselbstständige and selbstständige Literatur for now. -->
 <xsl:stylesheet version="2.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -138,11 +138,17 @@
 				<xsl:with-param name="persons" select="$risMeta/ris:begruenderListe/ris:begruender"/>
 			</xsl:call-template>
 		</xsl:if>
-		<!-- Herausgeber are rendered with their name only -->
+		<!-- Herausgeber combine the herausgebende Personen and Institutionen in one list, persons
+		     first. Both are rendered with their name only: persons as "Vorname Nachname",
+		     institutions as they come. -->
+		<xsl:variable name="herausgeberPersonen" select="$risMeta/ris:herausgeberPersonen/ris:herausgeberPerson[normalize-space()]"/>
 		<xsl:variable name="herausgeberInstitutionen" select="$risMeta/ris:herausgeberInstitutionen/ris:herausgeberInstitution[normalize-space()]"/>
-		<xsl:if test="$show-herausgeber and $herausgeberInstitutionen">
-			<template id="herausgeberInstitutionen">
+		<xsl:if test="$show-herausgeber and ($herausgeberPersonen or $herausgeberInstitutionen)">
+			<template id="herausgeber">
 				<ul>
+					<xsl:for-each select="$herausgeberPersonen">
+						<li><xsl:call-template name="render-person-name"/></li>
+					</xsl:for-each>
 					<xsl:for-each select="$herausgeberInstitutionen">
 						<li><xsl:value-of select="normalize-space(.)"/></li>
 					</xsl:for-each>

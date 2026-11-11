@@ -101,6 +101,10 @@
             <ris:herausgeberInstitution domainTerm="Herausgebende Institution" refersTo="#organisation-institution-1-1">Institution 1</ris:herausgeberInstitution>
             <ris:herausgeberInstitution domainTerm="Herausgebende Institution" refersTo="#organisation-institution-2-2">Institution 2</ris:herausgeberInstitution>
           </ris:herausgeberInstitutionen>
+          <ris:herausgeberPersonen domainTerm="Herausgebende Personen">
+            <ris:herausgeberPerson domainTerm="Herausgebende Person" refersTo="#person-herausgeber-klaus-5">Herausgeber, Klaus</ris:herausgeberPerson>
+            <ris:herausgeberPerson domainTerm="Herausgebende Person" refersTo="#person-herausgeberin-petra-6">Herausgeberin, Petra</ris:herausgeberPerson>
+          </ris:herausgeberPersonen>
           <ris:organisationen domainTerm="Organisationen">
             <ris:organisation domainTerm="Organisation" eId="organisation-institution-1-1" showAs="Institution 1">
               <ris:name domainTerm="Name">Institution 1</ris:name>
@@ -122,6 +126,12 @@
             </ris:person>
             <ris:person domainTerm="Person" eId="person-beispiel-anna-4" showAs="Beispiel, Anna">
               <ris:name domainTerm="Name">Beispiel, Anna</ris:name>
+            </ris:person>
+            <ris:person domainTerm="Person" eId="person-herausgeber-klaus-5" showAs="Herausgeber, Klaus">
+              <ris:name domainTerm="Name">Herausgeber, Klaus</ris:name>
+            </ris:person>
+            <ris:person domainTerm="Person" eId="person-herausgeberin-petra-6" showAs="Herausgeberin, Petra">
+              <ris:name domainTerm="Name">Herausgeberin, Petra</ris:name>
             </ris:person>
           </ris:personen>
           <ris:sonstigerSachtitelListe domainTerm="Liste der sonstigen Sachtitel">
