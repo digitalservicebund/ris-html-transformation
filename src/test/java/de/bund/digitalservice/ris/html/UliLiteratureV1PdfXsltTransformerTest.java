@@ -13,9 +13,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /**
- * The PDF stylesheet imports the portal one and only hides some sections, so the PDF output must
- * be identical to the portal output once the sections listed in {@link #HIDDEN_IN_PDF} are
- * removed from it.
+ * The PDF stylesheet imports the portal one and only hides some sections, so the PDF output must be
+ * identical to the portal output once the sections listed in {@link #HIDDEN_IN_PDF} are removed
+ * from it.
  */
 class UliLiteratureV1PdfXsltTransformerTest {
 
