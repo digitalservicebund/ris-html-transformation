@@ -372,7 +372,7 @@
     </xsl:template>
 
     <!-- Textabsatz -->
-    <xsl:template match="akn:p[parent::akn:content and not(ancestor::akn:point)]">
+    <xsl:template match="akn:p[parent::akn:content and not(ancestor::akn:point) and not(@class='pre')]">
         <p class="{$textabsatz}">
             <xsl:apply-templates select="node() | @*"/>
         </p>
