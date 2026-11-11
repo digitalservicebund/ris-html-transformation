@@ -10,8 +10,8 @@ This repository provides a Java library that converts LegalDocML documents into 
 The transformation is implemented using XSLT stylesheets, applied via Saxon, for the following document types:
 
 - Caselaw documents (`CaselawXsltTransformer` for portal HTML, `CaselawPdfXsltTransformer` for PDF HTML)
-- ULI documents (`LiteratureXsltTransformer` for portal HTML; `UliLiteratureV1XsltTransformer` for the V1 format)
-- SLI documents (`SliLiteratureXsltTransformer` for portal HTML; `SliLiteratureV1XsltTransformer` for the V1 format)
+- ULI documents (`LiteratureXsltTransformer` for portal HTML; `UliLiteratureV1XsltTransformer` for portal HTML and `UliLiteratureV1PdfXsltTransformer` for PDF HTML in the V1 format)
+- SLI documents (`SliLiteratureXsltTransformer` for portal HTML; `SliLiteratureV1XsltTransformer` for portal HTML and `SliLiteratureV1PdfXsltTransformer` for PDF HTML in the V1 format)
 - VVBund documents (`VvBundXsltTransformer` for portal HTML)
 - Norms (`NormsXsltTransformer` for portal HTML, whole norm or a single article)
 
@@ -61,7 +61,15 @@ String sliHtml = new SliLiteratureXsltTransformer().transform(ldmlBytes);
 // Literature documents in the V1 format
 String uliV1Html = new UliLiteratureV1XsltTransformer().transform(ldmlBytes);
 String sliV1Html = new SliLiteratureV1XsltTransformer().transform(ldmlBytes);
+
+// HTML for PDF generation of literature documents in the V1 format
+String uliV1PdfHtml = new UliLiteratureV1PdfXsltTransformer().transform(ldmlBytes);
+String sliV1PdfHtml = new SliLiteratureV1PdfXsltTransformer().transform(ldmlBytes);
 ```
+
+### Literature (V1 format)
+
+The V1 stylesheets (`xslt/v1/uli-literature.xslt`, `xslt/v1/sli-literature.xslt`) render the LDML produced by [ris-literature](https://github.com/digitalservicebund/ris-literature). Each section can be switched on or off through a `show-*` stylesheet parameter. The PDF stylesheets (`*-literature-pdf.xslt`) import the portal ones and only override the parameters that differ e.g. the Aktivzitierungen are not part of the PDF.
 
 ### Norms
 
