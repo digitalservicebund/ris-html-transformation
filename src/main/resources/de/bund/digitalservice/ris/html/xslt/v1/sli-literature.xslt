@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SLI literature documents in the V1 format (as produced by ris-literature).
      Renders the titles, the Gliederung, the Dokumenttypen, the Bearbeiter, the Begründer, the
-     Ausgabe, the Gesamtfußnoten and the Aktivzitierungen Rechtsprechung, unselbstständige and
-     selbstständige Literatur for now. -->
+     Herausgeber (Institutionen), the Ausgabe, the Gesamtfußnoten and the Aktivzitierungen
+     Rechtsprechung, unselbstständige and selbstständige Literatur for now. -->
 <xsl:stylesheet version="2.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 				xmlns:akn="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
@@ -25,6 +25,7 @@
 	<xsl:param name="show-ausgabe"                                    select="true()"/>
 	<xsl:param name="show-bearbeiter"                                 select="true()"/>
 	<xsl:param name="show-begruender"                                 select="true()"/>
+	<xsl:param name="show-herausgeber"                                select="true()"/>
 	<xsl:param name="show-fussnoten"                                  select="true()"/>
 	<xsl:param name="show-aktivzitierung-rechtsprechung"              select="true()"/>
 	<xsl:param name="show-aktivzitierung-unselbststaendige-literatur" select="true()"/>
@@ -136,6 +137,17 @@
 				<xsl:with-param name="id" select="'begruender'"/>
 				<xsl:with-param name="persons" select="$risMeta/ris:begruenderListe/ris:begruender"/>
 			</xsl:call-template>
+		</xsl:if>
+		<!-- Herausgeber are rendered with their name only -->
+		<xsl:variable name="herausgeberInstitutionen" select="$risMeta/ris:herausgeberInstitutionen/ris:herausgeberInstitution[normalize-space()]"/>
+		<xsl:if test="$show-herausgeber and $herausgeberInstitutionen">
+			<template id="herausgeberInstitutionen">
+				<ul>
+					<xsl:for-each select="$herausgeberInstitutionen">
+						<li><xsl:value-of select="normalize-space(.)"/></li>
+					</xsl:for-each>
+				</ul>
+			</template>
 		</xsl:if>
 	</xsl:template>
 

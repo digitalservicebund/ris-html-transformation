@@ -97,6 +97,19 @@
             <ris:gliederungseintrag domainTerm="Gliederungseintrag">I. Gliederungseintrag 1</ris:gliederungseintrag>
             <ris:gliederungseintrag domainTerm="Gliederungseintrag">II. Gliederungseintrag 2</ris:gliederungseintrag>
           </ris:gliederung>
+          <ris:herausgeberInstitutionen domainTerm="Herausgebende Institutionen">
+            <ris:herausgeberInstitution domainTerm="Herausgebende Institution" refersTo="#organisation-institution-1-1">Institution 1</ris:herausgeberInstitution>
+            <ris:herausgeberInstitution domainTerm="Herausgebende Institution" refersTo="#organisation-institution-2-2">Institution 2</ris:herausgeberInstitution>
+          </ris:herausgeberInstitutionen>
+          <ris:organisationen domainTerm="Organisationen">
+            <ris:organisation domainTerm="Organisation" eId="organisation-institution-1-1" showAs="Institution 1">
+              <ris:name domainTerm="Name">Institution 1</ris:name>
+              <ris:zusatz domainTerm="Zusatz">Zusatz der Institution 1</ris:zusatz>
+            </ris:organisation>
+            <ris:organisation domainTerm="Organisation" eId="organisation-institution-2-2" showAs="Institution 2">
+              <ris:name domainTerm="Name">Institution 2</ris:name>
+            </ris:organisation>
+          </ris:organisationen>
           <ris:personen domainTerm="Personen">
             <ris:person domainTerm="Person" eId="person-mustermann-max-1" showAs="Mustermann, Max">
               <ris:name domainTerm="Name">Mustermann, Max</ris:name>
