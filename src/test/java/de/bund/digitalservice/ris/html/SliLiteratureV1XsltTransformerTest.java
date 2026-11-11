@@ -22,6 +22,7 @@ class SliLiteratureV1XsltTransformerTest {
   @CsvSource(
       value = {
         "sli_all_data | renders all data points",
+        "sli_passivzitierung_rechtsprechung | does not render passivzitierung rechtsprechung",
       },
       delimiter = '|')
   void testTransform_literatureXmlSample_producesExpectedHtml(String sampleName, String testName)

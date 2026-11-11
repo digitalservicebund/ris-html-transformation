@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SLI literature documents in the V1 format (as produced by ris-literature).
-     Renders only the titles for now. -->
+     Renders the titles and the Aktivzitierung Rechtsprechung for now. -->
 <xsl:stylesheet version="2.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 				xmlns:akn="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
@@ -11,13 +11,17 @@
 
 	<xsl:strip-space elements="*"/>
 
+	<xsl:include href="../references.xslt"/>
+
 	<!-- ================================================================
 	     Section visibility parameters — set to false() to hide a section.
 	     ================================================================ -->
-	<xsl:param name="show-haupttitel"         select="true()"/>
-	<xsl:param name="show-zusaetzliche-titel" select="true()"/>
+	<xsl:param name="show-haupttitel"                    select="true()"/>
+	<xsl:param name="show-zusaetzliche-titel"            select="true()"/>
+	<xsl:param name="show-aktivzitierung-rechtsprechung" select="true()"/>
 
 	<xsl:variable name="work" select="/akn:akomaNtoso/akn:doc/akn:meta/akn:identification/akn:FRBRWork"/>
+	<xsl:variable name="refs" select="/akn:akomaNtoso/akn:doc/akn:meta/akn:analysis/akn:otherReferences"/>
 
 	<!-- Titles in order of priority: the first one is the main title, the others are
 	     rendered as additional titles. -->
@@ -37,6 +41,7 @@
 						<xsl:with-param name="node" select="$titles[1]"/>
 					</xsl:call-template>
 				</title>
+				<xsl:call-template name="references"/>
 			</head>
 			<body>
 				<xsl:call-template name="titles"/>
@@ -77,6 +82,18 @@
 				<xsl:value-of select="$node"/>
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:template>
+
+	<!-- render references as <template> blocks in the html head -->
+	<xsl:template name="references">
+		<xsl:if test="$show-aktivzitierung-rechtsprechung">
+			<xsl:call-template name="reference-list">
+				<xsl:with-param name="id" select="'referenzRechtsprechungAktiv'"/>
+				<xsl:with-param name="references" select="$refs/akn:implicitReference/ris:referenzRechtsprechung[ris:richtung = 'aktiv']"/>
+				<xsl:with-param name="linkBasePath" select="'/gerichtsentscheidungen/'"/>
+				<xsl:with-param name="format" select="'rechtsprechung'"/>
+			</xsl:call-template>
+		</xsl:if>
 	</xsl:template>
 
 	<xsl:template match="text()"/>
