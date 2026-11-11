@@ -15,6 +15,8 @@
 	     Only list params whose value differs from uli-literature.xslt defaults.
 	     ================================================================ -->
 
-	<xsl:param name="show-aktivzitierung-rechtsprechung" select="false()"/>
+	<xsl:param name="show-aktivzitierung-rechtsprechung"              select="false()"/>
+	<xsl:param name="show-aktivzitierung-unselbststaendige-literatur" select="false()"/>
+	<xsl:param name="show-aktivzitierung-selbststaendige-literatur"   select="false()"/>
 
 </xsl:stylesheet>

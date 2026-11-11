@@ -32,10 +32,58 @@
               <ris:aktenzeichen domainTerm="Aktenzeichen">1 O 1/20</ris:aktenzeichen>
             </ris:referenzRechtsprechung>
           </akn:implicitReference>
+          <!-- referenzUnselbststaendigeLiteratur: aktiv, all data -->
+          <akn:implicitReference ris:domainTerm="Referenz Unselbstständige Literatur">
+            <ris:referenzUnselbststaendigeLiteratur domainTerm="Referenz Unselbstständige Literatur">
+              <ris:richtung domainTerm="Richtung der Referenzierung">aktiv</ris:richtung>
+              <ris:referenzArt domainTerm="Art der Referenz">uli</ris:referenzArt>
+              <ris:referenzURI domainTerm="URI der Referenz">ris:/literatur/KSLU000000003</ris:referenzURI>
+              <ris:dokumentnummer domainTerm="Dokumentnummer">KSLU000000003</ris:dokumentnummer>
+              <ris:autor domainTerm="Autor(en)">Mustermann, Max</ris:autor>
+              <ris:fundstelle domainTerm="Fundstelle">
+                <ris:periodikum domainTerm="Periodikum">
+                  <ris:abkuerzung domainTerm="Abkürzung">ABC</ris:abkuerzung>
+                  <ris:periodikumTyp domainTerm="Art des Periodikums">nichtamtlich</ris:periodikumTyp>
+                  <ris:titel domainTerm="Titel">Titel des Periodikums</ris:titel>
+                  <ris:untertitel domainTerm="Untertitel">Untertitel des Periodikums</ris:untertitel>
+                </ris:periodikum>
+                <ris:zitatstelle domainTerm="Zitatstelle">2020, 1-10</ris:zitatstelle>
+              </ris:fundstelle>
+            </ris:referenzUnselbststaendigeLiteratur>
+          </akn:implicitReference>
+          <!-- referenzSelbststaendigeLiteratur: aktiv, all data -->
+          <akn:implicitReference ris:domainTerm="Referenz Selbstständige Literatur">
+            <ris:referenzSelbststaendigeLiteratur domainTerm="Referenz Selbstständige Literatur">
+              <ris:richtung domainTerm="Richtung der Referenzierung">aktiv</ris:richtung>
+              <ris:referenzArt domainTerm="Art der Referenz">sli</ris:referenzArt>
+              <ris:referenzURI domainTerm="URI der Referenz">ris:/literatur/KSLS000000003</ris:referenzURI>
+              <ris:dokumentnummer domainTerm="Dokumentnummer">KSLS000000003</ris:dokumentnummer>
+              <ris:autor domainTerm="Autor(en)">Mustermann, Max</ris:autor>
+              <ris:titel domainTerm="Titel">Titel der selbstständigen Literatur</ris:titel>
+              <ris:veroeffentlichungsjahr domainTerm="Veröffentlichungsjahr">2020</ris:veroeffentlichungsjahr>
+            </ris:referenzSelbststaendigeLiteratur>
+          </akn:implicitReference>
         </akn:otherReferences>
       </akn:analysis>
       <akn:proprietary source="#ris">
         <ris:meta>
+          <ris:ausgabe domainTerm="Ausgabe">Ausgabe</ris:ausgabe>
+          <ris:bearbeiterListe domainTerm="Liste der Bearbeiter">
+            <ris:bearbeiter domainTerm="Bearbeiter" refersTo="#person-mustermann-max-1">Mustermann, Max</ris:bearbeiter>
+            <ris:bearbeiter domainTerm="Bearbeiter" refersTo="#person-musterfrau-erika-2">Musterfrau, Erika</ris:bearbeiter>
+          </ris:bearbeiterListe>
+          <ris:begruenderListe domainTerm="Liste der Begründer">
+            <ris:begruender domainTerm="Begründer" refersTo="#person-beispiel-hans-3">Beispiel, Hans</ris:begruender>
+            <ris:begruender domainTerm="Begründer" refersTo="#person-beispiel-anna-4">Beispiel, Anna</ris:begruender>
+          </ris:begruenderListe>
+          <ris:dokumenttypen domainTerm="Dokumenttypen">
+            <ris:dokumenttyp domainTerm="Dokumenttyp">Dokumenttyp 1</ris:dokumenttyp>
+            <ris:dokumenttyp domainTerm="Dokumenttyp">Dokumenttyp 2</ris:dokumenttyp>
+          </ris:dokumenttypen>
+          <ris:gesamtfussnoten domainTerm="Gesamtfussnoten">
+            <ris:gesamtfussnote domainTerm="Gesamtfussnote">Gesamtfußnote 1</ris:gesamtfussnote>
+            <ris:gesamtfussnote domainTerm="Gesamtfussnote">Gesamtfußnote 2</ris:gesamtfussnote>
+          </ris:gesamtfussnoten>
           <ris:gesamttitelangaben domainTerm="Gesamttitelangaben">
             <ris:gesamttitel domainTerm="Gesamttitel">
               <ris:titel domainTerm="Titel">Gesamttitel 1</ris:titel>
@@ -45,6 +93,24 @@
               <ris:titel domainTerm="Titel">Gesamttitel 2 ohne Bandbezeichnung</ris:titel>
             </ris:gesamttitel>
           </ris:gesamttitelangaben>
+          <ris:gliederung domainTerm="Gliederung">
+            <ris:gliederungseintrag domainTerm="Gliederungseintrag">I. Gliederungseintrag 1</ris:gliederungseintrag>
+            <ris:gliederungseintrag domainTerm="Gliederungseintrag">II. Gliederungseintrag 2</ris:gliederungseintrag>
+          </ris:gliederung>
+          <ris:personen domainTerm="Personen">
+            <ris:person domainTerm="Person" eId="person-mustermann-max-1" showAs="Mustermann, Max">
+              <ris:name domainTerm="Name">Mustermann, Max</ris:name>
+            </ris:person>
+            <ris:person domainTerm="Person" eId="person-musterfrau-erika-2" showAs="Musterfrau, Erika">
+              <ris:name domainTerm="Name">Musterfrau, Erika</ris:name>
+            </ris:person>
+            <ris:person domainTerm="Person" eId="person-beispiel-hans-3" showAs="Beispiel, Hans">
+              <ris:name domainTerm="Name">Beispiel, Hans</ris:name>
+            </ris:person>
+            <ris:person domainTerm="Person" eId="person-beispiel-anna-4" showAs="Beispiel, Anna">
+              <ris:name domainTerm="Name">Beispiel, Anna</ris:name>
+            </ris:person>
+          </ris:personen>
           <ris:sonstigerSachtitelListe domainTerm="Liste der sonstigen Sachtitel">
             <ris:sonstigerSachtitel domainTerm="Sonstiger Sachtitel">Sonstiger Sachtitel 1</ris:sonstigerSachtitel>
             <ris:sonstigerSachtitel domainTerm="Sonstiger Sachtitel">Sonstiger Sachtitel 2</ris:sonstigerSachtitel>
