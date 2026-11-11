@@ -16,18 +16,19 @@ class UliLiteratureV1XsltTransformerTest {
   private final UliLiteratureV1XsltTransformer transformer = new UliLiteratureV1XsltTransformer();
 
   private final String resourcesBasePath =
-      Objects.requireNonNull(getClass().getResource("/samples/literature/v1")).getPath();
+      Objects.requireNonNull(getClass().getResource("/samples/literature/v1/uli")).getPath();
 
   @ParameterizedTest(name = "{1}")
   @CsvSource(
       value = {
-        "uli/example1 | transforms haupttitel",
+        "uli_all_data | renders all data points",
+        "uli_passivzitierung_rechtsprechung | does not render passivzitierung rechtsprechung",
       },
       delimiter = '|')
-  void testTransform_literatureXmlSample_producesExpectedHtml(String testfileDir, String testName)
+  void testTransform_literatureXmlSample_producesExpectedHtml(String sampleName, String testName)
       throws IOException {
-    Path inputFilePath = Paths.get(resourcesBasePath, testfileDir, "literature.xml");
-    Path expectedFilePath = Paths.get(resourcesBasePath, testfileDir, "literature.html");
+    Path inputFilePath = Paths.get(resourcesBasePath, sampleName + ".xml");
+    Path expectedFilePath = Paths.get(resourcesBasePath, sampleName + ".html");
 
     byte[] bytes = Files.readAllBytes(inputFilePath);
     var result = transformer.transform(bytes);
