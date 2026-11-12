@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SLI literature documents in the V1 format (as produced by ris-literature).
      Renders the titles, the Gliederung, the Dokumenttypen, the Bearbeiter, the Begründer, the
-     Herausgeber (Personen and Institutionen), the Ausgabe, the Gesamtfußnoten and the Aktivzitierungen
+     Herausgeber (Personen and Institutionen), the Hochschulschriftenvermerke, the Ausgabe, the Gesamtfußnoten and the Aktivzitierungen
      Rechtsprechung, unselbstständige and selbstständige Literatur for now. -->
 <xsl:stylesheet version="2.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -19,7 +19,11 @@
 	<xsl:param name="show-bearbeiter"                                 select="true()"/>
 	<xsl:param name="show-begruender"                                 select="true()"/>
 	<xsl:param name="show-herausgeber"                                select="true()"/>
+	<xsl:param name="show-hochschulschriftenvermerke"                 select="true()"/>
 	<xsl:param name="show-fussnoten"                                  select="true()"/>
+
+	<!-- Organisations (Hochschulen, Verlage, Institutionen) referenced from the role lists via refersTo -->
+	<xsl:key name="organisation" match="ris:organisationen/ris:organisation" use="concat('#', @eId)"/>
 
 	<!-- Titles in order of priority: the first one is the main title, the others are
 	     rendered as additional titles. -->
@@ -79,6 +83,19 @@
 					</xsl:for-each>
 					<xsl:for-each select="$herausgeberInstitutionen">
 						<li><xsl:value-of select="normalize-space(.)"/></li>
+					</xsl:for-each>
+				</ul>
+			</template>
+		</xsl:if>
+		<!-- Hochschulschriftenvermerke are rendered as "Name, Jahr". The Jahr is taken from the
+		     referenced organisation; without it (or without the organisation) only the name is rendered. -->
+		<xsl:variable name="hochschulschriftenvermerke" select="$risMeta/ris:hochschulschriftenvermerke/ris:hochschulschriftenvermerk[normalize-space()]"/>
+		<xsl:if test="$show-hochschulschriftenvermerke and $hochschulschriftenvermerke">
+			<template id="hochschulschriftenvermerke">
+				<ul>
+					<xsl:for-each select="$hochschulschriftenvermerke">
+						<xsl:variable name="hochschule" select="key('organisation', @refersTo)[1]"/>
+						<li><xsl:value-of select="string-join((normalize-space(.), normalize-space($hochschule/ris:jahr))[. != ''], ', ')"/></li>
 					</xsl:for-each>
 				</ul>
 			</template>

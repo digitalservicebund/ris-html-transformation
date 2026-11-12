@@ -105,6 +105,10 @@
             <ris:herausgeberPerson domainTerm="Herausgebende Person" refersTo="#person-herausgeber-klaus-5">Herausgeber, Klaus</ris:herausgeberPerson>
             <ris:herausgeberPerson domainTerm="Herausgebende Person" refersTo="#person-herausgeberin-petra-6">Herausgeberin, Petra</ris:herausgeberPerson>
           </ris:herausgeberPersonen>
+          <ris:hochschulschriftenvermerke domainTerm="Hochschulschriftenvermerke">
+            <ris:hochschulschriftenvermerk domainTerm="Hochschulschriftenvermerk" refersTo="#organisation-universitaet-erlangen-nuernberg-jurfak-3">Universität Erlangen-Nürnberg, JurFak</ris:hochschulschriftenvermerk>
+            <ris:hochschulschriftenvermerk domainTerm="Hochschulschriftenvermerk" refersTo="#organisation-universitaet-ohne-jahr-4">Universität ohne Jahr</ris:hochschulschriftenvermerk>
+          </ris:hochschulschriftenvermerke>
           <ris:organisationen domainTerm="Organisationen">
             <ris:organisation domainTerm="Organisation" eId="organisation-institution-1-1" showAs="Institution 1">
               <ris:name domainTerm="Name">Institution 1</ris:name>
@@ -112,6 +116,13 @@
             </ris:organisation>
             <ris:organisation domainTerm="Organisation" eId="organisation-institution-2-2" showAs="Institution 2">
               <ris:name domainTerm="Name">Institution 2</ris:name>
+            </ris:organisation>
+            <ris:organisation domainTerm="Organisation" eId="organisation-universitaet-erlangen-nuernberg-jurfak-3" showAs="Universität Erlangen-Nürnberg, JurFak">
+              <ris:name domainTerm="Name">Universität Erlangen-Nürnberg, JurFak</ris:name>
+              <ris:jahr domainTerm="Jahr">1990</ris:jahr>
+            </ris:organisation>
+            <ris:organisation domainTerm="Organisation" eId="organisation-universitaet-ohne-jahr-4" showAs="Universität ohne Jahr">
+              <ris:name domainTerm="Name">Universität ohne Jahr</ris:name>
             </ris:organisation>
           </ris:organisationen>
           <ris:personen domainTerm="Personen">
