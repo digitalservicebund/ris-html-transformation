@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SLI literature documents in the V1 format (as produced by ris-literature).
      Renders the titles, the Gliederung, the Dokumenttypen, the Verfasser, the Bearbeiter, the Mitarbeiter, the Begründer, the
-     Herausgeber (Personen and Institutionen), the Urheber, the Hochschulschriftenvermerke, the Bestellnummern (ISBN, ISSN, …), the Kongressvermerke, the Kurzreferat, the Teilbände, the Ausgabe, the Gesamtfußnoten, the Normen and the Aktivzitierungen
+     Herausgeber (Personen and Institutionen), the Urheber, the Verlagsangaben, the Veröffentlichungsjahre, the Hochschulschriftenvermerke, the Bestellnummern (ISBN, ISSN, …), the Kongressvermerke, the Kurzreferat, the Teilbände, the Ausgabe, the Gesamtfußnoten, the Normen and the Aktivzitierungen
      Rechtsprechung, unselbstständige and selbstständige Literatur for now. -->
 <xsl:stylesheet version="2.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -19,6 +19,7 @@
 	<xsl:param name="show-bearbeiter"                                 select="true()"/>
 	<xsl:param name="show-begruender"                                 select="true()"/>
 	<xsl:param name="show-herausgeber"                                select="true()"/>
+	<xsl:param name="show-verlagsangaben"                             select="true()"/>
 	<xsl:param name="show-hochschulschriftenvermerke"                 select="true()"/>
 	<xsl:param name="show-bestellnummer"                              select="true()"/>
 	<xsl:param name="show-kongressvermerke"                           select="true()"/>
@@ -96,6 +97,20 @@
 			</template>
 		</xsl:if>
 		<xsl:call-template name="urheber"/>
+		<!-- Verlagsangaben are rendered as "Name, Ort". The Ort is taken from the referenced
+		     organisation; without it (or without the organisation) only the name is rendered. -->
+		<xsl:variable name="verlagsangaben" select="$risMeta/ris:verlagsangaben/ris:verlagsangabe[normalize-space()]"/>
+		<xsl:if test="$show-verlagsangaben and $verlagsangaben">
+			<template id="verlagsangaben">
+				<ul>
+					<xsl:for-each select="$verlagsangaben">
+						<xsl:variable name="verlag" select="key('organisation', @refersTo)[1]"/>
+						<li><xsl:value-of select="string-join((normalize-space(.), normalize-space($verlag/ris:ort))[. != ''], ', ')"/></li>
+					</xsl:for-each>
+				</ul>
+			</template>
+		</xsl:if>
+		<xsl:call-template name="veroeffentlichungsjahre"/>
 		<!-- Hochschulschriftenvermerke are rendered as "Name, Jahr". The Jahr is taken from the
 		     referenced organisation; without it (or without the organisation) only the name is rendered. -->
 		<xsl:variable name="hochschulschriftenvermerke" select="$risMeta/ris:hochschulschriftenvermerke/ris:hochschulschriftenvermerk[normalize-space()]"/>

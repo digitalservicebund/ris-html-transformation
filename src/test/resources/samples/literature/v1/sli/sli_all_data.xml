@@ -157,6 +157,13 @@
             <ris:organisation domainTerm="Organisation" eId="organisation-beispielverband-ev-6" showAs="Beispielverband e.V.">
               <ris:name domainTerm="Name">Beispielverband e.V.</ris:name>
             </ris:organisation>
+            <ris:organisation domainTerm="Organisation" eId="organisation-musterverlag-7" showAs="Musterverlag">
+              <ris:name domainTerm="Name">Musterverlag</ris:name>
+              <ris:ort domainTerm="Ort">Hamburg</ris:ort>
+            </ris:organisation>
+            <ris:organisation domainTerm="Organisation" eId="organisation-beispielverlag-8" showAs="Beispielverlag">
+              <ris:name domainTerm="Name">Beispielverlag</ris:name>
+            </ris:organisation>
           </ris:organisationen>
           <ris:personen domainTerm="Personen">
             <ris:person domainTerm="Person" eId="person-mustermann-max-1" showAs="Mustermann, Max">
@@ -225,6 +232,14 @@
             <ris:verfasser domainTerm="Verfasser" refersTo="#person-verfasser-paul-9">Verfasser, Paul</ris:verfasser>
             <ris:verfasser domainTerm="Verfasser" refersTo="#person-verfasserin-lena-10">Verfasserin, Lena</ris:verfasser>
           </ris:verfasserListe>
+          <ris:verlagsangaben domainTerm="Verlagsangaben">
+            <ris:verlagsangabe domainTerm="Verlagsangabe" refersTo="#organisation-musterverlag-7">Musterverlag</ris:verlagsangabe>
+            <ris:verlagsangabe domainTerm="Verlagsangabe" refersTo="#organisation-beispielverlag-8">Beispielverlag</ris:verlagsangabe>
+          </ris:verlagsangaben>
+          <ris:veroeffentlichungsJahre domainTerm="Veröffentlichungsjahre">
+            <ris:veroeffentlichungsJahr domainTerm="Veröffentlichungsjahr">2019</ris:veroeffentlichungsJahr>
+            <ris:veroeffentlichungsJahr domainTerm="Veröffentlichungsjahr">2020</ris:veroeffentlichungsJahr>
+          </ris:veroeffentlichungsJahre>
         </ris:meta>
       </akn:proprietary>
     </akn:meta>

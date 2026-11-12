@@ -25,7 +25,8 @@
 	<xsl:param name="show-verfasser"                                  select="true()"/>
 	<xsl:param name="show-mitarbeiter"                                select="true()"/>
 	<xsl:param name="show-urheber"                                    select="true()"/>
-	<xsl:param name="show-normen"                                     select="true()"/>
+	<xsl:param name="show-veroeffentlichungsjahre"                    select="true()"/>
+	<xsl:param name="show-normen"                                   select="true()"/>
 	<xsl:param name="show-aktivzitierung-rechtsprechung"              select="true()"/>
 	<xsl:param name="show-aktivzitierung-unselbststaendige-literatur" select="true()"/>
 	<xsl:param name="show-aktivzitierung-selbststaendige-literatur"   select="true()"/>
@@ -139,6 +140,20 @@
 			<template id="urheber">
 				<ul>
 					<xsl:for-each select="$urheber">
+						<li><xsl:value-of select="normalize-space(.)"/></li>
+					</xsl:for-each>
+				</ul>
+			</template>
+		</xsl:if>
+	</xsl:template>
+
+	<!-- render the veroeffentlichungsJahre as a <template> block in the html head, as they come -->
+	<xsl:template name="veroeffentlichungsjahre">
+		<xsl:variable name="jahre" select="$risMeta/ris:veroeffentlichungsJahre/ris:veroeffentlichungsJahr[normalize-space()]"/>
+		<xsl:if test="$show-veroeffentlichungsjahre and $jahre">
+			<template id="veroeffentlichungsJahre">
+				<ul>
+					<xsl:for-each select="$jahre">
 						<li><xsl:value-of select="normalize-space(.)"/></li>
 					</xsl:for-each>
 				</ul>

@@ -159,6 +159,10 @@
             <ris:verfasser domainTerm="Verfasser" refersTo="#person-verfasser-paul-3">Verfasser, Paul</ris:verfasser>
             <ris:verfasser domainTerm="Verfasser" refersTo="#person-verfasserin-lena-4">Verfasserin, Lena</ris:verfasser>
           </ris:verfasserListe>
+          <ris:veroeffentlichungsJahre domainTerm="Veröffentlichungsjahre">
+            <ris:veroeffentlichungsJahr domainTerm="Veröffentlichungsjahr">2019</ris:veroeffentlichungsJahr>
+            <ris:veroeffentlichungsJahr domainTerm="Veröffentlichungsjahr">2020</ris:veroeffentlichungsJahr>
+          </ris:veroeffentlichungsJahre>
         </ris:meta>
       </akn:proprietary>
     </akn:meta>
