@@ -23,6 +23,7 @@
 	<xsl:param name="show-dokumenttyp"                                select="true()"/>
 	<xsl:param name="show-kurzreferat"                                select="true()"/>
 	<xsl:param name="show-mitarbeiter"                                select="true()"/>
+	<xsl:param name="show-normen"                                     select="true()"/>
 	<xsl:param name="show-aktivzitierung-rechtsprechung"              select="true()"/>
 	<xsl:param name="show-aktivzitierung-unselbststaendige-literatur" select="true()"/>
 	<xsl:param name="show-aktivzitierung-selbststaendige-literatur"   select="true()"/>
@@ -149,6 +150,13 @@
 
 	<!-- render references as <template> blocks in the html head -->
 	<xsl:template name="references">
+		<xsl:if test="$show-normen">
+			<xsl:call-template name="reference-list">
+				<xsl:with-param name="id" select="'referenzNormen'"/>
+				<xsl:with-param name="references" select="$risMeta/ris:referenzenNorm/ris:referenzNorm[normalize-space()]"/>
+				<xsl:with-param name="format" select="'normenkette'"/>
+			</xsl:call-template>
+		</xsl:if>
 		<xsl:if test="$show-aktivzitierung-rechtsprechung">
 			<xsl:call-template name="reference-list">
 				<xsl:with-param name="id" select="'referenzRechtsprechungAktiv'"/>
