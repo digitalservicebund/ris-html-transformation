@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SLI literature documents in the V1 format (as produced by ris-literature).
-     Renders the titles, the Gliederung, the Dokumenttypen, the Bearbeiter, the Mitarbeiter, the Begründer, the
+     Renders the titles, the Gliederung, the Dokumenttypen, the Verfasser, the Bearbeiter, the Mitarbeiter, the Begründer, the
      Herausgeber (Personen and Institutionen), the Urheber, the Hochschulschriftenvermerke, the Bestellnummern (ISBN, ISSN, …), the Kongressvermerke, the Kurzreferat, the Teilbände, the Ausgabe, the Gesamtfußnoten, the Normen and the Aktivzitierungen
      Rechtsprechung, unselbstständige and selbstständige Literatur for now. -->
 <xsl:stylesheet version="2.0"
@@ -64,6 +64,7 @@
 	<!-- render metadata lists as <template> blocks in the html head -->
 	<xsl:template name="metadata">
 		<xsl:call-template name="dokumenttypen"/>
+		<xsl:call-template name="verfasser"/>
 		<xsl:if test="$show-bearbeiter">
 			<xsl:call-template name="person-list">
 				<xsl:with-param name="id" select="'bearbeiter'"/>

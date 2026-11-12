@@ -129,6 +129,12 @@
             <ris:person domainTerm="Person" eId="person-redaktionsteam-2" showAs="Redaktionsteam">
               <ris:name domainTerm="Name">Redaktionsteam</ris:name>
             </ris:person>
+            <ris:person domainTerm="Person" eId="person-verfasser-paul-3" showAs="Verfasser, Paul">
+              <ris:name domainTerm="Name">Verfasser, Paul</ris:name>
+            </ris:person>
+            <ris:person domainTerm="Person" eId="person-verfasserin-lena-4" showAs="Verfasserin, Lena">
+              <ris:name domainTerm="Name">Verfasserin, Lena</ris:name>
+            </ris:person>
           </ris:personen>
           <ris:referenzenNorm domainTerm="Normen">
             <ris:referenzNorm domainTerm="Norm">
@@ -149,6 +155,10 @@
             <ris:urheber domainTerm="Urheber" refersTo="#organisation-musterbehoerde-1">Musterbehörde</ris:urheber>
             <ris:urheber domainTerm="Urheber" refersTo="#organisation-beispielverband-ev-2">Beispielverband e.V.</ris:urheber>
           </ris:urheberListe>
+          <ris:verfasserListe domainTerm="Liste der Verfasser">
+            <ris:verfasser domainTerm="Verfasser" refersTo="#person-verfasser-paul-3">Verfasser, Paul</ris:verfasser>
+            <ris:verfasser domainTerm="Verfasser" refersTo="#person-verfasserin-lena-4">Verfasserin, Lena</ris:verfasser>
+          </ris:verfasserListe>
         </ris:meta>
       </akn:proprietary>
     </akn:meta>

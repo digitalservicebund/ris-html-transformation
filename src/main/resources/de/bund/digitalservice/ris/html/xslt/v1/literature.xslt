@@ -22,6 +22,7 @@
 	<xsl:param name="show-gliederung"                                 select="true()"/>
 	<xsl:param name="show-dokumenttyp"                                select="true()"/>
 	<xsl:param name="show-kurzreferat"                                select="true()"/>
+	<xsl:param name="show-verfasser"                                  select="true()"/>
 	<xsl:param name="show-mitarbeiter"                                select="true()"/>
 	<xsl:param name="show-urheber"                                    select="true()"/>
 	<xsl:param name="show-normen"                                     select="true()"/>
@@ -107,6 +108,16 @@
 					</xsl:for-each>
 				</ul>
 			</template>
+		</xsl:if>
+	</xsl:template>
+
+	<!-- render the verfasser as a <template> block in the html head -->
+	<xsl:template name="verfasser">
+		<xsl:if test="$show-verfasser">
+			<xsl:call-template name="person-list">
+				<xsl:with-param name="id" select="'verfasser'"/>
+				<xsl:with-param name="persons" select="$risMeta/ris:verfasserListe/ris:verfasser"/>
+			</xsl:call-template>
 		</xsl:if>
 	</xsl:template>
 
