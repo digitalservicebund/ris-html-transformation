@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ULI literature documents in the V1 format (as produced by ris-literature).
-     Renders the titles, the Gliederung, the Dokumenttypen, the Verfasser, the Mitarbeiter, the Urheber, the Veröffentlichungsjahre, the Fundstellen, the Fundstellen in
-     selbstständiger Literatur, the Kurzreferat, the Normen and the Aktivzitierungen Rechtsprechung, unselbstständige and
-     selbstständige Literatur for now. -->
+<!-- ULI literature documents in the V1 format (as produced by ris-literature). -->
 <xsl:stylesheet version="2.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 				xmlns:akn="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"

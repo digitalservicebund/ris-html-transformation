@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- SLI literature documents in the V1 format (as produced by ris-literature).
-     Renders the titles, the Gliederung, the Dokumenttypen, the Verfasser, the Bearbeiter, the Mitarbeiter, the Begründer, the
-     Herausgeber (Personen and Institutionen), the Urheber, the Verlagsangaben, the Veröffentlichungsjahre, the Hochschulschriftenvermerke, the Bestellnummern (ISBN, ISSN, …), the Kongressvermerke, the Kurzreferat, the Teilbände, the Ausgabe, the Gesamtfußnoten, the Normen and the Aktivzitierungen
-     Rechtsprechung, unselbstständige and selbstständige Literatur for now. -->
+<!-- SLI literature documents in the V1 format (as produced by ris-literature) -->
 <xsl:stylesheet version="2.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 				xmlns:akn="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
@@ -97,8 +94,7 @@
 			</template>
 		</xsl:if>
 		<xsl:call-template name="urheber"/>
-		<!-- Verlagsangaben are rendered as "Name, Ort". The Ort is taken from the referenced
-		     organisation; without it (or without the organisation) only the name is rendered. -->
+		<!-- Verlagsangaben are rendered as "Name, Ort". -->
 		<xsl:variable name="verlagsangaben" select="$risMeta/ris:verlagsangaben/ris:verlagsangabe[normalize-space()]"/>
 		<xsl:if test="$show-verlagsangaben and $verlagsangaben">
 			<template id="verlagsangaben">
@@ -111,8 +107,7 @@
 			</template>
 		</xsl:if>
 		<xsl:call-template name="veroeffentlichungsjahre"/>
-		<!-- Hochschulschriftenvermerke are rendered as "Name, Jahr". The Jahr is taken from the
-		     referenced organisation; without it (or without the organisation) only the name is rendered. -->
+		<!-- Hochschulschriftenvermerke are rendered as "Name, Jahr". -->
 		<xsl:variable name="hochschulschriftenvermerke" select="$risMeta/ris:hochschulschriftenvermerke/ris:hochschulschriftenvermerk[normalize-space()]"/>
 		<xsl:if test="$show-hochschulschriftenvermerke and $hochschulschriftenvermerke">
 			<template id="hochschulschriftenvermerke">
@@ -124,8 +119,7 @@
 				</ul>
 			</template>
 		</xsl:if>
-		<!-- Bestellnummern (ISBN, ISSN, …) are the FRBRaliases of the FRBRManifestation. Their value
-		     already contains the type prefix (e.g. "ISBN 3-920645-41-3"), so it is rendered as it comes. -->
+		<!-- Bestellnummern (ISBN, ISSN, …) are the FRBRaliases of the FRBRManifestation. -->
 		<xsl:variable name="bestellnummern" select="/akn:akomaNtoso/akn:doc/akn:meta/akn:identification/akn:FRBRManifestation/akn:FRBRalias[normalize-space(@value)]"/>
 		<xsl:if test="$show-bestellnummer and $bestellnummern">
 			<template id="bestellnummern">
@@ -136,7 +130,7 @@
 				</ul>
 			</template>
 		</xsl:if>
-		<!-- Teilbände come as ready-made strings (e.g. "Bd 1. Allgemeiner Teil, 2019, 512 S") and are rendered as they are -->
+		<!-- Teilbände come as ready-made strings and are rendered as they are -->
 		<xsl:variable name="teilbaende" select="$risMeta/ris:teilbaende/ris:teilband[normalize-space()]"/>
 		<xsl:if test="$show-teilbaende and $teilbaende">
 			<template id="teilbaende">

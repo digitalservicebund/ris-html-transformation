@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Shared templates for SLI and ULI literature documents in the V1 format (as produced by
-     ris-literature). Included by sli-literature.xslt and uli-literature.xslt, which must define the
-     global $titles variable (titles in order of priority, the first one being the main title). -->
+<!-- Shared templates for SLI and ULI literature documents in the V1 format (as produced by ris-literature) -->
 <xsl:stylesheet version="2.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 				xmlns:akn="http://docs.oasis-open.org/legaldocml/ns/akn/3.0"
@@ -86,8 +84,7 @@
 		</xsl:if>
 	</xsl:template>
 
-	<!-- render the kurzreferat as a section. It is the akn:div of the akn:mainBody; without a
-	     kurzreferat the akn:mainBody only contains an empty akn:hcontainer. -->
+	<!-- render the kurzreferat as a section -->
 	<xsl:template name="kurzreferat">
 		<xsl:variable name="kurzreferat" select="/akn:akomaNtoso/akn:doc/akn:mainBody/akn:div[normalize-space()]"/>
 		<xsl:if test="$show-kurzreferat and $kurzreferat">
@@ -132,8 +129,8 @@
 		</xsl:if>
 	</xsl:template>
 
-	<!-- render the urheber (institutions) as a <template> block in the html head. Like the
-	     herausgebende Institutionen, they are rendered with their name only, as they come. -->
+	<!-- render the urheber (institutions) as a <template> block in the html head.
+	  	 they are rendered with their name only, as they come. -->
 	<xsl:template name="urheber">
 		<xsl:variable name="urheber" select="$risMeta/ris:urheberListe/ris:urheber[normalize-space()]"/>
 		<xsl:if test="$show-urheber and $urheber">
@@ -177,8 +174,7 @@
 		</xsl:if>
 	</xsl:template>
 
-	<!-- Person names come as "Nachname, Vorname" and are rendered as "Vorname Nachname".
-	     Names without a comma are rendered as they are. -->
+	<!-- Person names come as "Nachname, Vorname" and are rendered as "Vorname Nachname" -->
 	<xsl:template name="render-person-name">
 		<xsl:choose>
 			<xsl:when test="contains(., ',')">
