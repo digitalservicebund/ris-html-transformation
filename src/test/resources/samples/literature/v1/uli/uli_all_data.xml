@@ -113,6 +113,15 @@
             <ris:mitarbeiter domainTerm="Mitarbeiter" refersTo="#person-mitarbeiter-julia-1">Mitarbeiter, Julia</ris:mitarbeiter>
             <ris:mitarbeiter domainTerm="Mitarbeiter" refersTo="#person-redaktionsteam-2">Redaktionsteam</ris:mitarbeiter>
           </ris:mitarbeiterListe>
+          <ris:organisationen domainTerm="Organisationen">
+            <ris:organisation domainTerm="Organisation" eId="organisation-musterbehoerde-1" showAs="Musterbehörde">
+              <ris:name domainTerm="Name">Musterbehörde</ris:name>
+              <ris:zusatz domainTerm="Zusatz">Zusatz der Musterbehörde</ris:zusatz>
+            </ris:organisation>
+            <ris:organisation domainTerm="Organisation" eId="organisation-beispielverband-ev-2" showAs="Beispielverband e.V.">
+              <ris:name domainTerm="Name">Beispielverband e.V.</ris:name>
+            </ris:organisation>
+          </ris:organisationen>
           <ris:personen domainTerm="Personen">
             <ris:person domainTerm="Person" eId="person-mitarbeiter-julia-1" showAs="Mitarbeiter, Julia">
               <ris:name domainTerm="Name">Mitarbeiter, Julia</ris:name>
@@ -136,6 +145,10 @@
               </ris:einzelnorm>
             </ris:referenzNorm>
           </ris:referenzenNorm>
+          <ris:urheberListe domainTerm="Liste der Urheber">
+            <ris:urheber domainTerm="Urheber" refersTo="#organisation-musterbehoerde-1">Musterbehörde</ris:urheber>
+            <ris:urheber domainTerm="Urheber" refersTo="#organisation-beispielverband-ev-2">Beispielverband e.V.</ris:urheber>
+          </ris:urheberListe>
         </ris:meta>
       </akn:proprietary>
     </akn:meta>

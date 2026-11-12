@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ULI literature documents in the V1 format (as produced by ris-literature).
-     Renders the titles, the Gliederung, the Dokumenttypen, the Mitarbeiter, the Fundstellen, the Fundstellen in
+     Renders the titles, the Gliederung, the Dokumenttypen, the Mitarbeiter, the Urheber, the Fundstellen, the Fundstellen in
      selbstständiger Literatur, the Kurzreferat, the Normen and the Aktivzitierungen Rechtsprechung, unselbstständige and
      selbstständige Literatur for now. -->
 <xsl:stylesheet version="2.0"
@@ -44,6 +44,7 @@
 	<xsl:template name="metadata">
 		<xsl:call-template name="dokumenttypen"/>
 		<xsl:call-template name="mitarbeiter"/>
+		<xsl:call-template name="urheber"/>
 		<xsl:if test="$show-fundstelle">
 			<xsl:call-template name="reference-list">
 				<xsl:with-param name="id" select="'fundstelle'"/>

@@ -23,6 +23,7 @@
 	<xsl:param name="show-dokumenttyp"                                select="true()"/>
 	<xsl:param name="show-kurzreferat"                                select="true()"/>
 	<xsl:param name="show-mitarbeiter"                                select="true()"/>
+	<xsl:param name="show-urheber"                                    select="true()"/>
 	<xsl:param name="show-normen"                                     select="true()"/>
 	<xsl:param name="show-aktivzitierung-rechtsprechung"              select="true()"/>
 	<xsl:param name="show-aktivzitierung-unselbststaendige-literatur" select="true()"/>
@@ -116,6 +117,21 @@
 				<xsl:with-param name="id" select="'mitarbeiter'"/>
 				<xsl:with-param name="persons" select="$risMeta/ris:mitarbeiterListe/ris:mitarbeiter"/>
 			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+
+	<!-- render the urheber (institutions) as a <template> block in the html head. Like the
+	     herausgebende Institutionen, they are rendered with their name only, as they come. -->
+	<xsl:template name="urheber">
+		<xsl:variable name="urheber" select="$risMeta/ris:urheberListe/ris:urheber[normalize-space()]"/>
+		<xsl:if test="$show-urheber and $urheber">
+			<template id="urheber">
+				<ul>
+					<xsl:for-each select="$urheber">
+						<li><xsl:value-of select="normalize-space(.)"/></li>
+					</xsl:for-each>
+				</ul>
+			</template>
 		</xsl:if>
 	</xsl:template>
 

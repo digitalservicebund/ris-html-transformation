@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SLI literature documents in the V1 format (as produced by ris-literature).
      Renders the titles, the Gliederung, the Dokumenttypen, the Bearbeiter, the Mitarbeiter, the Begründer, the
-     Herausgeber (Personen and Institutionen), the Hochschulschriftenvermerke, the Bestellnummern (ISBN, ISSN, …), the Kongressvermerke, the Kurzreferat, the Teilbände, the Ausgabe, the Gesamtfußnoten, the Normen and the Aktivzitierungen
+     Herausgeber (Personen and Institutionen), the Urheber, the Hochschulschriftenvermerke, the Bestellnummern (ISBN, ISSN, …), the Kongressvermerke, the Kurzreferat, the Teilbände, the Ausgabe, the Gesamtfußnoten, the Normen and the Aktivzitierungen
      Rechtsprechung, unselbstständige and selbstständige Literatur for now. -->
 <xsl:stylesheet version="2.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -94,6 +94,7 @@
 				</ul>
 			</template>
 		</xsl:if>
+		<xsl:call-template name="urheber"/>
 		<!-- Hochschulschriftenvermerke are rendered as "Name, Jahr". The Jahr is taken from the
 		     referenced organisation; without it (or without the organisation) only the name is rendered. -->
 		<xsl:variable name="hochschulschriftenvermerke" select="$risMeta/ris:hochschulschriftenvermerke/ris:hochschulschriftenvermerk[normalize-space()]"/>

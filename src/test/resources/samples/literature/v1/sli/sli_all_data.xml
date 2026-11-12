@@ -150,6 +150,13 @@
             <ris:organisation domainTerm="Organisation" eId="organisation-universitaet-ohne-jahr-4" showAs="Universität ohne Jahr">
               <ris:name domainTerm="Name">Universität ohne Jahr</ris:name>
             </ris:organisation>
+            <ris:organisation domainTerm="Organisation" eId="organisation-musterbehoerde-5" showAs="Musterbehörde">
+              <ris:name domainTerm="Name">Musterbehörde</ris:name>
+              <ris:zusatz domainTerm="Zusatz">Zusatz der Musterbehörde</ris:zusatz>
+            </ris:organisation>
+            <ris:organisation domainTerm="Organisation" eId="organisation-beispielverband-ev-6" showAs="Beispielverband e.V.">
+              <ris:name domainTerm="Name">Beispielverband e.V.</ris:name>
+            </ris:organisation>
           </ris:organisationen>
           <ris:personen domainTerm="Personen">
             <ris:person domainTerm="Person" eId="person-mustermann-max-1" showAs="Mustermann, Max">
@@ -204,6 +211,10 @@
             <ris:titelkurzform domainTerm="Titelkurzform">Titelkurzform 1</ris:titelkurzform>
             <ris:titelkurzform domainTerm="Titelkurzform">Titelkurzform 2</ris:titelkurzform>
           </ris:titelkurzformen>
+          <ris:urheberListe domainTerm="Liste der Urheber">
+            <ris:urheber domainTerm="Urheber" refersTo="#organisation-musterbehoerde-5">Musterbehörde</ris:urheber>
+            <ris:urheber domainTerm="Urheber" refersTo="#organisation-beispielverband-ev-6">Beispielverband e.V.</ris:urheber>
+          </ris:urheberListe>
         </ris:meta>
       </akn:proprietary>
     </akn:meta>
