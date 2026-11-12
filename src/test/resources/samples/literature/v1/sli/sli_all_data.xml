@@ -196,6 +196,10 @@
             <ris:sonstigerSachtitel domainTerm="Sonstiger Sachtitel">Sonstiger Sachtitel 1</ris:sonstigerSachtitel>
             <ris:sonstigerSachtitel domainTerm="Sonstiger Sachtitel">Sonstiger Sachtitel 2</ris:sonstigerSachtitel>
           </ris:sonstigerSachtitelListe>
+          <ris:teilbaende domainTerm="Teilbände">
+            <ris:teilband domainTerm="Teilband">Bd 1. Allgemeiner Teil, 2019, 512 S</ris:teilband>
+            <ris:teilband domainTerm="Teilband">Bd 2. Besonderer Teil, 2020, 640 S</ris:teilband>
+          </ris:teilbaende>
           <ris:titelkurzformen domainTerm="Titelkurzformen">
             <ris:titelkurzform domainTerm="Titelkurzform">Titelkurzform 1</ris:titelkurzform>
             <ris:titelkurzform domainTerm="Titelkurzform">Titelkurzform 2</ris:titelkurzform>

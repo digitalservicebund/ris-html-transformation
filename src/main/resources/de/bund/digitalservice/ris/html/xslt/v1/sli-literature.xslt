@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SLI literature documents in the V1 format (as produced by ris-literature).
      Renders the titles, the Gliederung, the Dokumenttypen, the Bearbeiter, the Mitarbeiter, the Begründer, the
-     Herausgeber (Personen and Institutionen), the Hochschulschriftenvermerke, the Bestellnummern (ISBN, ISSN, …), the Kongressvermerke, the Kurzreferat, the Ausgabe, the Gesamtfußnoten, the Normen and the Aktivzitierungen
+     Herausgeber (Personen and Institutionen), the Hochschulschriftenvermerke, the Bestellnummern (ISBN, ISSN, …), the Kongressvermerke, the Kurzreferat, the Teilbände, the Ausgabe, the Gesamtfußnoten, the Normen and the Aktivzitierungen
      Rechtsprechung, unselbstständige and selbstständige Literatur for now. -->
 <xsl:stylesheet version="2.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -22,6 +22,7 @@
 	<xsl:param name="show-hochschulschriftenvermerke"                 select="true()"/>
 	<xsl:param name="show-bestellnummer"                              select="true()"/>
 	<xsl:param name="show-kongressvermerke"                           select="true()"/>
+	<xsl:param name="show-teilbaende"                                 select="true()"/>
 	<xsl:param name="show-fussnoten"                                  select="true()"/>
 
 	<!-- Organisations (Hochschulen, Verlage, Institutionen) referenced from the role lists via refersTo -->
@@ -114,6 +115,17 @@
 				<ul>
 					<xsl:for-each select="$bestellnummern">
 						<li><xsl:value-of select="normalize-space(@value)"/></li>
+					</xsl:for-each>
+				</ul>
+			</template>
+		</xsl:if>
+		<!-- Teilbände come as ready-made strings (e.g. "Bd 1. Allgemeiner Teil, 2019, 512 S") and are rendered as they are -->
+		<xsl:variable name="teilbaende" select="$risMeta/ris:teilbaende/ris:teilband[normalize-space()]"/>
+		<xsl:if test="$show-teilbaende and $teilbaende">
+			<template id="teilbaende">
+				<ul>
+					<xsl:for-each select="$teilbaende">
+						<li><xsl:value-of select="normalize-space(.)"/></li>
 					</xsl:for-each>
 				</ul>
 			</template>
