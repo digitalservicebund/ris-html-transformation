@@ -115,6 +115,22 @@
             <ris:hochschulschriftenvermerk domainTerm="Hochschulschriftenvermerk" refersTo="#organisation-universitaet-erlangen-nuernberg-jurfak-3">Universität Erlangen-Nürnberg, JurFak</ris:hochschulschriftenvermerk>
             <ris:hochschulschriftenvermerk domainTerm="Hochschulschriftenvermerk" refersTo="#organisation-universitaet-ohne-jahr-4">Universität ohne Jahr</ris:hochschulschriftenvermerk>
           </ris:hochschulschriftenvermerke>
+          <ris:kongresse domainTerm="Kongresse">
+            <ris:kongress domainTerm="Kongress" eId="kongress-internationaler-musterkongress-fuer-beispielrecht-7-1" showAs="Internationaler Musterkongress für Beispielrecht (International Congress for Sample Law) (7)">
+              <ris:name domainTerm="Name">Internationaler Musterkongress für Beispielrecht (International Congress for Sample Law) (7)</ris:name>
+              <ris:jahr domainTerm="Jahr">1999</ris:jahr>
+              <ris:ort domainTerm="Ort">Musterstadt</ris:ort>
+              <ris:land domainTerm="Land">DEU</ris:land>
+            </ris:kongress>
+            <ris:kongress domainTerm="Kongress" eId="kongress-beispieltagung-1" showAs="Beispieltagung">
+              <ris:name domainTerm="Name">Beispieltagung</ris:name>
+              <ris:jahr domainTerm="Jahr">2005</ris:jahr>
+            </ris:kongress>
+          </ris:kongresse>
+          <ris:kongressvermerke domainTerm="Kongressvermerke">
+            <ris:kongressvermerk domainTerm="Kongressvermerk" refersTo="#kongress-internationaler-musterkongress-fuer-beispielrecht-7-1">Internationaler Musterkongress für Beispielrecht (International Congress for Sample Law) (7)</ris:kongressvermerk>
+            <ris:kongressvermerk domainTerm="Kongressvermerk" refersTo="#kongress-beispieltagung-1">Beispieltagung</ris:kongressvermerk>
+          </ris:kongressvermerke>
           <ris:organisationen domainTerm="Organisationen">
             <ris:organisation domainTerm="Organisation" eId="organisation-institution-1-1" showAs="Institution 1">
               <ris:name domainTerm="Name">Institution 1</ris:name>

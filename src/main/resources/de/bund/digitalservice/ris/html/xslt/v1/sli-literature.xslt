@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SLI literature documents in the V1 format (as produced by ris-literature).
      Renders the titles, the Gliederung, the Dokumenttypen, the Bearbeiter, the Begründer, the
-     Herausgeber (Personen and Institutionen), the Hochschulschriftenvermerke, the Bestellnummern (ISBN, ISSN, …), the Ausgabe, the Gesamtfußnoten and the Aktivzitierungen
+     Herausgeber (Personen and Institutionen), the Hochschulschriftenvermerke, the Bestellnummern (ISBN, ISSN, …), the Kongressvermerke, the Ausgabe, the Gesamtfußnoten and the Aktivzitierungen
      Rechtsprechung, unselbstständige and selbstständige Literatur for now. -->
 <xsl:stylesheet version="2.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -21,10 +21,13 @@
 	<xsl:param name="show-herausgeber"                                select="true()"/>
 	<xsl:param name="show-hochschulschriftenvermerke"                 select="true()"/>
 	<xsl:param name="show-bestellnummer"                              select="true()"/>
+	<xsl:param name="show-kongressvermerke"                           select="true()"/>
 	<xsl:param name="show-fussnoten"                                  select="true()"/>
 
 	<!-- Organisations (Hochschulen, Verlage, Institutionen) referenced from the role lists via refersTo -->
 	<xsl:key name="organisation" match="ris:organisationen/ris:organisation" use="concat('#', @eId)"/>
+	<!-- Kongresse referenced from the Kongressvermerke via refersTo -->
+	<xsl:key name="kongress" match="ris:kongresse/ris:kongress" use="concat('#', @eId)"/>
 
 	<!-- Titles in order of priority: the first one is the main title, the others are
 	     rendered as additional titles. -->
@@ -109,6 +112,19 @@
 				<ul>
 					<xsl:for-each select="$bestellnummern">
 						<li><xsl:value-of select="normalize-space(@value)"/></li>
+					</xsl:for-each>
+				</ul>
+			</template>
+		</xsl:if>
+		<!-- Kongressvermerke are rendered as "Name, Jahr, Ort, Land" from the referenced Kongress,
+		     leaving out the parts that are missing. Without a referenced Kongress only the name is rendered. -->
+		<xsl:variable name="kongressvermerke" select="$risMeta/ris:kongressvermerke/ris:kongressvermerk[normalize-space()]"/>
+		<xsl:if test="$show-kongressvermerke and $kongressvermerke">
+			<template id="kongressvermerke">
+				<ul>
+					<xsl:for-each select="$kongressvermerke">
+						<xsl:variable name="kongress" select="key('kongress', @refersTo)[1]"/>
+						<li><xsl:value-of select="string-join((normalize-space(.), $kongress/(ris:jahr, ris:ort, ris:land)/normalize-space())[. != ''], ', ')"/></li>
 					</xsl:for-each>
 				</ul>
 			</template>
