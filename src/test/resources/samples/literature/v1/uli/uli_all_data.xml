@@ -109,6 +109,18 @@
             <ris:gliederungseintrag domainTerm="Gliederungseintrag">I. Gliederungseintrag 1</ris:gliederungseintrag>
             <ris:gliederungseintrag domainTerm="Gliederungseintrag">II. Gliederungseintrag 2</ris:gliederungseintrag>
           </ris:gliederung>
+          <ris:mitarbeiterListe domainTerm="Liste der Mitarbeiter">
+            <ris:mitarbeiter domainTerm="Mitarbeiter" refersTo="#person-mitarbeiter-julia-1">Mitarbeiter, Julia</ris:mitarbeiter>
+            <ris:mitarbeiter domainTerm="Mitarbeiter" refersTo="#person-redaktionsteam-2">Redaktionsteam</ris:mitarbeiter>
+          </ris:mitarbeiterListe>
+          <ris:personen domainTerm="Personen">
+            <ris:person domainTerm="Person" eId="person-mitarbeiter-julia-1" showAs="Mitarbeiter, Julia">
+              <ris:name domainTerm="Name">Mitarbeiter, Julia</ris:name>
+            </ris:person>
+            <ris:person domainTerm="Person" eId="person-redaktionsteam-2" showAs="Redaktionsteam">
+              <ris:name domainTerm="Name">Redaktionsteam</ris:name>
+            </ris:person>
+          </ris:personen>
         </ris:meta>
       </akn:proprietary>
     </akn:meta>

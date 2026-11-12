@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SLI literature documents in the V1 format (as produced by ris-literature).
-     Renders the titles, the Gliederung, the Dokumenttypen, the Bearbeiter, the Begründer, the
+     Renders the titles, the Gliederung, the Dokumenttypen, the Bearbeiter, the Mitarbeiter, the Begründer, the
      Herausgeber (Personen and Institutionen), the Hochschulschriftenvermerke, the Bestellnummern (ISBN, ISSN, …), the Kongressvermerke, the Kurzreferat, the Ausgabe, the Gesamtfußnoten and the Aktivzitierungen
      Rechtsprechung, unselbstständige and selbstständige Literatur for now. -->
 <xsl:stylesheet version="2.0"
@@ -69,6 +69,7 @@
 				<xsl:with-param name="persons" select="$risMeta/ris:bearbeiterListe/ris:bearbeiter"/>
 			</xsl:call-template>
 		</xsl:if>
+		<xsl:call-template name="mitarbeiter"/>
 		<xsl:if test="$show-begruender">
 			<xsl:call-template name="person-list">
 				<xsl:with-param name="id" select="'begruender'"/>
@@ -130,35 +131,6 @@
 				</ul>
 			</template>
 		</xsl:if>
-	</xsl:template>
-
-	<!-- Builds a template block (identified by $id) containing one ul of the given persons, with
-	     each non-blank person name rendered as a li. -->
-	<xsl:template name="person-list">
-		<xsl:param name="id"/>
-		<xsl:param name="persons"/>
-		<xsl:if test="$persons[normalize-space()]">
-			<template id="{$id}">
-				<ul>
-					<xsl:for-each select="$persons[normalize-space()]">
-						<li><xsl:call-template name="render-person-name"/></li>
-					</xsl:for-each>
-				</ul>
-			</template>
-		</xsl:if>
-	</xsl:template>
-
-	<!-- Person names come as "Nachname, Vorname" and are rendered as "Vorname Nachname".
-	     Names without a comma are rendered as they are. -->
-	<xsl:template name="render-person-name">
-		<xsl:choose>
-			<xsl:when test="contains(., ',')">
-				<xsl:value-of select="normalize-space(concat(substring-after(., ','), ' ', substring-before(., ',')))"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:value-of select="normalize-space(.)"/>
-			</xsl:otherwise>
-		</xsl:choose>
 	</xsl:template>
 
 	<!-- render ausgabe -->

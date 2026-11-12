@@ -131,6 +131,10 @@
             <ris:kongressvermerk domainTerm="Kongressvermerk" refersTo="#kongress-internationaler-musterkongress-fuer-beispielrecht-7-1">Internationaler Musterkongress für Beispielrecht (International Congress for Sample Law) (7)</ris:kongressvermerk>
             <ris:kongressvermerk domainTerm="Kongressvermerk" refersTo="#kongress-beispieltagung-1">Beispieltagung</ris:kongressvermerk>
           </ris:kongressvermerke>
+          <ris:mitarbeiterListe domainTerm="Liste der Mitarbeiter">
+            <ris:mitarbeiter domainTerm="Mitarbeiter" refersTo="#person-mitarbeiter-julia-7">Mitarbeiter, Julia</ris:mitarbeiter>
+            <ris:mitarbeiter domainTerm="Mitarbeiter" refersTo="#person-redaktionsteam-8">Redaktionsteam</ris:mitarbeiter>
+          </ris:mitarbeiterListe>
           <ris:organisationen domainTerm="Organisationen">
             <ris:organisation domainTerm="Organisation" eId="organisation-institution-1-1" showAs="Institution 1">
               <ris:name domainTerm="Name">Institution 1</ris:name>
@@ -165,6 +169,12 @@
             </ris:person>
             <ris:person domainTerm="Person" eId="person-herausgeberin-petra-6" showAs="Herausgeberin, Petra">
               <ris:name domainTerm="Name">Herausgeberin, Petra</ris:name>
+            </ris:person>
+            <ris:person domainTerm="Person" eId="person-mitarbeiter-julia-7" showAs="Mitarbeiter, Julia">
+              <ris:name domainTerm="Name">Mitarbeiter, Julia</ris:name>
+            </ris:person>
+            <ris:person domainTerm="Person" eId="person-redaktionsteam-8" showAs="Redaktionsteam">
+              <ris:name domainTerm="Name">Redaktionsteam</ris:name>
             </ris:person>
           </ris:personen>
           <ris:sonstigerSachtitelListe domainTerm="Liste der sonstigen Sachtitel">

@@ -22,6 +22,7 @@
 	<xsl:param name="show-gliederung"                                 select="true()"/>
 	<xsl:param name="show-dokumenttyp"                                select="true()"/>
 	<xsl:param name="show-kurzreferat"                                select="true()"/>
+	<xsl:param name="show-mitarbeiter"                                select="true()"/>
 	<xsl:param name="show-aktivzitierung-rechtsprechung"              select="true()"/>
 	<xsl:param name="show-aktivzitierung-unselbststaendige-literatur" select="true()"/>
 	<xsl:param name="show-aktivzitierung-selbststaendige-literatur"   select="true()"/>
@@ -105,6 +106,45 @@
 				</ul>
 			</template>
 		</xsl:if>
+	</xsl:template>
+
+	<!-- render the mitarbeiter as a <template> block in the html head -->
+	<xsl:template name="mitarbeiter">
+		<xsl:if test="$show-mitarbeiter">
+			<xsl:call-template name="person-list">
+				<xsl:with-param name="id" select="'mitarbeiter'"/>
+				<xsl:with-param name="persons" select="$risMeta/ris:mitarbeiterListe/ris:mitarbeiter"/>
+			</xsl:call-template>
+		</xsl:if>
+	</xsl:template>
+
+	<!-- Builds a template block (identified by $id) containing one ul of the given persons, with
+	     each non-blank person name rendered as a li. -->
+	<xsl:template name="person-list">
+		<xsl:param name="id"/>
+		<xsl:param name="persons"/>
+		<xsl:if test="$persons[normalize-space()]">
+			<template id="{$id}">
+				<ul>
+					<xsl:for-each select="$persons[normalize-space()]">
+						<li><xsl:call-template name="render-person-name"/></li>
+					</xsl:for-each>
+				</ul>
+			</template>
+		</xsl:if>
+	</xsl:template>
+
+	<!-- Person names come as "Nachname, Vorname" and are rendered as "Vorname Nachname".
+	     Names without a comma are rendered as they are. -->
+	<xsl:template name="render-person-name">
+		<xsl:choose>
+			<xsl:when test="contains(., ',')">
+				<xsl:value-of select="normalize-space(concat(substring-after(., ','), ' ', substring-before(., ',')))"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="normalize-space(.)"/>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<!-- render references as <template> blocks in the html head -->
