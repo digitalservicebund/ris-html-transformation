@@ -41,6 +41,7 @@
 	<xsl:template match="akn:doc">
 		<html lang="de">
 			<head>
+				<meta charset="utf-8"/>
 				<title>
 					<xsl:call-template name="render-title">
 						<xsl:with-param name="node" select="$titles[1]"/>
@@ -53,7 +54,6 @@
 				<xsl:call-template name="titles"/>
 				<xsl:call-template name="gliederung"/>
 				<xsl:call-template name="kurzreferat"/>
-				<xsl:call-template name="ausgabe"/>
 				<xsl:call-template name="fussnoten"/>
 			</body>
 		</html>
@@ -61,37 +61,42 @@
 
 	<!-- render metadata lists as <template> blocks in the html head -->
 	<xsl:template name="metadata">
+		<!-- Ausgabe is a single plain value, rendered as a <meta> -->
+		<xsl:if test="$show-ausgabe and normalize-space($risMeta/ris:ausgabe)">
+			<meta name="ausgabe" content="{normalize-space($risMeta/ris:ausgabe)}"/>
+		</xsl:if>
 		<xsl:call-template name="dokumenttypen"/>
 		<xsl:call-template name="verfasser"/>
 		<xsl:if test="$show-bearbeiter">
 			<xsl:call-template name="person-list">
-				<xsl:with-param name="id" select="'bearbeiter'"/>
+				<xsl:with-param name="id" select="'bearbeiterListe'"/>
 				<xsl:with-param name="persons" select="$risMeta/ris:bearbeiterListe/ris:bearbeiter"/>
 			</xsl:call-template>
 		</xsl:if>
 		<xsl:call-template name="mitarbeiter"/>
 		<xsl:if test="$show-begruender">
 			<xsl:call-template name="person-list">
-				<xsl:with-param name="id" select="'begruender'"/>
+				<xsl:with-param name="id" select="'begruenderListe'"/>
 				<xsl:with-param name="persons" select="$risMeta/ris:begruenderListe/ris:begruender"/>
 			</xsl:call-template>
 		</xsl:if>
-		<!-- Herausgeber combine the herausgebende Personen and Institutionen in one list, persons
-		     first. Both are rendered with their name only: persons as "Vorname Nachname",
-		     institutions as they come. -->
-		<xsl:variable name="herausgeberPersonen" select="$risMeta/ris:herausgeberPersonen/ris:herausgeberPerson[normalize-space()]"/>
-		<xsl:variable name="herausgeberInstitutionen" select="$risMeta/ris:herausgeberInstitutionen/ris:herausgeberInstitution[normalize-space()]"/>
-		<xsl:if test="$show-herausgeber and ($herausgeberPersonen or $herausgeberInstitutionen)">
-			<template id="herausgeber">
-				<ul>
-					<xsl:for-each select="$herausgeberPersonen">
-						<li><xsl:call-template name="render-person-name"/></li>
-					</xsl:for-each>
-					<xsl:for-each select="$herausgeberInstitutionen">
-						<li><xsl:value-of select="normalize-space(.)"/></li>
-					</xsl:for-each>
-				</ul>
-			</template>
+		<!-- Herausgebende Personen are rendered as "Vorname Nachname", herausgebende Institutionen
+		     with their name only, as they come. -->
+		<xsl:if test="$show-herausgeber">
+			<xsl:call-template name="person-list">
+				<xsl:with-param name="id" select="'herausgeberPersonen'"/>
+				<xsl:with-param name="persons" select="$risMeta/ris:herausgeberPersonen/ris:herausgeberPerson"/>
+			</xsl:call-template>
+			<xsl:variable name="herausgeberInstitutionen" select="$risMeta/ris:herausgeberInstitutionen/ris:herausgeberInstitution[normalize-space()]"/>
+			<xsl:if test="$herausgeberInstitutionen">
+				<template id="herausgeberInstitutionen">
+					<ul>
+						<xsl:for-each select="$herausgeberInstitutionen">
+							<li><xsl:value-of select="normalize-space(.)"/></li>
+						</xsl:for-each>
+					</ul>
+				</template>
+			</xsl:if>
 		</xsl:if>
 		<xsl:call-template name="urheber"/>
 		<!-- Verlagsangaben are rendered as "Name, Ort". -->
@@ -156,22 +161,12 @@
 		</xsl:if>
 	</xsl:template>
 
-	<!-- render ausgabe -->
-	<xsl:template name="ausgabe">
-		<xsl:if test="$show-ausgabe and normalize-space($risMeta/ris:ausgabe)">
-			<section id="ausgabe">
-				<h2>Ausgabe</h2>
-				<p><xsl:value-of select="$risMeta/ris:ausgabe"/></p>
-			</section>
-		</xsl:if>
-	</xsl:template>
-
 	<!-- render gesamtfussnoten as a dedicated section at the end of the document.
 	  Gesamtfussnoten have no marker in the text, so each one is rendered as a plain paragraph. -->
 	<xsl:template name="fussnoten">
 		<xsl:variable name="fussnoten" select="$risMeta/ris:gesamtfussnoten/ris:gesamtfussnote[normalize-space()]"/>
 		<xsl:if test="$show-fussnoten and $fussnoten">
-			<section id="fussnoten">
+			<section id="gesamtfussnoten">
 				<h2>Fußnoten</h2>
 				<xsl:for-each select="$fussnoten">
 					<p><xsl:value-of select="normalize-space(.)"/></p>

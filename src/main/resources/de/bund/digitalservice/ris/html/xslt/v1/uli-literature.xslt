@@ -25,6 +25,7 @@
 	<xsl:template match="akn:doc">
 		<html lang="de">
 			<head>
+				<meta charset="utf-8"/>
 				<title><xsl:value-of select="$titles[1]"/></title>
 				<xsl:call-template name="metadata"/>
 				<xsl:call-template name="references"/>

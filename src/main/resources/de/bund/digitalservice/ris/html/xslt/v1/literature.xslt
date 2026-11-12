@@ -24,7 +24,7 @@
 	<xsl:param name="show-mitarbeiter"                                select="true()"/>
 	<xsl:param name="show-urheber"                                    select="true()"/>
 	<xsl:param name="show-veroeffentlichungsjahre"                    select="true()"/>
-	<xsl:param name="show-normen"                                   select="true()"/>
+	<xsl:param name="show-normen"                                     select="true()"/>
 	<xsl:param name="show-aktivzitierung-rechtsprechung"              select="true()"/>
 	<xsl:param name="show-aktivzitierung-unselbststaendige-literatur" select="true()"/>
 	<xsl:param name="show-aktivzitierung-selbststaendige-literatur"   select="true()"/>
@@ -36,7 +36,7 @@
 	<!-- render titles -->
 	<xsl:template name="titles">
 		<xsl:if test="$show-haupttitel and $titles[1]">
-			<h1>
+			<h1 id="title">
 				<xsl:call-template name="render-title">
 					<xsl:with-param name="node" select="$titles[1]"/>
 				</xsl:call-template>
@@ -113,7 +113,7 @@
 	<xsl:template name="verfasser">
 		<xsl:if test="$show-verfasser">
 			<xsl:call-template name="person-list">
-				<xsl:with-param name="id" select="'verfasser'"/>
+				<xsl:with-param name="id" select="'verfasserListe'"/>
 				<xsl:with-param name="persons" select="$risMeta/ris:verfasserListe/ris:verfasser"/>
 			</xsl:call-template>
 		</xsl:if>
@@ -123,7 +123,7 @@
 	<xsl:template name="mitarbeiter">
 		<xsl:if test="$show-mitarbeiter">
 			<xsl:call-template name="person-list">
-				<xsl:with-param name="id" select="'mitarbeiter'"/>
+				<xsl:with-param name="id" select="'mitarbeiterListe'"/>
 				<xsl:with-param name="persons" select="$risMeta/ris:mitarbeiterListe/ris:mitarbeiter"/>
 			</xsl:call-template>
 		</xsl:if>
@@ -134,7 +134,7 @@
 	<xsl:template name="urheber">
 		<xsl:variable name="urheber" select="$risMeta/ris:urheberListe/ris:urheber[normalize-space()]"/>
 		<xsl:if test="$show-urheber and $urheber">
-			<template id="urheber">
+			<template id="urheberListe">
 				<ul>
 					<xsl:for-each select="$urheber">
 						<li><xsl:value-of select="normalize-space(.)"/></li>
@@ -190,7 +190,7 @@
 	<xsl:template name="references">
 		<xsl:if test="$show-normen">
 			<xsl:call-template name="reference-list">
-				<xsl:with-param name="id" select="'referenzNormen'"/>
+				<xsl:with-param name="id" select="'referenzenNorm'"/>
 				<xsl:with-param name="references" select="$risMeta/ris:referenzenNorm/ris:referenzNorm[normalize-space()]"/>
 				<xsl:with-param name="format" select="'normenkette'"/>
 			</xsl:call-template>
