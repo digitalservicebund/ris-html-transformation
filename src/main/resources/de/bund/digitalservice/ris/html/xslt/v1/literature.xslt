@@ -21,6 +21,7 @@
 	<xsl:param name="show-zusaetzliche-titel"                         select="true()"/>
 	<xsl:param name="show-gliederung"                                 select="true()"/>
 	<xsl:param name="show-dokumenttyp"                                select="true()"/>
+	<xsl:param name="show-kurzreferat"                                select="true()"/>
 	<xsl:param name="show-aktivzitierung-rechtsprechung"              select="true()"/>
 	<xsl:param name="show-aktivzitierung-unselbststaendige-literatur" select="true()"/>
 	<xsl:param name="show-aktivzitierung-selbststaendige-literatur"   select="true()"/>
@@ -80,6 +81,18 @@
 		</xsl:if>
 	</xsl:template>
 
+	<!-- render the kurzreferat as a section. It is the akn:div of the akn:mainBody; without a
+	     kurzreferat the akn:mainBody only contains an empty akn:hcontainer. -->
+	<xsl:template name="kurzreferat">
+		<xsl:variable name="kurzreferat" select="/akn:akomaNtoso/akn:doc/akn:mainBody/akn:div[normalize-space()]"/>
+		<xsl:if test="$show-kurzreferat and $kurzreferat">
+			<section id="kurzreferat">
+				<h2>Kurzreferat</h2>
+				<xsl:apply-templates select="$kurzreferat/node()" mode="html"/>
+			</section>
+		</xsl:if>
+	</xsl:template>
+
 	<!-- render dokumenttypen as a <template> block in the html head -->
 	<xsl:template name="dokumenttypen">
 		<xsl:variable name="dokumenttypen" select="$risMeta/ris:dokumenttypen/ris:dokumenttyp[normalize-space()]"/>
@@ -120,6 +133,42 @@
 				<xsl:with-param name="format" select="'sli'"/>
 			</xsl:call-template>
 		</xsl:if>
+	</xsl:template>
+
+	<!-- ================================================================
+	     Rich text (e.g. the Kurzreferat in the akn:mainBody), rendered in mode "html".
+	     ris-literature only produces akn:p, akn:a, akn:br, akn:span, akn:sub, akn:sup and
+	     akn:inline (em, strong, hlf, noindex) here.
+	     ================================================================ -->
+	<xsl:template match="akn:p|akn:div|akn:span|akn:sub|akn:sup" mode="html">
+		<xsl:element name="{local-name()}">
+			<xsl:apply-templates mode="html"/>
+		</xsl:element>
+	</xsl:template>
+
+	<xsl:template match="akn:br" mode="html">
+		<br/>
+	</xsl:template>
+
+	<xsl:template match="akn:a[@href]" mode="html">
+		<a href="{@href}"><xsl:apply-templates mode="html"/></a>
+	</xsl:template>
+
+	<xsl:template match="akn:inline[@name='em']" mode="html">
+		<em><xsl:apply-templates mode="html"/></em>
+	</xsl:template>
+
+	<xsl:template match="akn:inline[@name='strong']" mode="html">
+		<strong><xsl:apply-templates mode="html"/></strong>
+	</xsl:template>
+
+	<!-- Any other element (e.g. akn:inline hlf or noindex) is unwrapped, keeping its content -->
+	<xsl:template match="*" mode="html">
+		<xsl:apply-templates mode="html"/>
+	</xsl:template>
+
+	<xsl:template match="text()" mode="html">
+		<xsl:value-of select="."/>
 	</xsl:template>
 
 	<xsl:template match="text()"/>

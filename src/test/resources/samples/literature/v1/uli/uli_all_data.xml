@@ -113,7 +113,11 @@
       </akn:proprietary>
     </akn:meta>
     <akn:mainBody>
-      <akn:hcontainer name="crossheading"/>
+      <akn:div>
+        <akn:p>Erster Absatz des Kurzreferats mit <akn:inline name="em">kursivem</akn:inline> und <akn:inline name="strong">fettem</akn:inline> Text.</akn:p>
+        <akn:p>Zweiter Absatz mit H<akn:sub>2</akn:sub>O, m<akn:sup>2</akn:sup>, einem <akn:a href="https://example.com">Link</akn:a><akn:br/>und einem Zeilenumbruch.</akn:p>
+        <akn:p>Dritter Absatz mit <akn:inline name="noindex">nicht indiziertem</akn:inline> Text.</akn:p>
+      </akn:div>
     </akn:mainBody>
   </akn:doc>
 </akn:akomaNtoso>

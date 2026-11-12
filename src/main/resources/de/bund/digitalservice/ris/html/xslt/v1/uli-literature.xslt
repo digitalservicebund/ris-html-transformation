@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ULI literature documents in the V1 format (as produced by ris-literature).
      Renders the titles, the Gliederung, the Dokumenttypen, the Fundstellen, the Fundstellen in
-     selbstständiger Literatur and the Aktivzitierungen Rechtsprechung, unselbstständige and
+     selbstständiger Literatur, the Kurzreferat and the Aktivzitierungen Rechtsprechung, unselbstständige and
      selbstständige Literatur for now. -->
 <xsl:stylesheet version="2.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -35,6 +35,7 @@
 			<body>
 				<xsl:call-template name="titles"/>
 				<xsl:call-template name="gliederung"/>
+				<xsl:call-template name="kurzreferat"/>
 			</body>
 		</html>
 	</xsl:template>

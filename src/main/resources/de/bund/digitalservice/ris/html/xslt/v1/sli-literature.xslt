@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- SLI literature documents in the V1 format (as produced by ris-literature).
      Renders the titles, the Gliederung, the Dokumenttypen, the Bearbeiter, the Begründer, the
-     Herausgeber (Personen and Institutionen), the Hochschulschriftenvermerke, the Bestellnummern (ISBN, ISSN, …), the Kongressvermerke, the Ausgabe, the Gesamtfußnoten and the Aktivzitierungen
+     Herausgeber (Personen and Institutionen), the Hochschulschriftenvermerke, the Bestellnummern (ISBN, ISSN, …), the Kongressvermerke, the Kurzreferat, the Ausgabe, the Gesamtfußnoten and the Aktivzitierungen
      Rechtsprechung, unselbstständige and selbstständige Literatur for now. -->
 <xsl:stylesheet version="2.0"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -53,6 +53,7 @@
 			<body>
 				<xsl:call-template name="titles"/>
 				<xsl:call-template name="gliederung"/>
+				<xsl:call-template name="kurzreferat"/>
 				<xsl:call-template name="ausgabe"/>
 				<xsl:call-template name="fussnoten"/>
 			</body>
