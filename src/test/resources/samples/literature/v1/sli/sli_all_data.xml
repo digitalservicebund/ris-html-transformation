@@ -12,6 +12,12 @@
           <akn:FRBRalias name="haupttitelzusatz" showAs="Haupttitelzusatz" value="Haupttitelzusatz"/>
           <akn:FRBRcountry value="de"/>
         </akn:FRBRWork>
+        <akn:FRBRManifestation>
+          <akn:FRBRthis value="ris:/literatur/KSLS000000001.xml"/>
+          <akn:FRBRuri value="ris:/literatur/KSLS000000001.xml"/>
+          <akn:FRBRalias name="ISSN" value="ISSN 1234-5679"/>
+          <akn:FRBRalias name="ISBN" value="ISBN 3-123456-78-9"/>
+        </akn:FRBRManifestation>
       </akn:identification>
       <akn:analysis source="#ris">
         <akn:otherReferences source="#ris">
