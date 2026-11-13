@@ -8,21 +8,6 @@
 
 	<xsl:include href="literature.xslt"/>
 
-	<!-- ================================================================
-	     SLI-specific section visibility parameters — set to false() to hide a section.
-	     The shared ones are defined in literature.xslt.
-	     ================================================================ -->
-	<xsl:param name="show-ausgabe"                                    select="true()"/>
-	<xsl:param name="show-bearbeiter"                                 select="true()"/>
-	<xsl:param name="show-begruender"                                 select="true()"/>
-	<xsl:param name="show-herausgeber"                                select="true()"/>
-	<xsl:param name="show-verlagsangaben"                             select="true()"/>
-	<xsl:param name="show-hochschulschriftenvermerke"                 select="true()"/>
-	<xsl:param name="show-bestellnummer"                              select="true()"/>
-	<xsl:param name="show-kongressvermerke"                           select="true()"/>
-	<xsl:param name="show-teilbaende"                                 select="true()"/>
-	<xsl:param name="show-fussnoten"                                  select="true()"/>
-
 	<!-- Organisations (Hochschulen, Verlage, Institutionen) referenced from the role lists via refersTo -->
 	<xsl:key name="organisation" match="ris:organisationen/ris:organisation" use="concat('#', @eId)"/>
 	<!-- Kongresse referenced from the Kongressvermerke via refersTo -->
@@ -62,46 +47,40 @@
 	<!-- render metadata lists as <template> blocks in the html head -->
 	<xsl:template name="metadata">
 		<!-- Ausgabe is a single plain value, rendered as a <meta> -->
-		<xsl:if test="$show-ausgabe and normalize-space($risMeta/ris:ausgabe)">
+		<xsl:if test="normalize-space($risMeta/ris:ausgabe)">
 			<meta name="ausgabe" content="{normalize-space($risMeta/ris:ausgabe)}"/>
 		</xsl:if>
 		<xsl:call-template name="dokumenttypen"/>
 		<xsl:call-template name="verfasser"/>
-		<xsl:if test="$show-bearbeiter">
-			<xsl:call-template name="person-list">
-				<xsl:with-param name="id" select="'bearbeiterListe'"/>
-				<xsl:with-param name="persons" select="$risMeta/ris:bearbeiterListe/ris:bearbeiter"/>
-			</xsl:call-template>
-		</xsl:if>
+		<xsl:call-template name="person-list">
+			<xsl:with-param name="id" select="'bearbeiterListe'"/>
+			<xsl:with-param name="persons" select="$risMeta/ris:bearbeiterListe/ris:bearbeiter"/>
+		</xsl:call-template>
 		<xsl:call-template name="mitarbeiter"/>
-		<xsl:if test="$show-begruender">
-			<xsl:call-template name="person-list">
-				<xsl:with-param name="id" select="'begruenderListe'"/>
-				<xsl:with-param name="persons" select="$risMeta/ris:begruenderListe/ris:begruender"/>
-			</xsl:call-template>
-		</xsl:if>
+		<xsl:call-template name="person-list">
+			<xsl:with-param name="id" select="'begruenderListe'"/>
+			<xsl:with-param name="persons" select="$risMeta/ris:begruenderListe/ris:begruender"/>
+		</xsl:call-template>
 		<!-- Herausgebende Personen are rendered as "Vorname Nachname", herausgebende Institutionen
 		     with their name only, as they come. -->
-		<xsl:if test="$show-herausgeber">
-			<xsl:call-template name="person-list">
-				<xsl:with-param name="id" select="'herausgeberPersonen'"/>
-				<xsl:with-param name="persons" select="$risMeta/ris:herausgeberPersonen/ris:herausgeberPerson"/>
-			</xsl:call-template>
-			<xsl:variable name="herausgeberInstitutionen" select="$risMeta/ris:herausgeberInstitutionen/ris:herausgeberInstitution[normalize-space()]"/>
-			<xsl:if test="$herausgeberInstitutionen">
-				<template id="herausgeberInstitutionen">
-					<ul>
-						<xsl:for-each select="$herausgeberInstitutionen">
-							<li><xsl:value-of select="normalize-space(.)"/></li>
-						</xsl:for-each>
-					</ul>
-				</template>
-			</xsl:if>
+		<xsl:call-template name="person-list">
+			<xsl:with-param name="id" select="'herausgeberPersonen'"/>
+			<xsl:with-param name="persons" select="$risMeta/ris:herausgeberPersonen/ris:herausgeberPerson"/>
+		</xsl:call-template>
+		<xsl:variable name="herausgeberInstitutionen" select="$risMeta/ris:herausgeberInstitutionen/ris:herausgeberInstitution[normalize-space()]"/>
+		<xsl:if test="$herausgeberInstitutionen">
+			<template id="herausgeberInstitutionen">
+				<ul>
+					<xsl:for-each select="$herausgeberInstitutionen">
+						<li><xsl:value-of select="normalize-space(.)"/></li>
+					</xsl:for-each>
+				</ul>
+			</template>
 		</xsl:if>
 		<xsl:call-template name="urheber"/>
 		<!-- Verlagsangaben are rendered as "Name, Ort". -->
 		<xsl:variable name="verlagsangaben" select="$risMeta/ris:verlagsangaben/ris:verlagsangabe[normalize-space()]"/>
-		<xsl:if test="$show-verlagsangaben and $verlagsangaben">
+		<xsl:if test="$verlagsangaben">
 			<template id="verlagsangaben">
 				<ul>
 					<xsl:for-each select="$verlagsangaben">
@@ -114,7 +93,7 @@
 		<xsl:call-template name="veroeffentlichungsjahre"/>
 		<!-- Hochschulschriftenvermerke are rendered as "Name, Jahr". -->
 		<xsl:variable name="hochschulschriftenvermerke" select="$risMeta/ris:hochschulschriftenvermerke/ris:hochschulschriftenvermerk[normalize-space()]"/>
-		<xsl:if test="$show-hochschulschriftenvermerke and $hochschulschriftenvermerke">
+		<xsl:if test="$hochschulschriftenvermerke">
 			<template id="hochschulschriftenvermerke">
 				<ul>
 					<xsl:for-each select="$hochschulschriftenvermerke">
@@ -126,7 +105,7 @@
 		</xsl:if>
 		<!-- Bestellnummern (ISBN, ISSN, …) are the FRBRaliases of the FRBRManifestation. -->
 		<xsl:variable name="bestellnummern" select="/akn:akomaNtoso/akn:doc/akn:meta/akn:identification/akn:FRBRManifestation/akn:FRBRalias[normalize-space(@value)]"/>
-		<xsl:if test="$show-bestellnummer and $bestellnummern">
+		<xsl:if test="$bestellnummern">
 			<template id="bestellnummern">
 				<ul>
 					<xsl:for-each select="$bestellnummern">
@@ -137,7 +116,7 @@
 		</xsl:if>
 		<!-- Teilbände come as ready-made strings and are rendered as they are -->
 		<xsl:variable name="teilbaende" select="$risMeta/ris:teilbaende/ris:teilband[normalize-space()]"/>
-		<xsl:if test="$show-teilbaende and $teilbaende">
+		<xsl:if test="$teilbaende">
 			<template id="teilbaende">
 				<ul>
 					<xsl:for-each select="$teilbaende">
@@ -149,7 +128,7 @@
 		<!-- Kongressvermerke are rendered as "Name, Jahr, Ort, Land" from the referenced Kongress,
 		     leaving out the parts that are missing. Without a referenced Kongress only the name is rendered. -->
 		<xsl:variable name="kongressvermerke" select="$risMeta/ris:kongressvermerke/ris:kongressvermerk[normalize-space()]"/>
-		<xsl:if test="$show-kongressvermerke and $kongressvermerke">
+		<xsl:if test="$kongressvermerke">
 			<template id="kongressvermerke">
 				<ul>
 					<xsl:for-each select="$kongressvermerke">
@@ -165,7 +144,7 @@
 	  Gesamtfussnoten have no marker in the text, so each one is rendered as a plain paragraph. -->
 	<xsl:template name="fussnoten">
 		<xsl:variable name="fussnoten" select="$risMeta/ris:gesamtfussnoten/ris:gesamtfussnote[normalize-space()]"/>
-		<xsl:if test="$show-fussnoten and $fussnoten">
+		<xsl:if test="$fussnoten">
 			<section id="gesamtfussnoten">
 				<h2>Fußnoten</h2>
 				<xsl:for-each select="$fussnoten">

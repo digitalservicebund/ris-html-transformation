@@ -8,13 +8,6 @@
 
 	<xsl:include href="literature.xslt"/>
 
-	<!-- ================================================================
-	     ULI-specific section visibility parameters — set to false() to hide a section.
-	     The shared ones are defined in literature.xslt.
-	     ================================================================ -->
-	<xsl:param name="show-fundstelle"                                 select="true()"/>
-	<xsl:param name="show-fundstelle-selbststaendig"                  select="true()"/>
-
 	<!-- Titles in order of priority: the first one is the main title, the others are
 	     rendered as additional titles. -->
 	<xsl:variable name="titles" as="node()*" select="(
@@ -45,15 +38,13 @@
 		<xsl:call-template name="mitarbeiter"/>
 		<xsl:call-template name="urheber"/>
 		<xsl:call-template name="veroeffentlichungsjahre"/>
-		<xsl:if test="$show-fundstelle">
-			<xsl:call-template name="reference-list">
-				<xsl:with-param name="id" select="'fundstelle'"/>
-				<xsl:with-param name="references" select="$refs/akn:implicitReference/ris:fundstelle"/>
-				<xsl:with-param name="format" select="'fundstelle'"/>
-			</xsl:call-template>
-		</xsl:if>
+		<xsl:call-template name="reference-list">
+			<xsl:with-param name="id" select="'fundstelle'"/>
+			<xsl:with-param name="references" select="$refs/akn:implicitReference/ris:fundstelle"/>
+			<xsl:with-param name="format" select="'fundstelle'"/>
+		</xsl:call-template>
 		<xsl:variable name="fundstellenSelbststaendig" select="$refs/akn:implicitReference/ris:fundstelleSelbststaendig[normalize-space()]"/>
-		<xsl:if test="$show-fundstelle-selbststaendig and $fundstellenSelbststaendig">
+		<xsl:if test="$fundstellenSelbststaendig">
 			<template id="fundstelleSelbststaendig">
 				<ul>
 					<xsl:for-each select="$fundstellenSelbststaendig">

@@ -13,18 +13,8 @@
 	<xsl:include href="../references.xslt"/>
 
 	<!-- ================================================================
-	     Section visibility parameters shared by SLI and ULI — set to false() to hide a section.
+	     Section visibility parameters shared by SLI and ULI, overridden with false() by the PDF stylesheets to hide a section.
 	     ================================================================ -->
-	<xsl:param name="show-haupttitel"                                 select="true()"/>
-	<xsl:param name="show-zusaetzliche-titel"                         select="true()"/>
-	<xsl:param name="show-gliederung"                                 select="true()"/>
-	<xsl:param name="show-dokumenttyp"                                select="true()"/>
-	<xsl:param name="show-kurzreferat"                                select="true()"/>
-	<xsl:param name="show-verfasser"                                  select="true()"/>
-	<xsl:param name="show-mitarbeiter"                                select="true()"/>
-	<xsl:param name="show-urheber"                                    select="true()"/>
-	<xsl:param name="show-veroeffentlichungsjahre"                    select="true()"/>
-	<xsl:param name="show-normen"                                     select="true()"/>
 	<xsl:param name="show-aktivzitierung-rechtsprechung"              select="true()"/>
 	<xsl:param name="show-aktivzitierung-unselbststaendige-literatur" select="true()"/>
 	<xsl:param name="show-aktivzitierung-selbststaendige-literatur"   select="true()"/>
@@ -35,14 +25,14 @@
 
 	<!-- render titles -->
 	<xsl:template name="titles">
-		<xsl:if test="$show-haupttitel and $titles[1]">
+		<xsl:if test="$titles[1]">
 			<h1 id="title">
 				<xsl:call-template name="render-title">
 					<xsl:with-param name="node" select="$titles[1]"/>
 				</xsl:call-template>
 			</h1>
 		</xsl:if>
-		<xsl:if test="$show-zusaetzliche-titel and $titles[2]">
+		<xsl:if test="$titles[2]">
 			<section id="zusaetzliche-titel">
 				<h2>Zusätzliche Titel</h2>
 				<xsl:for-each select="$titles[position() > 1]">
@@ -72,7 +62,7 @@
 	<!-- render gliederung (outline) as a section, one li per non-blank gliederungseintrag -->
 	<xsl:template name="gliederung">
 		<xsl:variable name="eintraege" select="$risMeta/ris:gliederung/ris:gliederungseintrag[normalize-space()]"/>
-		<xsl:if test="$show-gliederung and $eintraege">
+		<xsl:if test="$eintraege">
 			<section id="gliederung">
 				<h2>Gliederung</h2>
 				<ul>
@@ -87,7 +77,7 @@
 	<!-- render the kurzreferat as a section -->
 	<xsl:template name="kurzreferat">
 		<xsl:variable name="kurzreferat" select="/akn:akomaNtoso/akn:doc/akn:mainBody/akn:div[normalize-space()]"/>
-		<xsl:if test="$show-kurzreferat and $kurzreferat">
+		<xsl:if test="$kurzreferat">
 			<section id="kurzreferat">
 				<h2>Kurzreferat</h2>
 				<xsl:apply-templates select="$kurzreferat/node()" mode="html"/>
@@ -98,7 +88,7 @@
 	<!-- render dokumenttypen as a <template> block in the html head -->
 	<xsl:template name="dokumenttypen">
 		<xsl:variable name="dokumenttypen" select="$risMeta/ris:dokumenttypen/ris:dokumenttyp[normalize-space()]"/>
-		<xsl:if test="$show-dokumenttyp and $dokumenttypen">
+		<xsl:if test="$dokumenttypen">
 			<template id="dokumenttypen">
 				<ul>
 					<xsl:for-each select="$dokumenttypen">
@@ -111,29 +101,25 @@
 
 	<!-- render the verfasser as a <template> block in the html head -->
 	<xsl:template name="verfasser">
-		<xsl:if test="$show-verfasser">
-			<xsl:call-template name="person-list">
-				<xsl:with-param name="id" select="'verfasserListe'"/>
-				<xsl:with-param name="persons" select="$risMeta/ris:verfasserListe/ris:verfasser"/>
-			</xsl:call-template>
-		</xsl:if>
+		<xsl:call-template name="person-list">
+			<xsl:with-param name="id" select="'verfasserListe'"/>
+			<xsl:with-param name="persons" select="$risMeta/ris:verfasserListe/ris:verfasser"/>
+		</xsl:call-template>
 	</xsl:template>
 
 	<!-- render the mitarbeiter as a <template> block in the html head -->
 	<xsl:template name="mitarbeiter">
-		<xsl:if test="$show-mitarbeiter">
-			<xsl:call-template name="person-list">
-				<xsl:with-param name="id" select="'mitarbeiterListe'"/>
-				<xsl:with-param name="persons" select="$risMeta/ris:mitarbeiterListe/ris:mitarbeiter"/>
-			</xsl:call-template>
-		</xsl:if>
+		<xsl:call-template name="person-list">
+			<xsl:with-param name="id" select="'mitarbeiterListe'"/>
+			<xsl:with-param name="persons" select="$risMeta/ris:mitarbeiterListe/ris:mitarbeiter"/>
+		</xsl:call-template>
 	</xsl:template>
 
 	<!-- render the urheber (institutions) as a <template> block in the html head.
 	  	 they are rendered with their name only, as they come. -->
 	<xsl:template name="urheber">
 		<xsl:variable name="urheber" select="$risMeta/ris:urheberListe/ris:urheber[normalize-space()]"/>
-		<xsl:if test="$show-urheber and $urheber">
+		<xsl:if test="$urheber">
 			<template id="urheberListe">
 				<ul>
 					<xsl:for-each select="$urheber">
@@ -147,7 +133,7 @@
 	<!-- render the veroeffentlichungsJahre as a <template> block in the html head, as they come -->
 	<xsl:template name="veroeffentlichungsjahre">
 		<xsl:variable name="jahre" select="$risMeta/ris:veroeffentlichungsJahre/ris:veroeffentlichungsJahr[normalize-space()]"/>
-		<xsl:if test="$show-veroeffentlichungsjahre and $jahre">
+		<xsl:if test="$jahre">
 			<template id="veroeffentlichungsJahre">
 				<ul>
 					<xsl:for-each select="$jahre">
@@ -188,13 +174,11 @@
 
 	<!-- render references as <template> blocks in the html head -->
 	<xsl:template name="references">
-		<xsl:if test="$show-normen">
-			<xsl:call-template name="reference-list">
-				<xsl:with-param name="id" select="'referenzenNorm'"/>
-				<xsl:with-param name="references" select="$risMeta/ris:referenzenNorm/ris:referenzNorm[normalize-space()]"/>
-				<xsl:with-param name="format" select="'normenkette'"/>
-			</xsl:call-template>
-		</xsl:if>
+		<xsl:call-template name="reference-list">
+			<xsl:with-param name="id" select="'referenzenNorm'"/>
+			<xsl:with-param name="references" select="$risMeta/ris:referenzenNorm/ris:referenzNorm[normalize-space()]"/>
+			<xsl:with-param name="format" select="'normenkette'"/>
+		</xsl:call-template>
 		<xsl:if test="$show-aktivzitierung-rechtsprechung">
 			<xsl:call-template name="reference-list">
 				<xsl:with-param name="id" select="'referenzRechtsprechungAktiv'"/>
