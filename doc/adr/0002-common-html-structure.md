@@ -1,4 +1,4 @@
-# 1. Common structure for generated HTML
+# 2. Common structure for generated HTML
 
 Date: 2026-11-09
 
