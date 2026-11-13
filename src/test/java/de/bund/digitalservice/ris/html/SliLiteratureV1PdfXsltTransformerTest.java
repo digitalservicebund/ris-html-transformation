@@ -22,7 +22,11 @@ class SliLiteratureV1PdfXsltTransformerTest {
   private static final String SAMPLE_PATH = "/samples/literature/v1/sli/sli_all_data.xml";
 
   /** Selectors of the sections rendered in the portal HTML but hidden in the PDF HTML. */
-  private static final List<String> HIDDEN_IN_PDF = List.of("template#referenzRechtsprechungAktiv");
+  private static final List<String> HIDDEN_IN_PDF =
+      List.of(
+          "template#referenzRechtsprechungAktiv",
+          "template#referenzUnselbststaendigeLiteraturAktiv",
+          "template#referenzSelbststaendigeLiteraturAktiv");
 
   private static Document portalDoc;
   private static Document pdfDoc;

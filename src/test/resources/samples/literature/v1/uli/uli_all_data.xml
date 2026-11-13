@@ -32,11 +32,146 @@
               <ris:aktenzeichen domainTerm="Aktenzeichen">1 O 1/20</ris:aktenzeichen>
             </ris:referenzRechtsprechung>
           </akn:implicitReference>
+          <!-- referenzUnselbststaendigeLiteratur: aktiv, all data -->
+          <akn:implicitReference ris:domainTerm="Referenz Unselbstständige Literatur">
+            <ris:referenzUnselbststaendigeLiteratur domainTerm="Referenz Unselbstständige Literatur">
+              <ris:richtung domainTerm="Richtung der Referenzierung">aktiv</ris:richtung>
+              <ris:referenzArt domainTerm="Art der Referenz">uli</ris:referenzArt>
+              <ris:referenzURI domainTerm="URI der Referenz">ris:/literatur/KSLU000000003</ris:referenzURI>
+              <ris:dokumentnummer domainTerm="Dokumentnummer">KSLU000000003</ris:dokumentnummer>
+              <ris:autor domainTerm="Autor(en)">Mustermann, Max</ris:autor>
+              <ris:fundstelle domainTerm="Fundstelle">
+                <ris:periodikum domainTerm="Periodikum">
+                  <ris:abkuerzung domainTerm="Abkürzung">ABC</ris:abkuerzung>
+                  <ris:periodikumTyp domainTerm="Art des Periodikums">nichtamtlich</ris:periodikumTyp>
+                  <ris:titel domainTerm="Titel">Titel des Periodikums</ris:titel>
+                  <ris:untertitel domainTerm="Untertitel">Untertitel des Periodikums</ris:untertitel>
+                </ris:periodikum>
+                <ris:zitatstelle domainTerm="Zitatstelle">2020, 1-10</ris:zitatstelle>
+              </ris:fundstelle>
+            </ris:referenzUnselbststaendigeLiteratur>
+          </akn:implicitReference>
+          <!-- referenzSelbststaendigeLiteratur: aktiv, all data -->
+          <akn:implicitReference ris:domainTerm="Referenz Selbstständige Literatur">
+            <ris:referenzSelbststaendigeLiteratur domainTerm="Referenz Selbstständige Literatur">
+              <ris:richtung domainTerm="Richtung der Referenzierung">aktiv</ris:richtung>
+              <ris:referenzArt domainTerm="Art der Referenz">sli</ris:referenzArt>
+              <ris:referenzURI domainTerm="URI der Referenz">ris:/literatur/KSLS000000003</ris:referenzURI>
+              <ris:dokumentnummer domainTerm="Dokumentnummer">KSLS000000003</ris:dokumentnummer>
+              <ris:autor domainTerm="Autor(en)">Mustermann, Max</ris:autor>
+              <ris:titel domainTerm="Titel">Titel der selbstständigen Literatur</ris:titel>
+              <ris:veroeffentlichungsjahr domainTerm="Veröffentlichungsjahr">2020</ris:veroeffentlichungsjahr>
+            </ris:referenzSelbststaendigeLiteratur>
+          </akn:implicitReference>
+          <!-- fundstelle: all data -->
+          <akn:implicitReference ris:domainTerm="Fundstelle">
+            <ris:fundstelle domainTerm="Fundstelle">
+              <ris:periodikum domainTerm="Periodikum">
+                <ris:abkuerzung domainTerm="Abkürzung">ABC</ris:abkuerzung>
+                <ris:periodikumTyp domainTerm="Art des Periodikums">nichtamtlich</ris:periodikumTyp>
+                <ris:titel domainTerm="Titel">Titel des Periodikums</ris:titel>
+                <ris:untertitel domainTerm="Untertitel">Untertitel des Periodikums</ris:untertitel>
+              </ris:periodikum>
+              <ris:zitatstelle domainTerm="Zitatstelle">2020, 11-20</ris:zitatstelle>
+            </ris:fundstelle>
+          </akn:implicitReference>
+          <!-- fundstelle: without the optional periodikumTyp, titel and untertitel -->
+          <akn:implicitReference ris:domainTerm="Fundstelle">
+            <ris:fundstelle domainTerm="Fundstelle">
+              <ris:periodikum domainTerm="Periodikum">
+                <ris:abkuerzung domainTerm="Abkürzung">XYZ</ris:abkuerzung>
+              </ris:periodikum>
+              <ris:zitatstelle domainTerm="Zitatstelle">2021, 5</ris:zitatstelle>
+            </ris:fundstelle>
+          </akn:implicitReference>
+          <!-- fundstelleSelbststaendig: all data -->
+          <akn:implicitReference ris:domainTerm="Fundstelle in selbstständiger Literatur">
+            <ris:fundstelleSelbststaendig domainTerm="Fundstelle in selbstständiger Literatur">
+              <ris:titel domainTerm="Titel">Titel des Sammelwerks 1</ris:titel>
+              <ris:zitatstelle domainTerm="Zitatstelle">2020, 1-10 (Schriftenreihe, Bd 1)</ris:zitatstelle>
+            </ris:fundstelleSelbststaendig>
+          </akn:implicitReference>
+          <!-- fundstelleSelbststaendig: without zitatstelle -->
+          <akn:implicitReference ris:domainTerm="Fundstelle in selbstständiger Literatur">
+            <ris:fundstelleSelbststaendig domainTerm="Fundstelle in selbstständiger Literatur">
+              <ris:titel domainTerm="Titel">Titel des Sammelwerks 2</ris:titel>
+            </ris:fundstelleSelbststaendig>
+          </akn:implicitReference>
         </akn:otherReferences>
       </akn:analysis>
+      <akn:proprietary source="#ris">
+        <ris:meta>
+          <ris:dokumenttypen domainTerm="Dokumenttypen">
+            <ris:dokumenttyp domainTerm="Dokumenttyp">Dokumenttyp 1</ris:dokumenttyp>
+            <ris:dokumenttyp domainTerm="Dokumenttyp">Dokumenttyp 2</ris:dokumenttyp>
+          </ris:dokumenttypen>
+          <ris:gliederung domainTerm="Gliederung">
+            <ris:gliederungseintrag domainTerm="Gliederungseintrag">I. Gliederungseintrag 1</ris:gliederungseintrag>
+            <ris:gliederungseintrag domainTerm="Gliederungseintrag">II. Gliederungseintrag 2</ris:gliederungseintrag>
+          </ris:gliederung>
+          <ris:mitarbeiterListe domainTerm="Liste der Mitarbeiter">
+            <ris:mitarbeiter domainTerm="Mitarbeiter" refersTo="#person-mitarbeiter-julia-1">Mitarbeiter, Julia</ris:mitarbeiter>
+            <ris:mitarbeiter domainTerm="Mitarbeiter" refersTo="#person-redaktionsteam-2">Redaktionsteam</ris:mitarbeiter>
+          </ris:mitarbeiterListe>
+          <ris:organisationen domainTerm="Organisationen">
+            <ris:organisation domainTerm="Organisation" eId="organisation-musterbehoerde-1" showAs="Musterbehörde">
+              <ris:name domainTerm="Name">Musterbehörde</ris:name>
+              <ris:zusatz domainTerm="Zusatz">Zusatz der Musterbehörde</ris:zusatz>
+            </ris:organisation>
+            <ris:organisation domainTerm="Organisation" eId="organisation-beispielverband-ev-2" showAs="Beispielverband e.V.">
+              <ris:name domainTerm="Name">Beispielverband e.V.</ris:name>
+            </ris:organisation>
+          </ris:organisationen>
+          <ris:personen domainTerm="Personen">
+            <ris:person domainTerm="Person" eId="person-mitarbeiter-julia-1" showAs="Mitarbeiter, Julia">
+              <ris:name domainTerm="Name">Mitarbeiter, Julia</ris:name>
+            </ris:person>
+            <ris:person domainTerm="Person" eId="person-redaktionsteam-2" showAs="Redaktionsteam">
+              <ris:name domainTerm="Name">Redaktionsteam</ris:name>
+            </ris:person>
+            <ris:person domainTerm="Person" eId="person-verfasser-paul-3" showAs="Verfasser, Paul">
+              <ris:name domainTerm="Name">Verfasser, Paul</ris:name>
+            </ris:person>
+            <ris:person domainTerm="Person" eId="person-verfasserin-lena-4" showAs="Verfasserin, Lena">
+              <ris:name domainTerm="Name">Verfasserin, Lena</ris:name>
+            </ris:person>
+          </ris:personen>
+          <ris:referenzenNorm domainTerm="Normen">
+            <ris:referenzNorm domainTerm="Norm">
+              <ris:abkuerzung domainTerm="Abkürzung">AStG</ris:abkuerzung>
+              <ris:einzelnorm domainTerm="Einzelnorm">
+                <ris:bezeichnung domainTerm="Bezeichnung">§ 1 Abs 1</ris:bezeichnung>
+                <ris:fassungsdatum domainTerm="Fassungsdatum">2021-02-05</ris:fassungsdatum>
+              </ris:einzelnorm>
+            </ris:referenzNorm>
+            <ris:referenzNorm domainTerm="Norm">
+              <ris:abkuerzung domainTerm="Abkürzung">EStG</ris:abkuerzung>
+              <ris:einzelnorm domainTerm="Einzelnorm">
+                <ris:bezeichnung domainTerm="Bezeichnung">§ 15 Abs 1</ris:bezeichnung>
+              </ris:einzelnorm>
+            </ris:referenzNorm>
+          </ris:referenzenNorm>
+          <ris:urheberListe domainTerm="Liste der Urheber">
+            <ris:urheber domainTerm="Urheber" refersTo="#organisation-musterbehoerde-1">Musterbehörde</ris:urheber>
+            <ris:urheber domainTerm="Urheber" refersTo="#organisation-beispielverband-ev-2">Beispielverband e.V.</ris:urheber>
+          </ris:urheberListe>
+          <ris:verfasserListe domainTerm="Liste der Verfasser">
+            <ris:verfasser domainTerm="Verfasser" refersTo="#person-verfasser-paul-3">Verfasser, Paul</ris:verfasser>
+            <ris:verfasser domainTerm="Verfasser" refersTo="#person-verfasserin-lena-4">Verfasserin, Lena</ris:verfasser>
+          </ris:verfasserListe>
+          <ris:veroeffentlichungsJahre domainTerm="Veröffentlichungsjahre">
+            <ris:veroeffentlichungsJahr domainTerm="Veröffentlichungsjahr">2019</ris:veroeffentlichungsJahr>
+            <ris:veroeffentlichungsJahr domainTerm="Veröffentlichungsjahr">2020</ris:veroeffentlichungsJahr>
+          </ris:veroeffentlichungsJahre>
+        </ris:meta>
+      </akn:proprietary>
     </akn:meta>
     <akn:mainBody>
-      <akn:hcontainer name="crossheading"/>
+      <akn:div>
+        <akn:p>Erster Absatz des Kurzreferats mit <akn:inline name="em">kursivem</akn:inline> und <akn:inline name="strong">fettem</akn:inline> Text.</akn:p>
+        <akn:p>Zweiter Absatz mit H<akn:sub>2</akn:sub>O, m<akn:sup>2</akn:sup>, einem <akn:a href="https://example.com">Link</akn:a><akn:br/>und einem Zeilenumbruch.</akn:p>
+        <akn:p>Dritter Absatz mit <akn:inline name="noindex">nicht indiziertem</akn:inline> Text.</akn:p>
+      </akn:div>
     </akn:mainBody>
   </akn:doc>
 </akn:akomaNtoso>

@@ -22,7 +22,11 @@ class SliLiteratureV1XsltTransformerTest {
   @CsvSource(
       value = {
         "sli_all_data | renders all data points",
-        "sli_passivzitierung_rechtsprechung | does not render passivzitierung rechtsprechung",
+        "sli_passivzitierungen | does not render passivzitierungen",
+        "sli_no_haupttitel | uses the dokumentarischer Titel as title without haupttitel",
+        "sli_only_haupttitelzusatz | uses the Haupttitelzusatz as title without haupttitel and dokumentarischer Titel",
+        "sli_gesamttitel_as_title | uses the Gesamttitel as title without haupttitel and dokumentarischer Titel",
+        "sli_partial_data | renders references, normen and kongresse with partial data",
       },
       delimiter = '|')
   void testTransform_literatureXmlSample_producesExpectedHtml(String sampleName, String testName)

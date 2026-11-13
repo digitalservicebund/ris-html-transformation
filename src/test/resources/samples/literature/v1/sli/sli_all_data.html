@@ -3,14 +3,115 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Haupttitel mit &quot;Anführungszeichen&quot;</title>
+  <meta name="ausgabe" content="Ausgabe">
+  <template id="dokumenttypen">
+    <ul>
+      <li>Dokumenttyp 1</li>
+      <li>Dokumenttyp 2</li>
+    </ul>
+  </template>
+  <template id="verfasserListe">
+    <ul>
+      <li>Paul Verfasser</li>
+      <li>Lena Verfasserin</li>
+    </ul>
+  </template>
+  <template id="bearbeiterListe">
+    <ul>
+      <li>Max Mustermann</li>
+      <li>Erika Musterfrau</li>
+    </ul>
+  </template>
+  <template id="mitarbeiterListe">
+    <ul>
+      <li>Julia Mitarbeiter</li>
+      <li>Redaktionsteam</li>
+    </ul>
+  </template>
+  <template id="begruenderListe">
+    <ul>
+      <li>Hans Beispiel</li>
+      <li>Anna Beispiel</li>
+    </ul>
+  </template>
+  <template id="herausgeberPersonen">
+    <ul>
+      <li>Klaus Herausgeber</li>
+      <li>Petra Herausgeberin</li>
+    </ul>
+  </template>
+  <template id="herausgeberInstitutionen">
+    <ul>
+      <li>Institution 1</li>
+      <li>Institution 2</li>
+    </ul>
+  </template>
+  <template id="urheberListe">
+    <ul>
+      <li>Musterbehörde</li>
+      <li>Beispielverband e.V.</li>
+    </ul>
+  </template>
+  <template id="verlagsangaben">
+    <ul>
+      <li>Musterverlag, Hamburg</li>
+      <li>Beispielverlag</li>
+    </ul>
+  </template>
+  <template id="veroeffentlichungsJahre">
+    <ul>
+      <li>2019</li>
+      <li>2020</li>
+    </ul>
+  </template>
+  <template id="hochschulschriftenvermerke">
+    <ul>
+      <li>Universität Erlangen-Nürnberg, JurFak, 1990</li>
+      <li>Universität ohne Jahr</li>
+    </ul>
+  </template>
+  <template id="bestellnummern">
+    <ul>
+      <li>ISSN 1234-5679</li>
+      <li>ISBN 3-123456-78-9</li>
+    </ul>
+  </template>
+  <template id="teilbaende">
+    <ul>
+      <li>Bd 1. Allgemeiner Teil, 2019, 512 S</li>
+      <li>Bd 2. Besonderer Teil, 2020, 640 S</li>
+    </ul>
+  </template>
+  <template id="kongressvermerke">
+    <ul>
+      <li>Internationaler Musterkongress für Beispielrecht (International Congress for Sample Law) (7), 1999, Musterstadt, DEU</li>
+      <li>Beispieltagung, 2005</li>
+    </ul>
+  </template>
+  <template id="referenzenNorm">
+    <ul>
+      <li>AStG § 1 Abs 1, vom 5. Februar 2021</li>
+      <li>EStG § 15 Abs 1</li>
+    </ul>
+  </template>
   <template id="referenzRechtsprechungAktiv">
     <ul>
       <li><a href="/gerichtsentscheidungen/JURE000000001">LG München, vom 11. November 2020 - 1 O 1/20</a></li>
     </ul>
   </template>
+  <template id="referenzUnselbststaendigeLiteraturAktiv">
+    <ul>
+      <li><a href="/literaturnachweise/KSLU000000003">Mustermann, Max, ABC Untertitel des Periodikums 2020, 1-10</a></li>
+    </ul>
+  </template>
+  <template id="referenzSelbststaendigeLiteraturAktiv">
+    <ul>
+      <li><a href="/literaturnachweise/KSLS000000003">Mustermann, Max, Titel der selbstständigen Literatur, 2020</a></li>
+    </ul>
+  </template>
 </head>
 <body>
-  <h1>Haupttitel mit &quot;Anführungszeichen&quot;</h1>
+  <h1 id="title">Haupttitel mit &quot;Anführungszeichen&quot;</h1>
   <section id="zusaetzliche-titel">
     <h2>Zusätzliche Titel</h2>
     <p>Dokumentarischer Titel</p>
@@ -21,6 +122,24 @@
     <p>Gesamttitel 2 ohne Bandbezeichnung</p>
     <p>Sonstiger Sachtitel 1</p>
     <p>Sonstiger Sachtitel 2</p>
+  </section>
+  <section id="gliederung">
+    <h2>Gliederung</h2>
+    <ul>
+      <li>I. Gliederungseintrag 1</li>
+      <li>II. Gliederungseintrag 2</li>
+    </ul>
+  </section>
+  <section id="kurzreferat">
+    <h2>Kurzreferat</h2>
+    <p>Erster Absatz des Kurzreferats mit <em>kursivem</em> und <strong>fettem</strong> Text.</p>
+    <p>Zweiter Absatz mit H<sub>2</sub>O, m<sup>2</sup>, einem <a href="https://example.com">Link</a><br>und einem Zeilenumbruch.</p>
+    <p>Dritter Absatz mit nicht indiziertem Text.</p>
+  </section>
+  <section id="gesamtfussnoten">
+    <h2>Fußnoten</h2>
+    <p>Gesamtfußnote 1</p>
+    <p>Gesamtfußnote 2</p>
   </section>
 </body>
 </html>
