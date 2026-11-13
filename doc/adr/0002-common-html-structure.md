@@ -45,7 +45,7 @@ below.
     <meta charset="utf-8" />
     <title>Document title</title>
 
-    <!-- Metadata: one entry per value, named after its type in the XSD -->
+    <!-- Metadata: one entry per value, named as in the LDML -->
     <meta name="entscheidungsdatum" content="2026-01-15" />
     <template id="aktenzeichenListe">
       <ul>
@@ -77,7 +77,7 @@ below.
 
 - Every document has `<html lang="de">`, `<meta charset="utf-8" />` and a
   `<title>`.
-- Rich text that the portal shows elsewhere on the document page, not as part
+- Rich text that the portal should show elsewhere on the document page, not as part
   of the document text, is a `<template id="…">` in `<head>`, never part of
   `<body>`.
 
@@ -85,10 +85,15 @@ If metadata is added, we suggest adding it as follows:
 
 - All metadata goes into `<head>`. That includes references to other
   documents.
-- Every metadata entry is identified by the name of its type in the XSD of
-  [ris-xml-schema](https://github.com/digitalservicebund/ris-xml-schema), without
-  the `ris:` prefix. For example, the entry for `ris:aktenzeichenListe` is
-  identified by `aktenzeichenListe`.
+- Every metadata entry is identified by a name taken from the LDML, as a rule
+  of thumb:
+  - the element name without prefix, for example `aktenzeichenListe` for
+    `<ris:aktenzeichenListe>`,
+  - or the `name` attribute of the element, for example `haupttitel` for
+    `<akn:FRBRalias name="haupttitel" … />`.
+
+  If neither fits, the team picks whatever it thinks is best.
+
 - A single plain value is a `<meta name="…" content="…" />`, identified by its
   `name`.
 - A list, or a value that is rich text, is a `<template id="…">`, identified by
@@ -106,8 +111,11 @@ If metadata is added, we suggest adding it as follows:
   children of `<body>`, in the order in which the portal displays them. Each
   section has an `id` and starts with exactly one `<h2>`. Subheadings inside a
   section use `<h3>` and lower.
-- Section ids follow the same rule as metadata entries: the name of the
-  corresponding type in the XSD, for example `tatbestand`.
+- A section id is the `xsi:type` of the LDML element without the prefix, for
+  example `tatbestand` for `<akn:background xsi:type="ris:tatbestand">`. If the
+  element has no `xsi:type`, the id follows the same rule as metadata entries.
+- The `<h2>` of a section holds the `ris:domainTerm` of the LDML element, if it
+  has one, for example `Tatbestand`.
 
 ### Consumers
 
@@ -132,6 +140,6 @@ If metadata is added, we suggest adding it as follows:
   from `<body>`, and find any other rich text by `id` in `<head>` instead
   of searching the document for it.
 - API users can read every document kind the same way: text from `<body>`, and
-  metadata, if added, by type name from `<head>`.
+  metadata, if added, by its LDML name from `<head>`.
 - Teams stay free to decide which sections their document kind has, and a new
   document kind gets a known structure from the start.
