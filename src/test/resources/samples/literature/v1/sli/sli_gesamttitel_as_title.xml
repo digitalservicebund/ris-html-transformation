@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<akn:akomaNtoso xmlns:akn="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:ris="http://rechtsinformationen.bund.de/schema/ris/0.1">
+  <akn:doc name="/akn/ontology/de/concept/documenttype/bund/literatur/selbststaendig">
+    <akn:meta>
+      <akn:identification source="#ris">
+        <akn:FRBRWork>
+          <akn:FRBRthis value="ris:/literatur/KSLS000000005"/>
+          <akn:FRBRuri value="ris:/literatur/KSLS000000005"/>
+          <akn:FRBRalias name="dokumentnummer" showAs="Dokumentnummer" value="KSLS000000005"/>
+          <!-- neither haupttitel nor dokumentarischer Titel: the first Gesamttitel is used as the main title -->
+          <akn:FRBRcountry value="de"/>
+        </akn:FRBRWork>
+      </akn:identification>
+      <akn:proprietary source="#ris">
+        <ris:meta>
+          <ris:gesamttitelangaben domainTerm="Gesamttitelangaben">
+            <ris:gesamttitel domainTerm="Gesamttitel">
+              <ris:titel domainTerm="Titel">Gesamttitel</ris:titel>
+              <ris:bandbezeichnung domainTerm="Bandbezeichnung">Band 3</ris:bandbezeichnung>
+            </ris:gesamttitel>
+          </ris:gesamttitelangaben>
+          <ris:sonstigerSachtitelListe domainTerm="Liste der sonstigen Sachtitel">
+            <ris:sonstigerSachtitel domainTerm="Sonstiger Sachtitel">Sonstiger Sachtitel</ris:sonstigerSachtitel>
+          </ris:sonstigerSachtitelListe>
+        </ris:meta>
+      </akn:proprietary>
+    </akn:meta>
+    <akn:mainBody>
+      <akn:hcontainer name="crossheading"/>
+    </akn:mainBody>
+  </akn:doc>
+</akn:akomaNtoso>

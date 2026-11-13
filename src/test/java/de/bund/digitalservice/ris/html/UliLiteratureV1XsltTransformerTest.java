@@ -23,6 +23,10 @@ class UliLiteratureV1XsltTransformerTest {
       value = {
         "uli_all_data | renders all data points",
         "uli_passivzitierungen | does not render passivzitierungen",
+        "uli_multiple_haupttitel | renders additional haupttitel as zusätzliche Titel",
+        "uli_no_haupttitel | uses the dokumentarischer Titel as title without haupttitel",
+        "uli_only_haupttitelzusatz | uses the Haupttitelzusatz as title without haupttitel and dokumentarischer Titel",
+        "uli_partial_fundstellen | renders fundstellen with partial data",
       },
       delimiter = '|')
   void testTransform_literatureXmlSample_producesExpectedHtml(String sampleName, String testName)

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<akn:akomaNtoso xmlns:akn="http://docs.oasis-open.org/legaldocml/ns/akn/3.0" xmlns:ris="http://rechtsinformationen.bund.de/schema/ris/0.1">
+  <akn:doc name="/akn/ontology/de/concept/documenttype/bund/literatur/selbststaendig">
+    <akn:meta>
+      <akn:identification source="#ris">
+        <akn:FRBRWork>
+          <akn:FRBRthis value="ris:/literatur/KSLS000000006"/>
+          <akn:FRBRuri value="ris:/literatur/KSLS000000006"/>
+          <akn:FRBRalias name="dokumentnummer" showAs="Dokumentnummer" value="KSLS000000006"/>
+          <akn:FRBRalias name="haupttitel" showAs="Haupttitel" value="Haupttitel"/>
+          <akn:FRBRcountry value="de"/>
+        </akn:FRBRWork>
+      </akn:identification>
+      <akn:analysis source="#ris">
+        <akn:otherReferences source="#ris">
+          <!-- referenzRechtsprechung: only gerichtstyp and aktenzeichen -->
+          <akn:implicitReference ris:domainTerm="Referenz Rechtsprechung">
+            <ris:referenzRechtsprechung domainTerm="Referenz Rechtsprechung">
+              <ris:richtung domainTerm="Richtung der Referenzierung">aktiv</ris:richtung>
+              <ris:referenzArt domainTerm="Art der Referenz">caselaw</ris:referenzArt>
+              <ris:gericht domainTerm="Gericht" showAs="BGH">
+                <ris:gerichtstyp domainTerm="Gerichtstyp">BGH</ris:gerichtstyp>
+              </ris:gericht>
+              <ris:aktenzeichen domainTerm="Aktenzeichen">II ZR 1/21</ris:aktenzeichen>
+            </ris:referenzRechtsprechung>
+          </akn:implicitReference>
+          <!-- referenzRechtsprechung without aktenzeichen -->
+          <akn:implicitReference ris:domainTerm="Referenz Rechtsprechung">
+            <ris:referenzRechtsprechung domainTerm="Referenz Rechtsprechung">
+              <ris:richtung domainTerm="Richtung der Referenzierung">aktiv</ris:richtung>
+              <ris:referenzArt domainTerm="Art der Referenz">caselaw</ris:referenzArt>
+              <ris:referenzURI domainTerm="URI der Referenz">ris:/rechtsprechung/JURE000000002</ris:referenzURI>
+              <ris:dokumentnummer domainTerm="Dokumentnummer">JURE000000002</ris:dokumentnummer>
+              <ris:gericht domainTerm="Gericht" showAs="AG Musterstadt">
+                <ris:gerichtstyp domainTerm="Gerichtstyp">AG</ris:gerichtstyp>
+                <ris:gerichtsort domainTerm="Gerichtsort">Musterstadt</ris:gerichtsort>
+              </ris:gericht>
+              <ris:entscheidungsdatum domainTerm="Entscheidungsdatum">2021-03-04</ris:entscheidungsdatum>
+            </ris:referenzRechtsprechung>
+          </akn:implicitReference>
+          <!-- referenzUnselbststaendigeLiteratur: fundstelle with zitatstelle only -->
+          <akn:implicitReference ris:domainTerm="Referenz Unselbstständige Literatur">
+            <ris:referenzUnselbststaendigeLiteratur domainTerm="Referenz Unselbstständige Literatur">
+              <ris:richtung domainTerm="Richtung der Referenzierung">aktiv</ris:richtung>
+              <ris:referenzArt domainTerm="Art der Referenz">uli</ris:referenzArt>
+              <ris:autor domainTerm="Autor(en)">Musterfrau, Erika</ris:autor>
+              <ris:fundstelle domainTerm="Fundstelle">
+                <ris:zitatstelle domainTerm="Zitatstelle">2019, 33</ris:zitatstelle>
+              </ris:fundstelle>
+            </ris:referenzUnselbststaendigeLiteratur>
+          </akn:implicitReference>
+          <!-- referenzUnselbststaendigeLiteratur: without autor, periodikum only with abkürzung -->
+          <akn:implicitReference ris:domainTerm="Referenz Unselbstständige Literatur">
+            <ris:referenzUnselbststaendigeLiteratur domainTerm="Referenz Unselbstständige Literatur">
+              <ris:richtung domainTerm="Richtung der Referenzierung">aktiv</ris:richtung>
+              <ris:referenzArt domainTerm="Art der Referenz">uli</ris:referenzArt>
+              <ris:referenzURI domainTerm="URI der Referenz">ris:/literatur/KSLU000000004</ris:referenzURI>
+              <ris:dokumentnummer domainTerm="Dokumentnummer">KSLU000000004</ris:dokumentnummer>
+              <ris:fundstelle domainTerm="Fundstelle">
+                <ris:periodikum domainTerm="Periodikum">
+                  <ris:abkuerzung domainTerm="Abkürzung">XYZ</ris:abkuerzung>
+                </ris:periodikum>
+                <ris:zitatstelle domainTerm="Zitatstelle">2018, 7-9</ris:zitatstelle>
+              </ris:fundstelle>
+            </ris:referenzUnselbststaendigeLiteratur>
+          </akn:implicitReference>
+          <!-- referenzSelbststaendigeLiteratur without veroeffentlichungsjahr -->
+          <akn:implicitReference ris:domainTerm="Referenz Selbstständige Literatur">
+            <ris:referenzSelbststaendigeLiteratur domainTerm="Referenz Selbstständige Literatur">
+              <ris:richtung domainTerm="Richtung der Referenzierung">aktiv</ris:richtung>
+              <ris:referenzArt domainTerm="Art der Referenz">sli</ris:referenzArt>
+              <ris:autor domainTerm="Autor(en)">Beispiel, Hans</ris:autor>
+              <ris:titel domainTerm="Titel">Titel ohne Jahr</ris:titel>
+            </ris:referenzSelbststaendigeLiteratur>
+          </akn:implicitReference>
+          <!-- referenzSelbststaendigeLiteratur: titel only -->
+          <akn:implicitReference ris:domainTerm="Referenz Selbstständige Literatur">
+            <ris:referenzSelbststaendigeLiteratur domainTerm="Referenz Selbstständige Literatur">
+              <ris:richtung domainTerm="Richtung der Referenzierung">aktiv</ris:richtung>
+              <ris:referenzArt domainTerm="Art der Referenz">sli</ris:referenzArt>
+              <ris:referenzURI domainTerm="URI der Referenz">ris:/literatur/KSLS000000007</ris:referenzURI>
+              <ris:dokumentnummer domainTerm="Dokumentnummer">KSLS000000007</ris:dokumentnummer>
+              <ris:titel domainTerm="Titel">Titel ohne Autor</ris:titel>
+            </ris:referenzSelbststaendigeLiteratur>
+          </akn:implicitReference>
+        </akn:otherReferences>
+      </akn:analysis>
+      <akn:proprietary source="#ris">
+        <ris:meta>
+          <ris:kongresse domainTerm="Kongresse">
+            <ris:kongress domainTerm="Kongress" eId="kongress-mustertagung-1" showAs="Mustertagung">
+              <ris:name domainTerm="Name">Mustertagung</ris:name>
+              <ris:ort domainTerm="Ort">Musterstadt</ris:ort>
+              <ris:land domainTerm="Land">AUT</ris:land>
+            </ris:kongress>
+          </ris:kongresse>
+          <ris:kongressvermerke domainTerm="Kongressvermerke">
+            <!-- kongress without jahr -->
+            <ris:kongressvermerk domainTerm="Kongressvermerk" refersTo="#kongress-mustertagung-1">Mustertagung</ris:kongressvermerk>
+          </ris:kongressvermerke>
+          <ris:referenzenNorm domainTerm="Normen">
+            <!-- abkuerzung only -->
+            <ris:referenzNorm domainTerm="Norm">
+              <ris:abkuerzung domainTerm="Abkürzung">BGB</ris:abkuerzung>
+            </ris:referenzNorm>
+            <!-- abkuerzung with titel, einzelnorm with fassungsdatum only -->
+            <ris:referenzNorm domainTerm="Norm">
+              <ris:abkuerzung domainTerm="Abkürzung">MusterG</ris:abkuerzung>
+              <ris:titel domainTerm="Amtliche Langüberschrift">Mustergesetz</ris:titel>
+              <ris:einzelnorm domainTerm="Einzelnorm">
+                <ris:fassungsdatum domainTerm="Fassungsdatum">2010-06-01</ris:fassungsdatum>
+              </ris:einzelnorm>
+            </ris:referenzNorm>
+            <!-- einzelnorm with jahr only -->
+            <ris:referenzNorm domainTerm="Norm">
+              <ris:abkuerzung domainTerm="Abkürzung">BeispielV</ris:abkuerzung>
+              <ris:einzelnorm domainTerm="Einzelnorm">
+                <ris:jahr domainTerm="Jahr">1998</ris:jahr>
+              </ris:einzelnorm>
+            </ris:referenzNorm>
+          </ris:referenzenNorm>
+        </ris:meta>
+      </akn:proprietary>
+    </akn:meta>
+    <akn:mainBody>
+      <akn:hcontainer name="crossheading"/>
+    </akn:mainBody>
+  </akn:doc>
+</akn:akomaNtoso>
