@@ -1,10 +1,10 @@
 # 2. Common structure for generated HTML
 
-Date: 2026-11-09
+Date: 2026-11-16
 
 ## Status
 
-Proposed
+Accepted
 
 ## Context
 
