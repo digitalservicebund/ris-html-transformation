@@ -20,6 +20,10 @@ java {
     }
 }
 
+tasks.withType<JavaCompile>().configureEach {
+    options.release.set(21)
+}
+
 node {
     version = "26.12.1"
     download = true
