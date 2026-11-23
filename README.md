@@ -7,7 +7,7 @@ This repository provides a Java library that converts LegalDocML documents into 
 - **Portal HTML** — HTML rendered for the [RIS portal](https://testphase.rechtsinformationen.bund.de/), used to display documents to end users.
 - **PDF HTML** — a separately styled HTML variant (with embedded CSS from the [`pdf-html-styling`](./pdf-html-styling) module and inlined images) intended to be rendered into PDF documents.
 
-The transformation is implemented using XSLT stylesheets, applied via Saxon, for the following document types:
+The transformation is implemented using XSLT stylesheets, applied via Saxon (for support of XSLT 2.0), for the following document types:
 
 - Caselaw documents (`CaselawXsltTransformer` for portal HTML, `CaselawPdfXsltTransformer` for PDF HTML)
 - ULI documents (`LiteratureXsltTransformer` for portal HTML; `UliLiteratureV1XsltTransformer` for portal HTML and `UliLiteratureV1PdfXsltTransformer` for PDF HTML in the V1 format)
