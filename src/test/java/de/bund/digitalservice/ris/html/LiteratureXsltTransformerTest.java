@@ -6,8 +6,6 @@ import de.bund.digitalservice.ris.html.service.xslt.LiteratureXsltTransformer;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Objects;
 import org.jsoup.Jsoup;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -15,10 +13,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 class LiteratureXsltTransformerTest {
   private final LiteratureXsltTransformer transformer = new LiteratureXsltTransformer();
 
-  private final String resourcesBasePath =
-      Objects.requireNonNull(getClass().getResource("/samples/literature")).getPath();
-
-  LiteratureXsltTransformerTest() throws IOException {}
+  private final Path resourcesBasePath = TestResources.path("/samples/literature");
 
   @ParameterizedTest(name = "{1}")
   @CsvSource(
@@ -37,8 +32,8 @@ class LiteratureXsltTransformerTest {
       delimiter = '|')
   void testTransform_literatureXmlSample_producesExpectedHtml(String testfileDir, String testName)
       throws IOException {
-    Path inputFilePath = Paths.get(resourcesBasePath, testfileDir, "literature.xml");
-    Path expectedFilePath = Paths.get(resourcesBasePath, testfileDir, "literature.html");
+    Path inputFilePath = resourcesBasePath.resolve(testfileDir).resolve("literature.xml");
+    Path expectedFilePath = resourcesBasePath.resolve(testfileDir).resolve("literature.html");
 
     byte[] bytes = Files.readAllBytes(inputFilePath);
     var result = transformer.transform(bytes);

@@ -32,16 +32,14 @@ class NormsXsltTransformerTest {
   private static final String ATTACHMENT_KEY =
       "eli/bund/bgbl-1/0000/s1000/2000-01-01/1/deu/2000-01-01/anlage-regelungstext-1.xml";
 
-  private final String resourcesPath =
-      Objects.requireNonNull(getClass().getResource("/samples/norms/")).getPath();
+  private final Path resourcesPath = TestResources.path("/samples/norms/");
 
   /**
    * Previously this path was longer and was:
    * /norm/eli/bund/bgbl-1/1991/s101/1991-01-01/1/deu/1991-01-01/ but for simplicity I changed this
    * to a shorter path for the resources belonging to it.
    */
-  private final String specificResourcesPath =
-      Objects.requireNonNull(getClass().getResource("/samples/norms/specific/")).getPath();
+  private final Path specificResourcesPath = TestResources.path("/samples/norms/specific/");
 
   private final NormsXsltTransformer transformer = new NormsXsltTransformer();
 
@@ -112,12 +110,12 @@ class NormsXsltTransformerTest {
   void testTransformNormLegalDocMlFull(
       String type, String inputFileName, String expectedFileName, String testName)
       throws IOException {
-    Source in = sourceOf(Path.of(resourcesPath, inputFileName));
+    Source in = sourceOf(resourcesPath.resolve(inputFileName));
 
     Map<String, Source> references =
         Map.of(
             "eli/bund/bgbl-1/0000/s1000/2000-01-01/1/deu/2000-01-01/authorialNoteInDocAttachment.xml",
-            sourceOf(Path.of(resourcesPath, "authorialNoteInDocAttachment.xml")));
+            sourceOf(resourcesPath.resolve("authorialNoteInDocAttachment.xml")));
 
     var result =
         type.equals("attachment")
@@ -134,7 +132,7 @@ class NormsXsltTransformerTest {
             .prettyPrint(true);
 
     var expectedHtml =
-        Jsoup.parse(Files.readString(Path.of(resourcesPath, expectedFileName)))
+        Jsoup.parse(Files.readString(resourcesPath.resolve(expectedFileName)))
             .outputSettings(outputSettings)
             .body()
             .html();
@@ -155,25 +153,24 @@ class NormsXsltTransformerTest {
   void testTransformNormWithAttachments() throws IOException {
     Source in =
         new StreamSource(
-            new ByteArrayInputStream(
-                Files.readAllBytes(Path.of(resourcesPath, "attachments.xml"))));
+            new ByteArrayInputStream(Files.readAllBytes(resourcesPath.resolve("attachments.xml"))));
 
     Map<String, Source> references =
         Map.of(
             "eli/bund/bgbl-1/0000/s1000/2000-01-01/1/deu/2000-01-01/anlage-regelungstext-1.xml",
             new StreamSource(
                 new ByteArrayInputStream(
-                    Files.readAllBytes(Path.of(resourcesPath, "anlage-regelungstext-1.xml")))),
+                    Files.readAllBytes(resourcesPath.resolve("anlage-regelungstext-1.xml")))),
             "eli/bund/bgbl-1/0000/s1000/2000-01-01/1/deu/2000-01-01/anlage-regelungstext-2.xml",
             new StreamSource(
                 new ByteArrayInputStream(
-                    Files.readAllBytes(Path.of(resourcesPath, "anlage-regelungstext-2.xml")))));
+                    Files.readAllBytes(resourcesPath.resolve("anlage-regelungstext-2.xml")))));
 
     var actualHtml =
         transformer.transformNorm(
             in, "subtype", RESOURCES_BASE_PATH, "regelungstext-1", references);
 
-    var expectedHtml = Files.readString(Path.of(resourcesPath, "attachments.html"));
+    var expectedHtml = Files.readString(resourcesPath.resolve("attachments.html"));
     var expectedDocument = Jsoup.parse(expectedHtml);
     var actualDocument = Jsoup.parse(actualHtml);
     assertThat(actualDocument.body().html()).isEqualTo(expectedDocument.body().html());
@@ -185,8 +182,7 @@ class NormsXsltTransformerTest {
     // included files
     Source in =
         new StreamSource(
-            new ByteArrayInputStream(
-                Files.readAllBytes(Path.of(resourcesPath, "attachments.xml"))));
+            new ByteArrayInputStream(Files.readAllBytes(resourcesPath.resolve("attachments.xml"))));
 
     FileTransformationException exception =
         Assertions.assertThrows(
@@ -201,7 +197,7 @@ class NormsXsltTransformerTest {
     Source in =
         new StreamSource(
             new ByteArrayInputStream(
-                Files.readAllBytes(Path.of(resourcesPath, "authorialNote.xml"))));
+                Files.readAllBytes(resourcesPath.resolve("authorialNote.xml"))));
     var actualHtml = transformer.transformArticle(in, "c", RESOURCES_BASE_PATH);
     var actualDocument = Jsoup.parse(actualHtml);
     var heading = actualDocument.select("h2").html();
@@ -214,7 +210,7 @@ class NormsXsltTransformerTest {
   @Test
   @DisplayName("Outputs the same Eingangsformel footnotes in the norm and the single article view")
   void testPreambleFormulaNotesInBothViews() throws IOException {
-    Path path = Path.of(resourcesPath, "preambleFormulaNotes.xml");
+    Path path = resourcesPath.resolve("preambleFormulaNotes.xml");
 
     var normView =
         Jsoup.parse(
@@ -243,8 +239,7 @@ class NormsXsltTransformerTest {
     Source in =
         new StreamSource(
             new ByteArrayInputStream(
-                Files.readAllBytes(
-                    Path.of(resourcesPath, "articleWithSpecialCharactersInId.xml"))));
+                Files.readAllBytes(resourcesPath.resolve("articleWithSpecialCharactersInId.xml"))));
     // actual eid is "art-z§§ 1 bis 3"
     var result =
         transformer.transformArticle(in, "art-z%c2%a7%c2%a7%201%20bis%203", RESOURCES_BASE_PATH);
@@ -253,7 +248,7 @@ class NormsXsltTransformerTest {
 
     var expectedHtml =
         Jsoup.parse(
-                Files.readString(Path.of(resourcesPath, "articleWithSpecialCharactersInId.html")))
+                Files.readString(resourcesPath.resolve("articleWithSpecialCharactersInId.html")))
             .body()
             .html();
 
@@ -265,7 +260,7 @@ class NormsXsltTransformerTest {
     Source xml =
         new StreamSource(
             new ByteArrayInputStream(
-                Files.readAllBytes(Path.of(specificResourcesPath, "regelungstext-1.xml"))));
+                Files.readAllBytes(specificResourcesPath.resolve("regelungstext-1.xml"))));
     var html = transformer.transformNorm(xml, "subtype", RESOURCES_BASE_PATH, "regelungstext-1");
     var expectedToc =
         """
@@ -294,7 +289,7 @@ class NormsXsltTransformerTest {
     Source xml =
         new StreamSource(
             new ByteArrayInputStream(
-                Files.readAllBytes(Path.of(specificResourcesPath, "regelungstext-1.xml"))));
+                Files.readAllBytes(specificResourcesPath.resolve("regelungstext-1.xml"))));
     var html = transformer.transformArticle(xml, "art-z1", RESOURCES_BASE_PATH);
     var expectedArticle =
         """
