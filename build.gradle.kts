@@ -1,3 +1,4 @@
+import com.diffplug.spotless.LineEnding
 import com.github.gradle.node.npm.task.NpmTask
 
 plugins {
@@ -50,6 +51,9 @@ spotless {
     }
     kotlinGradle {
         ktlint()
+    }
+    if (System.getProperty("os.name", "undefined").contains("Windows")) {
+        lineEndings = LineEnding.UNIX
     }
 }
 
