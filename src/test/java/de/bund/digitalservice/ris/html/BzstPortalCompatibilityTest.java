@@ -45,8 +45,8 @@ class BzstPortalCompatibilityTest {
   void testTransform_bzstSample_templateIdsArePresent() {
 
     String[] expectedTemplateIds = {
-      "id=\"aktenzeichen\"",
-      "id=\"normgeber\"",
+      "id=\"aktenzeichenListe\"",
+      "id=\"normgeberListe\"",
       "id=\"dokumenttypen\"",
       "id=\"fundstellen\"",
       "id=\"verweisNormen\"",

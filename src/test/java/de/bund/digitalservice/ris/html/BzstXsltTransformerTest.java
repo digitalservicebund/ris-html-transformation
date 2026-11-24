@@ -42,7 +42,7 @@ class BzstXsltTransformerTest {
 
   @Test
   void rendersLangtitel() {
-    assertThat(doc.select("meta[name=amtliche-langueberschrift]").attr("content"))
+    assertThat(doc.select("meta[name=langueberschrift]").attr("content"))
         .isEqualTo(
             "Anwendung des § 1 Abs. 1 AStG bei Verrechnungspreisen mit nahestehenden Personen");
   }
@@ -54,14 +54,14 @@ class BzstXsltTransformerTest {
 
   @Test
   void rendersAktenzeichen() {
-    assertThat(doc.select("template#aktenzeichen li").eachText())
+    assertThat(doc.select("template#aktenzeichenListe li").eachText())
         .contains("XYZ 123/7", "XYZ 123/8");
   }
 
   @Test
   void rendersNormgeber() {
-    assertThat(doc.select("template#normgeber abbr").eachText()).contains("BMG");
-    assertThat(doc.select("template#normgeber abbr[title]").attr("title"))
+    assertThat(doc.select("template#normgeberListe abbr").eachText()).contains("BMG");
+    assertThat(doc.select("template#normgeberListe abbr[title]").attr("title"))
         .isEqualTo("Bundesministerium des Geldes");
   }
 
