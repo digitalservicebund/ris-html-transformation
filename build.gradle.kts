@@ -15,6 +15,16 @@ repositories {
     mavenCentral()
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    options.release.set(21)
+}
+
 node {
     version = "26.12.1"
     download = true
@@ -57,21 +67,24 @@ spotless {
     }
 }
 
-val buildCss by tasks.registering(NpmTask::class) {
-    dependsOn(tasks.npmInstall)
+val buildCss =
+    tasks.register<NpmTask>("buildCss") {
+        group = "build"
+        description = "Builds the CSS stylesheet using Vite."
+        dependsOn(tasks.npmInstall)
 
-    npmCommand.set(listOf("run", "build"))
+        npmCommand.set(listOf("run", "build"))
 
-    inputs.dir("pdf-html-styling/src")
-    inputs.files(
-        "pdf-html-styling/package.json",
-        "pdf-html-styling/package-lock.json",
-        "pdf-html-styling/vite.config.ts",
-        "pdf-html-styling/postcss.config.ts",
-        "pdf-html-styling/tsconfig.json",
-    )
-    outputs.dir("pdf-html-styling/dist")
-}
+        inputs.dir("pdf-html-styling/src")
+        inputs.files(
+            "pdf-html-styling/package.json",
+            "pdf-html-styling/package-lock.json",
+            "pdf-html-styling/vite.config.ts",
+            "pdf-html-styling/postcss.config.ts",
+            "pdf-html-styling/tsconfig.json",
+        )
+        outputs.dir("pdf-html-styling/dist")
+    }
 
 tasks.processResources {
     dependsOn(buildCss)
