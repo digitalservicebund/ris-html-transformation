@@ -63,7 +63,7 @@
 					<title>
 						<xsl:value-of select="$titel"/>
 					</title>
-					<meta name="amtliche-langueberschrift" content="{$titel}"/>
+					<meta name="langueberschrift" content="{$titel}"/>
 				</xsl:if>
 
 				<!-- Scalar FRBR fields -->
@@ -76,11 +76,11 @@
 				</xsl:if>
 
 				<xsl:if test="$show-letzte-veroeffentlichung and $letzteVeroeffentlichung != ''">
-					<meta name="letzte-veroeffentlichung" content="{$letzteVeroeffentlichung}"/>
+					<meta name="letzteVeroeffentlichung" content="{$letzteVeroeffentlichung}"/>
 				</xsl:if>
 
 				<xsl:if test="$show-risAbkuerzung and $risMeta/ris:risAbkuerzung != ''">
-					<meta name="ris-abkuerzung" content="{$risMeta/ris:risAbkuerzung}"/>
+					<meta name="risAbkuerzung" content="{$risMeta/ris:risAbkuerzung}"/>
 				</xsl:if>
 
 				<xsl:if test="$show-zitierdatum and $zitierdatum != ''">
@@ -106,7 +106,7 @@
 
 				<!-- List fields as <template> blocks -->
 				<xsl:if test="$show-aktenzeichen and $risMeta/ris:aktenzeichenListe">
-					<template id="aktenzeichen">
+					<template id="aktenzeichenListe">
 						<ul>
 							<xsl:for-each select="$risMeta/ris:aktenzeichenListe/ris:aktenzeichen">
 								<li><xsl:value-of select="."/></li>
@@ -116,7 +116,7 @@
 				</xsl:if>
 
 				<xsl:if test="$show-normgeber and $risMeta/ris:normgeberListe/ris:normgeber">
-					<template id="normgeber">
+					<template id="normgeberListe">
 						<ul>
 							<xsl:for-each select="$risMeta/ris:normgeberListe/ris:normgeber">
 								<li>
@@ -155,7 +155,7 @@
 				</xsl:if>
 
 				<xsl:if test="$show-definitionen and $risMeta/ris:definitionen/ris:definition/ris:definierterBegriff">
-					<template id="definierteBegriffe">
+					<template id="definitionen">
 						<ul>
 							<xsl:for-each select="$risMeta/ris:definitionen/ris:definition/ris:definierterBegriff">
 								<li><xsl:value-of select="."/></li>
