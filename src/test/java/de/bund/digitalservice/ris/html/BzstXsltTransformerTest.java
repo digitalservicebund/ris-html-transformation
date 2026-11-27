@@ -77,9 +77,27 @@ class BzstXsltTransformerTest {
   }
 
   @Test
-  void rendersAusserkrafttreten() {
+  void rendersAusserkrafttreten_json() {
     assertThat(doc.select("meta[name=ausserkrafttretedatum]").attr("content"))
         .isEqualTo("unbefristet");
+  }
+
+  @Test
+  void rendersAusserkrafttreten_xml() throws IOException {
+    try (InputStream is = BzstXsltTransformerTest.class.getResourceAsStream(SAMPLE_PATH)) {
+      assertThat(is).withFailMessage("Could not find: " + SAMPLE_PATH).isNotNull();
+      String xml = new String(is.readAllBytes(), StandardCharsets.UTF_8);
+      xml =
+          xml.replaceAll(
+              "(<ris:ausserkrafttretedatum[^>]*>).*?(</ris:ausserkrafttretedatum>)",
+              "$19999-99-99$2");
+      Document result = Jsoup.parse(TRANSFORMER.transform(xml.getBytes(StandardCharsets.UTF_8)));
+      Path out = Path.of("build/test-output/bzst-xml-ausserkraft-unbefristet.html");
+      Files.createDirectories(out.getParent());
+      Files.writeString(out, result.outerHtml());
+      assertThat(result.select("meta[name=ausserkrafttretedatum]").attr("content"))
+          .isEqualTo("unbefristet");
+    }
   }
 
   @Test
